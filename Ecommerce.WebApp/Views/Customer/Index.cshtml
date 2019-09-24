@@ -1,0 +1,61 @@
+﻿@model ICollection<Ecommerce.Models.Customer>
+
+
+
+<div class="container">
+
+    <h1>Customer List</h1>
+
+    <div class="row ">
+        <a id="Add" href="/customer/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Customer</a>
+    </div>
+    <partial name="~/Views/Shared/Customer/_CustomerList.cshtml" model="Model" />
+    @*<script>
+        $(".#Delete").click(function () {
+            var result = confirm("Are you sure!");
+            if (result === true) {
+                $.ajax({
+                    url: "Customer/Delete",
+                    method: "POST",
+                    data: {
+                        id: $(this).attr("data-id")
+                    }
+                }).done(function (response) {
+                    $("#listArea").html(response);
+                });
+            }
+        });
+    </script>*@
+</div>
+
+
+@*@section Scripts
+    {
+        $(function(){
+        $("#Delete").click(function(event) {
+        event.preventDefault();
+        $('<div title="Confirm Box"></div>').dialog({
+        open: function (event, ui) {
+        $(this).html("Yes or No question?");
+        },
+        close: function () {
+        $(this).remove();
+        },
+        resizable: false,
+        height: 140,
+        modal: true,
+        buttons: {
+        'Yes': function () {
+        $(this).dialog('close');
+        $.post('/Customer/Delete/id');
+
+        },
+        'No': function () {
+        $(this).dialog('close');
+        $.post('url/theOtherValueYouWantToPAss');
+        }
+        }
+        });
+        });
+        });
+    }*@

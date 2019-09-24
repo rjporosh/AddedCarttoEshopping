@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Ecommerce.Models.Product>
+
+
+ <div class="row">
+        @foreach (var item in Model)
+        {
+
+            <div class="col-md-4">
+                <div class="card shadow" style="width: 18rem;">
+                    <h3 class="card-title text-center pt-1">@item.Name</h3>
+                   
+                    <div class="inner">
+                        @{
+                            String img64 = Convert.ToBase64String(item.Image);
+                            String img64url = string.Format("data:Image/" + item.Image + ";base64,{0}", img64);
+                        }
+                        <img src="@img64url" class="card-img-top" style="height: 250px; width: 250px;" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-subtitle">Price: @item.Price ৳</h4>
+                        <h5 class="card-subtitle">Expire Date : @item.ExpireDate</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="details" class="btn btn-primary">Details</a>
+                        <a asp-controller="cart" asp-action="buy"asp-route-id="@item.Id" class="btn btn-primary">Add To Cart</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>

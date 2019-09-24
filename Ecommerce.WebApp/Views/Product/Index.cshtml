@@ -1,0 +1,14 @@
+﻿
+
+@model ICollection<Ecommerce.Models.Product>
+
+
+
+    <h1>Customer List</h1>
+
+    <div class="row ">
+        <a id="Add" href="/Product/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Product</a>
+    </div>
+    <partial name="~/Views/Shared/Product/_ProductList.cshtml" model="Model" />
+   
+
