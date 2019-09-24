@@ -6,7 +6,7 @@
         {
 
             <div class="col-md-4">
-                <div class="card shadow" style="width: 18rem;">
+                <div class="card shadow" >
                     <h3 class="card-title text-center pt-1">@item.Name</h3>
                    
                     <div class="inner">
@@ -14,7 +14,7 @@
                             String img64 = Convert.ToBase64String(item.Image);
                             String img64url = string.Format("data:Image/" + item.Image + ";base64,{0}", img64);
                         }
-                        <img src="@img64url" class="card-img-top" style="height: 250px; width: 250px;" alt="...">
+                        <img src="@img64url" class="img-responsive" style="height: 250px; width: 250px;" alt="...">
                     </div>
                     <div class="card-body">
                         <h4 class="card-subtitle">Price: @item.Price ৳</h4>
