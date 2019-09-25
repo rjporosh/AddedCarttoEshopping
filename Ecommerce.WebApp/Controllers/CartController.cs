@@ -28,6 +28,11 @@ namespace Ecommerce.WebApp.Controllers
             var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             ViewBag.cart = cart;
             ViewBag.Total = cart.Sum(i => i.product.Price * i.Quantity);
+            ViewBag.Count = cart.Sum(i=>i.Quantity);
+            if (ViewBag.Total == null && ViewBag.Count == 0)
+            {
+                ViewBag.Total = 0;
+            }
             return View();
         }
 
@@ -39,6 +44,7 @@ namespace Ecommerce.WebApp.Controllers
                 var cart = new List<Item>();
                 cart.Add(new Item() { product = _manager.Find(Id), Quantity = 1 });
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+               
             }
             else
             {
@@ -51,7 +57,9 @@ namespace Ecommerce.WebApp.Controllers
                 else
                 {
                     cart[index].Quantity++;
+                  //  cart.Count();
                 }
+               // cart.Count();
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             }
 
@@ -64,10 +72,11 @@ namespace Ecommerce.WebApp.Controllers
                 var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 int index = Exists(cart, Id);
                 cart.RemoveAt(index);
+                cart.Count();
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",cart);
         }
         private int Exists(List<Item> cart,long Id)
         {

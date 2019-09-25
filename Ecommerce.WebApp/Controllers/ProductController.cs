@@ -133,6 +133,25 @@ namespace Ecommerce.WebApp.Controllers
             var products = _productManager.GetAll();
             return View( products);
         }
+        public IActionResult Details(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+
+            var Product = _productManager.GetById((Int64)Id);
+            PopulateDropdownList(Product.CategoryId);
+            ProductVM aProduct = _mapper.Map<ProductVM>(Product);
+            if (Product == null)
+            {
+                return NotFound();
+            }
+
+          //  aProduct.ProductList = _productManager.GetAll().ToList();
+            return View(aProduct);
+        }
 
         public IActionResult Edit(int? Id)
         {

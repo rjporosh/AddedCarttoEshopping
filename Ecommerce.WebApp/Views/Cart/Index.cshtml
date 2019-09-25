@@ -8,7 +8,6 @@
             <th>Photo</th>
             <th>Name</th>
             <th> Price </th>
-            <th> Expiry Date </th>
             <th>Category Name </th>
             <th>Quantity</th>
             <th>Sub-Total</th>
@@ -27,19 +26,23 @@
             </td>
             <td>@customer.product.Name</td>
             <td>@customer.product.Price ৳</td>
-            <td>@customer.product.ExpireDate</td>
             <td>@customer.product.CategoryId</td>
             <td>@customer.Quantity</td>
             <td>@(customer.product.Price * customer.Quantity)</td>
-            <td align="center">
-                <a asp-controller="cart" asp-action="Remove" asp-route-id="@customer.product.Id">Remove From Cart</a>
+           
+            <td>
+                <a class="btn btn-danger" asp-controller="cart" asp-action="Remove" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Remove cart</strong></i></span></a>
             </td>
         </tr>
         }
-        <tr>
-            <td colspan="5" align="right" >Total</td>
-            <td>@ViewBag.Total</td>
-       </tr>
+    <tr>
+        <td colspan="4" align="right">Total Item :     </td>
+        <td>@ViewBag.Count </td>
+        <td>Total Item :     </td>
+        <td>@ViewBag.Total ৳</td>
+        @*<td>@ViewBag.Total ৳</td>*@
+
+    </tr>
     </tbody>
 </table>
 <br /> <br />

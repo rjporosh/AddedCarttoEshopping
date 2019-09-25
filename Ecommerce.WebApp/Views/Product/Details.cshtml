@@ -1,0 +1,62 @@
+﻿@model Ecommerce.Models.RazorViewModels.Product.ProductVM
+
+
+@section Styles
+{
+    <style type="text/css">
+        .container {
+            width: 150px;
+            height: 100px;
+            background-image: url("http://i.stack.imgur.com/2OrtT.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+        }
+
+        .main {
+            border: 0px solid black;
+            height: 250px;
+            width: 250px;
+        }
+    </style>
+}
+<div class="row">
+
+   
+
+        <div class="col-md-4">
+            <div class="card shadow">
+                <h3 class="card-title text-center pt-1">@Model.Name</h3>
+
+                <div class="main">
+                    @{
+                        //String img64url;
+                        //if (Model.ImagePath == null)
+                        //{
+                        String img64 = Convert.ToBase64String(Model.Image);
+                        String img64url = string.Format("data:Image/" + Model.Image + ";base64,{0}", img64);
+                        @*   }
+                            else
+                                {
+                                      img64url = "~/"+@Model.ImagePath;
+                                }*@
+                    }
+                    @* <div id="product" @*style="background-color:red">  *@
+                    <img class="img-responsive JustifyCenter" src="~/@Model.ImagePath" style="height: auto ; width: 250px;" alt="...">
+                    @*src="~/@Model.ImagePath"*@
+                    @*</div>*@
+
+                </div>
+                <div class="card-body">
+                    <h4 class="card-subtitle">Price: @Model.Price ৳</h4>
+                    <h5 class="card-subtitle">Expire Date : @Model.ExpireDate</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  
+                    <a asp-controller="cart" asp-action="buy" asp-route-id="@Model.Id" class="btn btn-primary">Add To Cart</a>
+                </div>
+            </div>
+        </div>
+
+    
+</div>
+
