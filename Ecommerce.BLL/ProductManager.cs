@@ -6,6 +6,7 @@ using Ecommerce.Abstractions.BLL;
 using Ecommerce.Abstractions.Repositories;
 using Ecommerce.BLL.Base;
 using Ecommerce.Models;
+using Ecommerce.Models.APIViewModels;
 
 namespace Ecommerce.BLL
 {
@@ -69,6 +70,11 @@ namespace Ecommerce.BLL
         public Product Find(long Id)
         {
             return _productManger.Find(Id);
+        }
+
+        public Object GetByCriteria(ProductSearchCriteriaVM criteria)
+        {
+            return _productManger.GetByCriteria(criteria);
         }
     }
 }

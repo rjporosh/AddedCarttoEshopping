@@ -8,6 +8,7 @@ using Ecommerce.Models.RazorViewModels.Product;
 using Ecommerce.Models.RazorViewModels;
 using Ecommerce.Models.RazorViewModels.Category;
 using Ecommerce.Models.RazorViewModels.Order;
+using Ecommerce.Models.APIViewModels;
 
 namespace Ecommerce.Configurations.AutomapperConfigurations
 {
@@ -23,6 +24,7 @@ namespace Ecommerce.Configurations.AutomapperConfigurations
             CreateMap<OrderVM, Order>();
             CreateMap<Category, CategoryVM>();
             CreateMap<CategoryVM, Category>();
+            CreateMap<Product, ProductDto>();
 
             //.ForMember(m => m.Category.Name, map => map.MapFrom(vm => vm.CategoryName))
         }

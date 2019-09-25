@@ -4,6 +4,7 @@ using System.Text;
 using Ecommerce.Abstractions.BLL.Base;
 using Ecommerce.Abstractions.Repositories.Base;
 using Ecommerce.Models;
+using Ecommerce.Models.APIViewModels;
 
 namespace Ecommerce.Abstractions.BLL
 {
@@ -15,6 +16,6 @@ namespace Ecommerce.Abstractions.BLL
         Product Find(long Id);
 
         List<Category> list();
-
+        object GetByCriteria(ProductSearchCriteriaVM criteria);
     }
 }
