@@ -8,12 +8,15 @@ using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.APIViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Ecommerce.WebApp.Controllers.API
 {
-   
+    [FormatFilter] 
     [ApiController]
     [Route("api/products")]
+
+  
     public class ProductController:ControllerBase
     {
         private IProductManager _productManager;
@@ -40,7 +43,7 @@ namespace Ecommerce.WebApp.Controllers.API
             return NoContent();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}.{format?}"),FormatFilter]
         public IActionResult Get(long id)
         {
              var product =  _productManager.GetById(id);

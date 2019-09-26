@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Net.Http.Headers;
 //using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Ecommerce.WebApp
@@ -39,6 +41,16 @@ namespace Ecommerce.WebApp
             //   .AddJsonOptions(
             //        options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             //    );
+             services.AddMvc(options =>
+    {
+        options.FormatterMappings.SetMediaTypeMappingForFormat
+            ("xml", MediaTypeHeaderValue.Parse("application/xml"));
+        options.FormatterMappings.SetMediaTypeMappingForFormat
+            ("config", MediaTypeHeaderValue.Parse("application/xml"));
+        options.FormatterMappings.SetMediaTypeMappingForFormat
+            ("js", MediaTypeHeaderValue.Parse("application/json"));
+    })
+        .AddXmlSerializerFormatters();
             services.AddSession();
 
 
