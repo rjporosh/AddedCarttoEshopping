@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.DatabaseContext.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    [Migration("20190830141104_Customer_Name_Required")]
-    partial class Customer_Name_Required
+    [Migration("20190926015845_Porosh Added Stock")]
+    partial class PoroshAddedStock
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -36,11 +36,12 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address");
+                    b.Property<string>("Address")
+                        .IsRequired();
 
                     b.Property<int>("LoyaltyPoint");
 
@@ -54,7 +55,7 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Order", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -69,13 +70,17 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryId");
+                    b.Property<long>("CategoryId");
 
                     b.Property<DateTime?>("ExpireDate");
+
+                    b.Property<byte[]>("Image");
+
+                    b.Property<string>("ImagePath");
 
                     b.Property<bool>("IsActive");
 
@@ -93,15 +98,34 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.ProductOrder", b =>
                 {
-                    b.Property<int>("ProductId");
+                    b.Property<long>("ProductId");
 
-                    b.Property<int>("OrderId");
+                    b.Property<long>("OrderId");
 
                     b.HasKey("ProductId", "OrderId");
 
                     b.HasIndex("OrderId");
 
                     b.ToTable("ProductOrder");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Stock", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("ProductId");
+
+                    b.Property<double>("Quantity");
+
+                    b.Property<string>("Unit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Stocks");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Product", b =>
@@ -121,6 +145,14 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.HasOne("Ecommerce.Models.Product", "Product")
                         .WithMany("Orders")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Stock", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Product", "Product")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

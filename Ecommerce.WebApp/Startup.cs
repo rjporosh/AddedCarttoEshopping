@@ -42,15 +42,15 @@ namespace Ecommerce.WebApp
             //        options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             //    );
              services.AddMvc(options =>
-    {
-        options.FormatterMappings.SetMediaTypeMappingForFormat
-            ("xml", MediaTypeHeaderValue.Parse("application/xml"));
-        options.FormatterMappings.SetMediaTypeMappingForFormat
-            ("config", MediaTypeHeaderValue.Parse("application/xml"));
-        options.FormatterMappings.SetMediaTypeMappingForFormat
-            ("js", MediaTypeHeaderValue.Parse("application/json"));
-    })
-        .AddXmlSerializerFormatters();
+                    {
+                       options.FormatterMappings.SetMediaTypeMappingForFormat
+                           ("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                       options.FormatterMappings.SetMediaTypeMappingForFormat
+                           ("config", MediaTypeHeaderValue.Parse("application/xml"));
+                       options.FormatterMappings.SetMediaTypeMappingForFormat
+                          ("js", MediaTypeHeaderValue.Parse("application/json"));
+                   })
+                      .AddXmlSerializerFormatters();
             services.AddSession();
 
 

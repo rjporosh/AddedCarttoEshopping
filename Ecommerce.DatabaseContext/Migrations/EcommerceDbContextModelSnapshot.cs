@@ -78,6 +78,8 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<byte[]>("Image");
 
+                    b.Property<string>("ImagePath");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("Name")
@@ -105,6 +107,25 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.ToTable("ProductOrder");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.Stock", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("ProductId");
+
+                    b.Property<double>("Quantity");
+
+                    b.Property<string>("Unit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Stocks");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Product", b =>
                 {
                     b.HasOne("Ecommerce.Models.Category", "Category")
@@ -122,6 +143,14 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.HasOne("Ecommerce.Models.Product", "Product")
                         .WithMany("Orders")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Stock", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Product", "Product")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
