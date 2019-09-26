@@ -77,7 +77,7 @@ namespace Ecommerce.WebApp.Controllers
                     {
                         var file = Image;
                        // var root = _appEnvironment.WebRootPath;
-                       var root = "wwwroot\\";
+                       var root = "~\\wwwroot\\";
                         var uploads = "uploads\\img";
                         if (file.Length > 0)
                         {
@@ -150,7 +150,7 @@ namespace Ecommerce.WebApp.Controllers
             }
 
           //  aProduct.ProductList = _productManager.GetAll().ToList();
-            return View(aProduct);
+            return View(Product);
         }
 
         public IActionResult Edit(int? Id)

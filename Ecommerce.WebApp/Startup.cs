@@ -54,6 +54,14 @@ namespace Ecommerce.WebApp
             app.UseSession();
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Product}/{action=Index}/{id?}"
+                    );
+                routes.MapRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

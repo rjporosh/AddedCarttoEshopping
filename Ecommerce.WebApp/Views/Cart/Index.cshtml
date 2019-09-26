@@ -28,7 +28,7 @@
             <td>@customer.product.Price ৳</td>
             <td>@customer.product.CategoryId</td>
             <td>@customer.Quantity</td>
-            <td>@(customer.product.Price * customer.Quantity)</td>
+            <td>@(customer.product.Price * customer.Quantity) ৳</td>
            
             <td>
                 <a class="btn btn-danger" asp-controller="cart" asp-action="Remove" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Remove cart</strong></i></span></a>
@@ -38,7 +38,7 @@
     <tr>
         <td colspan="4" align="right">Total Item :     </td>
         <td>@ViewBag.Count </td>
-        <td>Total Item :     </td>
+        <td>Total:     </td>
         <td>@ViewBag.Total ৳</td>
         @*<td>@ViewBag.Total ৳</td>*@
 
