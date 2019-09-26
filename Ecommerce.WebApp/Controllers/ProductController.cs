@@ -11,6 +11,7 @@ using Ecommerce.Models.RazorViewModels.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Ecommerce.WebApp.Controllers.Helper;
 
 namespace Ecommerce.WebApp.Controllers
 {
@@ -27,22 +28,33 @@ namespace Ecommerce.WebApp.Controllers
         {
             if (searchBy == "Price")
             {
+              //VwBg();
                 return View(_productManager.GetByPrice(price));
             }
             else if (searchBy == "Name")
             {
+              //VwBg();
                 return View(_productManager.GetByName(search));
             }
             else if (searchBy == "CategoryName")
             {
+              //VwBg();
                 return View(_productManager.GetByCategory(search));
             }
            
 
             var model = _productManager.GetAll();
-            
+
+          //VwBg();
             return View(model);
         }
+        //public void VwBg()
+        //{
+        //    var cart = SessionHelper.GetObjectFromJson<List<Models.Item>>(HttpContext.Session, "cart");
+        //    ViewBag.cart = cart;
+        //    ViewBag.Total = cart.Sum(i => i.product.Price * i.Quantity);
+        //    ViewBag.Count = cart.Sum(i => i.Quantity);
+        //}
 
         public IActionResult Create()
         {
@@ -51,6 +63,7 @@ namespace Ecommerce.WebApp.Controllers
             model.ProductList = products.ToList();
             model.CategoryList = _productManager.list();
             PopulateDropdownList();
+          //VwBg();
             return View(model);
         }
 
@@ -99,8 +112,9 @@ namespace Ecommerce.WebApp.Controllers
                     if (isAdded)
                     {
                         ViewBag.SuccessMessage = "Saved Successfully!";
-                        //model.ProductList = _productManager.GetAll().ToList();
-                        //return RedirectToAction(nameof(Index),model.ProductList);
+                    //model.ProductList = _productManager.GetAll().ToList();
+                      //VwBg();
+                        return RedirectToAction(nameof(Index),model.ProductList);
                     }
             }
             else
@@ -110,6 +124,7 @@ namespace Ecommerce.WebApp.Controllers
 
             model.ProductList = _productManager.GetAll().ToList();
             model.CategoryList = _productManager.list().ToList();
+          //VwBg();
             return View(model);
         }
 
@@ -126,6 +141,7 @@ namespace Ecommerce.WebApp.Controllers
         public IActionResult CardView()
         {
             var products = _productManager.GetAll();
+          //VwBg();
             return View("Product/_cardView", products);
         }
         public IActionResult _CardView()
@@ -149,7 +165,8 @@ namespace Ecommerce.WebApp.Controllers
                 return NotFound();
             }
 
-          //  aProduct.ProductList = _productManager.GetAll().ToList();
+            //  aProduct.ProductList = _productManager.GetAll().ToList();
+          //VwBg();
             return View(Product);
         }
 
@@ -170,6 +187,7 @@ namespace Ecommerce.WebApp.Controllers
             }
 
             aProduct.ProductList = _productManager.GetAll().ToList();
+          //VwBg();
             return View(aProduct);
         }
         [HttpPost]
@@ -230,6 +248,7 @@ namespace Ecommerce.WebApp.Controllers
                 {
                     var Products = _productManager.GetAll();
                     ViewBag.SuccessMessage = "Updated Successfully!";
+                  //VwBg();
                     return View("Index", Products);
 
                 }
@@ -240,6 +259,7 @@ namespace Ecommerce.WebApp.Controllers
                 ViewBag.ErrorMessage = "Update Failed!";
             }
             Product.ProductList = _productManager.GetAll().ToList();
+          //VwBg();
             return View(Product);
 
         }
@@ -255,10 +275,12 @@ namespace Ecommerce.WebApp.Controllers
                 {
                     var products = _productManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
+                  //VwBg();
                     return View("Index", products);
                 }
 
             }
+          //VwBg();
             return RedirectToAction(nameof(Index));
         }
     }

@@ -29,10 +29,7 @@ namespace Ecommerce.WebApp.Controllers
             ViewBag.cart = cart;
             ViewBag.Total = cart.Sum(i => i.product.Price * i.Quantity);
             ViewBag.Count = cart.Sum(i=>i.Quantity);
-            if (ViewBag.Total == null && ViewBag.Count == 0)
-            {
-                ViewBag.Total = 0;
-            }
+          
             return View();
         }
 
@@ -73,6 +70,7 @@ namespace Ecommerce.WebApp.Controllers
                 int index = Exists(cart, Id);
                 cart.RemoveAt(index);
                 cart.Count();
+                
                 SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             
 
@@ -88,6 +86,12 @@ namespace Ecommerce.WebApp.Controllers
                 }
             }
             return -1;
+        }
+        public IActionResult redirect(List<Item> cart)
+        {
+            ViewBag.count =cart.Count;
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return RedirectToAction("Product","_cardView");
         }
     }
 }
