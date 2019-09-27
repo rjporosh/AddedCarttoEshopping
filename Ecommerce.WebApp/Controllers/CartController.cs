@@ -26,9 +26,20 @@ namespace Ecommerce.WebApp.Controllers
         {
             // List<Item> cart = new List<Item>();
             var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            ViewBag.cart = cart;
-            ViewBag.Total = cart.Sum(i => i.product.Price * i.Quantity);
-            ViewBag.Count = cart.Sum(i=>i.Quantity);
+            if (cart == null)
+            {
+                ViewBag.cart = new List<Item>();
+                ViewBag.Count = 0;
+                ViewBag.Total = 0;
+            }
+            else
+            {
+                ViewBag.cart = cart;
+                ViewBag.Total = cart.Sum(i => i.product.Price * i.Quantity);
+                ViewBag.Count = cart.Sum(i => i.Quantity);
+                SessionHelper.SetObjectAsJson(HttpContext.Session, "TotalItem", cart.Sum(i => i.Quantity));
+            }
+           
           
             return View();
         }
@@ -87,11 +98,11 @@ namespace Ecommerce.WebApp.Controllers
             }
             return -1;
         }
-        public IActionResult redirect(List<Item> cart)
-        {
-            ViewBag.count =cart.Count;
-            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            return RedirectToAction("Product","_cardView");
-        }
+        //public IActionResult redirect(List<Item> cart)
+        //{
+        //    int Item = ViewBag.count = cart.Sum(i => i.Quantity);
+        //   // SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", totalItem);
+        //    return RedirectToAction("_cardView", "Product", Item);
+        //}
     }
 }
