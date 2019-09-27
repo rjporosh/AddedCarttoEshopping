@@ -74,7 +74,7 @@ namespace Ecommerce.WebApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Product}/{action=Index}/{id?}"
+                    template: "{controller=Product}/{action=_cardView}"
                     );
                 routes.MapRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
