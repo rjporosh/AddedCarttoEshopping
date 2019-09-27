@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Ecommerce.Abstractions.BLL;
 using Ecommerce.DatabaseContext;
-using Ecommerce.WebApp.Controllers.Helper;
+
+using Ecommerce.WebApp.Helper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.WebApp.Controllers
@@ -25,6 +26,7 @@ namespace Ecommerce.WebApp.Controllers
         public IActionResult Index()
         {
             // List<Item> cart = new List<Item>();
+           
             var cart = SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             if (cart == null)
             {
@@ -37,7 +39,6 @@ namespace Ecommerce.WebApp.Controllers
                 ViewBag.cart = cart;
                 ViewBag.Total = cart.Sum(i => i.product.Price * i.Quantity);
                 ViewBag.Count = cart.Sum(i => i.Quantity);
-                SessionHelper.SetObjectAsJson(HttpContext.Session, "TotalItem", cart.Sum(i => i.Quantity));
             }
            
           

@@ -18,6 +18,9 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
+using Ecommerce.WebApp.Helper;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 //using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Ecommerce.WebApp
@@ -31,6 +34,7 @@ namespace Ecommerce.WebApp
             ServicesConfiguration.ConfigureServices(services);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMvc();
+            services.AddSession();
             //services.AddMvc().AddMvcOptions
             //    (options =>
             //    {
@@ -41,19 +45,19 @@ namespace Ecommerce.WebApp
             //   .AddJsonOptions(
             //        options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             //    );
-             services.AddMvc(options =>
-                    {
+            //services.AddSingleton<ITotalQuantity,TotalItemService >();
+            services.AddTransient<TotalItemService>();
+            services.AddMvc(options =>
+                   {
                        options.FormatterMappings.SetMediaTypeMappingForFormat
-                           ("xml", MediaTypeHeaderValue.Parse("application/xml"));
+                            ("xml", MediaTypeHeaderValue.Parse("application/xml"));
                        options.FormatterMappings.SetMediaTypeMappingForFormat
-                           ("config", MediaTypeHeaderValue.Parse("application/xml"));
+                            ("config", MediaTypeHeaderValue.Parse("application/xml"));
                        options.FormatterMappings.SetMediaTypeMappingForFormat
-                          ("js", MediaTypeHeaderValue.Parse("application/json"));
+                           ("js", MediaTypeHeaderValue.Parse("application/json"));
                    })
-                      .AddXmlSerializerFormatters();
-            services.AddSession();
-
-
+                     .AddXmlSerializerFormatters();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

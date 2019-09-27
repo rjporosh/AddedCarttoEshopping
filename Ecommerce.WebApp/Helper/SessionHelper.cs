@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace Ecommerce.WebApp.Controllers.Helper
+namespace Ecommerce.WebApp.Helper
 {
     public static class SessionHelper
     {

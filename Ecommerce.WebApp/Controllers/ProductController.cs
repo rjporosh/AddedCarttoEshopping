@@ -11,7 +11,7 @@ using Ecommerce.Models.RazorViewModels.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Ecommerce.WebApp.Controllers.Helper;
+using Ecommerce.WebApp.Helper;
 
 namespace Ecommerce.WebApp.Controllers
 {
