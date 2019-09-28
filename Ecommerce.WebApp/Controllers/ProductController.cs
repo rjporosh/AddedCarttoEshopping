@@ -24,12 +24,12 @@ namespace Ecommerce.WebApp.Controllers
             _productManager = productManager;
             _mapper = mapper;
         }
-        public IActionResult Index(string searchBy, string search , double price) //Search Facilities
+        public IActionResult Index(string searchBy, string search ) //Search Facilities
         {
             if (searchBy == "Price")
             {
               //VwBg();
-                return View(_productManager.GetByPrice(price));
+                return View(_productManager.GetByPrice(Convert.ToDouble(search)));
             }
             else if (searchBy == "Name")
             {
@@ -60,8 +60,8 @@ namespace Ecommerce.WebApp.Controllers
         {
             var products = _productManager.GetAll();
             var model = new ProductVM();
-            model.ProductList = products.ToList();
-            model.CategoryList = _productManager.list();
+           // model.ProductList = products.ToList();
+            //model.CategoryList = _productManager.list();
             PopulateDropdownList();
           //VwBg();
             return View(model);
@@ -90,7 +90,7 @@ namespace Ecommerce.WebApp.Controllers
                     {
                         var file = Image;
                        // var root = _appEnvironment.WebRootPath;
-                       var root = "~\\wwwroot\\";
+                       var root = "wwwroot\\";
                         var uploads = "uploads\\img";
                         if (file.Length > 0)
                         {
@@ -129,8 +129,15 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
-        {
+        {                                      
             var category = _productManager.list();
+            // category.Prepend<Category>(i=>(i.Name = "Select" , i.Id=0));
+            Category i = new Category
+            {
+                Id = 0,
+                Name = "Select"
+            };
+            category.Prepend(i);
             ViewBag.SelectList = new SelectList(category, "Id", "Name", selectList);
         }
         public PartialViewResult ProductListPartial()
@@ -192,7 +199,7 @@ namespace Ecommerce.WebApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long Id,[Bind("Id,Name,Price,ExpireDate,CategoryId,CategoryList,CategoryName,IsActive,Orders,ImagePath")]ProductVM Product, IFormFile Image)
+        public async Task<IActionResult> Edit(long Id,[Bind("Id,Name,Price,ExpireDate,CategoryId,CategoryList,CategoryName,IsActive,Orders,Image,ImagePath")]ProductVM Product, IFormFile Image)
         {
             if (Id != Product.Id)
             {
@@ -204,45 +211,51 @@ namespace Ecommerce.WebApp.Controllers
                 using (var ms = new MemoryStream())
                 {
                     Image.CopyTo(ms);
-                    Product.Image = ms.ToArray();
-                    // ImageConverter converter = new ImageConverter();
-                    // model.Image = (byte[])converter.ConvertTo(Image, typeof(byte[]));
-                }
-                var files = HttpContext.Request.Form.Files;
-                foreach (var image in files)
-                {
-                    if (image != null && image.Length > 0)
+                    //if(Image.Length<2048)
+                    //{
+                        Product.Image = ms.ToArray();
+                    //}
+                    var files = HttpContext.Request.Form.Files;
+                    foreach (var image in files)
                     {
-                        var file = Image;
-                        // var root = _appEnvironment.WebRootPath;
-                        var root = "wwwroot\\";
-                        var uploads = "uploads\\img";
-                        if (file.Length > 0)
+                        if (image != null && image.Length > 0)
                         {
-                            // you can change the Guid.NewGuid().ToString().Replace("-", "")
-                            // to Guid.NewGuid().ToString("N") it will produce the same result
-                            var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
-
-                            using (var fileStream = new FileStream(Path.Combine(root, uploads, fileName), FileMode.Create))
+                            var file = Image;
+                            // var root = _appEnvironment.WebRootPath;
+                            var root = "wwwroot\\";
+                            var uploads = "uploads\\img";
+                            if (file.Length > 0)
                             {
-                                await file.CopyToAsync(fileStream);
-                                // This will produce uploads\img\fileName.ext
-                                Product.ImagePath = Path.Combine(uploads, fileName);
+                                // you can change the Guid.NewGuid().ToString().Replace("-", "")
+                                // to Guid.NewGuid().ToString("N") it will produce the same result
+                                var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
+
+                                using (var fileStream = new FileStream(Path.Combine(root, uploads, fileName), FileMode.Create))
+                                {
+                                    await file.CopyToAsync(fileStream);
+                                    // This will produce uploads\img\fileName.ext
+                                    Product.ImagePath = Path.Combine(uploads, fileName);
+                                }
                             }
                         }
                     }
+
+                    // ImageConverter converter = new ImageConverter();
+                    // model.Image = (byte[])converter.ConvertTo(Image, typeof(byte[]));
                 }
+              
             }
             else
             {
                 Product.Image = Product.Image;
+                Product.ImagePath = Product.ImagePath;
             }
             if (ModelState.IsValid)
             {
                 var aProduct = _mapper.Map<Product>(Product);
+                aProduct.Image = Product.Image;
+                aProduct.ImagePath = Product.ImagePath;
 
-               
-               
                 bool isUpdated = _productManager.Update(aProduct);
                 if (isUpdated)
                 {

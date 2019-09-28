@@ -24,22 +24,22 @@ namespace Ecommerce.Repositories
         }
         public List<Product> GetByCategory(int categoryId)
         {
-            return _db.Products.Where(c => c.CategoryId == categoryId).ToList();
+            return _db.Products.Where(c => c.CategoryId == categoryId).Include(c => c.Category).ToList();
         }
 
         public ICollection<Product> GetByPrice(double price)
         {
-            return _db.Products.Where(c => c.Price <= price).ToList();
+            return _db.Products.Where(c => ( c.Price>0 && c.Price <= price)).Include(c => c.Category).ToList();
         }
 
         public ICollection<Product> GetByName(string Name)
         {
-            return _db.Products.Where(c => c.Name.Contains(Name)).ToList();
+            return _db.Products.Where(c => c.Name.Contains(Name)).Include(c => c.Category).ToList();
         }
 
         public ICollection<Product> GetByCategory(string CategoryName)
         {
-            return _db.Products.Where(c => c.Category.Name == CategoryName).ToList();
+            return _db.Products.Where(c => c.Category.Name.Contains(CategoryName)).Include(c => c.Category).ToList();
         }
 
         public List<Category> list()
@@ -100,7 +100,7 @@ namespace Ecommerce.Repositories
 
             }
 
-            return products.ToList();
+            return products.Include(c => c.Category).ToList();
         }
     }
 }
