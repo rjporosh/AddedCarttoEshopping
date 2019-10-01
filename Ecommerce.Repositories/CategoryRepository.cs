@@ -29,7 +29,7 @@ namespace Ecommerce.Repositories
 
         public List<Product> productList()
         {
-            return _db.Products.ToList();
+            return _db.Products.Include(i => i.Category).ToList();
         }
     }
 }

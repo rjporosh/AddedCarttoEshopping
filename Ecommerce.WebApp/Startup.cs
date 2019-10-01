@@ -41,7 +41,7 @@ namespace Ecommerce.WebApp
             services.AddDefaultIdentity<IdentityUser>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<EcommerceDbContext>();
-            ServicesConfiguration.ConfigureServices(services);
+            services.ConfigureServicesForEcommerce();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<IdentityOptions>(options =>
             {

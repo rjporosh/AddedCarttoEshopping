@@ -4,14 +4,16 @@ using Ecommerce.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.DatabaseContext.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class EcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191001140706_CategoryName Added")]
+    partial class CategoryNameAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +28,6 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
-
-                    b.Property<long>("ParentId");
 
                     b.HasKey("Id");
 
@@ -76,6 +76,8 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<long>("CategoryId");
 
+                    b.Property<string>("CategoryName");
+
                     b.Property<DateTime?>("ExpireDate");
 
                     b.Property<byte[]>("Image");
@@ -86,8 +88,6 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<long>("ParentId");
 
                     b.Property<double>("Price");
 

@@ -13,8 +13,10 @@ namespace Ecommerce.Models
         public byte[] Image { get; set; }
         public string ImagePath { get; set; }
 
-        public bool IsActive { get; set; }  
+        public bool IsActive { get; set; }
 
+        public long ParentId { get; set; }
+    //    public string CategoryName { get; set; }
         public long CategoryId { get; set; }
         public virtual Category Category { get; set; }
 

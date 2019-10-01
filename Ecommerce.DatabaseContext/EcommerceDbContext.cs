@@ -10,9 +10,9 @@ namespace Ecommerce.DatabaseContext
     public class EcommerceDbContext: IdentityDbContext<IdentityUser>
     {
         public long CurrentUserId { get; set; }
-       public EcommerceDbContext()
+        public EcommerceDbContext(DbContextOptions options) : base(options)
         {
-          
+
         }
 
         public DbSet<Product> Products { get; set; }
@@ -43,6 +43,7 @@ namespace Ecommerce.DatabaseContext
                 .HasOne(pt => pt.Order)
                 .WithMany(t => t.Products)
                 .HasForeignKey(pt => pt.OrderId);
+            modelBuilder.Entity<Product>().HasQueryFilter(p => p.IsActive);
         }
 
     

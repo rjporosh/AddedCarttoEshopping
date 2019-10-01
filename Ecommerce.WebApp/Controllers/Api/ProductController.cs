@@ -34,7 +34,7 @@ namespace Ecommerce.WebApp.Controllers.API
             
                       
 
-            if (products != null /*&& products.Any()*/)
+            if (!(products == null/* && !products.Any()*/))
             {
                 var productDtos = _mapper.Map<ICollection<ProductDto>>(products);
                 return Ok(productDtos);

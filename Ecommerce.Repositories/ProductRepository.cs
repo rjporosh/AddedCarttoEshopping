@@ -20,11 +20,11 @@ namespace Ecommerce.Repositories
 
         public override ICollection<Product> GetAll()
         {
-            return _db.Products.Include(c=>c.Category).ToList();
+            return _db.Products.Include(c => c.Category).ToList();
         }
         public List<Product> GetByCategory(int categoryId)
         {
-            return _db.Products.Include(c => c.Category).Where(c => c.CategoryId == categoryId).ToList();
+            return _db.Products.Where(c => c.CategoryId == categoryId).Include(c => c.Category).ToList();
         }
 
         public ICollection<Product> GetByPrice(double price)
@@ -44,7 +44,7 @@ namespace Ecommerce.Repositories
 
         public List<Category> list()
         {
-            return _db.Categories.ToList();
+            return _db.Categories.Include(c => c.Products).ToList();
         }
 
         public Product Find(long id)
@@ -58,23 +58,23 @@ namespace Ecommerce.Repositories
             {
                 if (!string.IsNullOrEmpty(criteria.Name))
                 {
-                    products = products.Where(c => c.Name.ToLower().Contains(criteria.Name.ToLower()));
+                    products = products.Where(c => c.Name.ToLower().Contains(criteria.Name.ToLower())).Include(c => c.Category);
                 }
 
                 if (criteria.FromPrice > 0)
                 {
-                    products = products.Where(c => c.Price >= criteria.FromPrice);
+                    products = products.Where(c => c.Price >= criteria.FromPrice).Include(c => c.Category);
                 }
 
                 if (criteria.ToPrice > 0)
                 {
-                    products = products.Where(c => c.Price <= criteria.ToPrice);
+                    products = products.Where(c => c.Price <= criteria.ToPrice).Include(c => c.Category);
                 }
 
 
             }
 
-            return products.ToList();
+            return products.Include(c => c.Category).ToList();
         }
 
         object IProductRepository.GetByCriteria(ProductSearchCriteriaVM criteria)
@@ -84,17 +84,17 @@ namespace Ecommerce.Repositories
             {
                 if (!string.IsNullOrEmpty(criteria.Name))
                 {
-                    products = products.Where(c => c.Name.ToLower().Contains(criteria.Name.ToLower()));
+                    products = products.Where(c => c.Name.ToLower().Contains(criteria.Name.ToLower())).Include(c => c.Category);
                 }
 
                 if (criteria.FromPrice > 0)
                 {
-                    products = products.Where(c => c.Price >= criteria.FromPrice);
+                    products = products.Where(c => c.Price >= criteria.FromPrice).Include(c => c.Category);
                 }
 
                 if (criteria.ToPrice > 0)
                 {
-                    products = products.Where(c => c.Price <= criteria.ToPrice);
+                    products = products.Where(c => c.Price <= criteria.ToPrice).Include(c => c.Category);
                 }
 
 
