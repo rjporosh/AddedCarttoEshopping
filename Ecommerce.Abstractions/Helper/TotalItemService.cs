@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ecommerce.WebApp.Helper
+namespace Ecommerce.Abstractions.Helper
 {
     public class TotalItemService 
     {

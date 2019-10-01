@@ -18,8 +18,10 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Net.Http.Headers;
-using Ecommerce.WebApp.Helper;
+
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Ecommerce.Abstractions.Helper;
 
 //using Microsoft.AspNetCore.Mvc.Formatters;
 
@@ -31,8 +33,47 @@ namespace Ecommerce.WebApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<EcommerceDbContext>();
+
+
+
+
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<EcommerceDbContext>();
             ServicesConfiguration.ConfigureServices(services);
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = false;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.SlidingExpiration = true;
+            });
             services.AddMvc();
             services.AddSession();
             //services.AddMvc().AddMvcOptions
@@ -63,12 +104,16 @@ namespace Ecommerce.WebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+          
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseSession();
+           
             app.UseStaticFiles();
+          
+            app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
             app.UseMvc(routes =>
             {

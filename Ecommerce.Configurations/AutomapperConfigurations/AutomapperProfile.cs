@@ -25,6 +25,7 @@ namespace Ecommerce.Configurations.AutomapperConfigurations
             CreateMap<Category, CategoryVM>();
             CreateMap<CategoryVM, Category>();
             CreateMap<Product, ProductDto>();
+            CreateMap<ProductDto, Product>();
             CreateMap<Product, Item>();
             CreateMap<Item, Product>();
 

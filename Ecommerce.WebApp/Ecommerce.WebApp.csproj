@@ -3,7 +3,24 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <FileAlignment>8192</FileAlignment>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <FileAlignment>8192</FileAlignment>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +49,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Shared\Category\" />
     <Folder Include="wwwroot\uploads\img\" />
     <Folder Include="wwwroot\assets\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>

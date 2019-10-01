@@ -11,7 +11,8 @@ using Ecommerce.Models.RazorViewModels.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Ecommerce.WebApp.Helper;
+
+using Ecommerce.Models.APIViewModels;
 
 namespace Ecommerce.WebApp.Controllers
 {
@@ -56,6 +57,10 @@ namespace Ecommerce.WebApp.Controllers
         //    ViewBag.Count = cart.Sum(i => i.Quantity);
         //}
 
+        public IActionResult show()
+        {
+            return View();
+        }
         public IActionResult Create()
         {
             var products = _productManager.GetAll();
@@ -295,6 +300,16 @@ namespace Ecommerce.WebApp.Controllers
             }
           //VwBg();
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult GetProductPartial(long id)
+        {
+            var product = _productManager.GetById(id);
+            if (product == null)
+            {
+                return null;
+            }
+            var productDto = _mapper.Map<ProductDto>(product);
+            return PartialView("Product/_ProductDetails", productDto);
         }
     }
 }

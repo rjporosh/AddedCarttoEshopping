@@ -1,6 +1,6 @@
 ﻿@*@inject Ecommerce.WebApp.Helper.SessionHelper*@
 @using Microsoft.Extensions.Configuration
-@inject Ecommerce.WebApp.Helper.TotalItemService total
+@inject Ecommerce.Abstractions.Helper.TotalItemService total
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -299,7 +299,7 @@
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="profile-ava">
-                                <img alt="" src="img/avatar1_small.jpg">
+                                <img alt="" src="~/img/avatar1_small.jpg">
                             </span>
                             <span class="username">Jenifer Smith</span>
                             <b class="caret"></b>
@@ -319,7 +319,7 @@
                                 <a href="#"><i class="icon_chat_alt"></i> Chats</a>
                             </li>
                             <li>
-                                <a href="login"><i class="icon_key_alt"></i> Log Out</a>
+                                <a href="/Identity/Account/Logout"><i class="icon_key_alt"></i> Log Out</a>
                             </li>
                             <li>
                                 <a href="documentation"><i class="icon_key_alt"></i> Documentation</a>
@@ -349,7 +349,7 @@
                     <li class="sub-menu">
                         <a href="/Product/_cardView" class="">
                             <i class="icon_document_alt"></i>
-                            <span>CardView</span>
+                            <span>Product View</span>
                             <span class="menu-arrow arrow_carrot-right"></span>
                         </a>
                         <ul class="sub">
@@ -373,7 +373,7 @@
                         <a href="/cart/index" class="">
                             <i class="icon_cart"></i>
 
-                            <span class="badge bg-important">@ViewBag.Count</span>
+                            <span class="badge bg-important">@total.TotalProductPurchased</span>
                             <span>Your Cart</span>
                         </a>
 
