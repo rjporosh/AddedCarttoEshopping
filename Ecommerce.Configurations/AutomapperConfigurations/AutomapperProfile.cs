@@ -18,13 +18,15 @@ namespace Ecommerce.Configurations.AutomapperConfigurations
         {
             CreateMap<CustomerCreateViewModel, Customer>();
             CreateMap<Customer, CustomerCreateViewModel>();
-            CreateMap<Product, ProductVM>().ForMember(vm=>vm.CategoryName, map=>map.MapFrom(m=>m.Category.Name));
-            CreateMap<ProductVM, Product>();
+            CreateMap<Product, ProductVM>()/*.ForMember(m => m.CategoryName, map => map.MapFrom(vm => vm.Category.Name))*/;
+            CreateMap<ProductVM, Product>()/*.ForMember(m => m.Category.Name, map => map.MapFrom(vm => vm.CategoryName))*/;
             CreateMap<Order, OrderVM>();
             CreateMap<OrderVM, Order>();
             CreateMap<Category, CategoryVM>();
             CreateMap<CategoryVM, Category>();
             CreateMap<Product, ProductDto>();
+            CreateMap<Product, Item>();
+            CreateMap<Item, Product>();
 
             //.ForMember(m => m.Category.Name, map => map.MapFrom(vm => vm.CategoryName))
         }

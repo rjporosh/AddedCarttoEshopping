@@ -24,7 +24,7 @@ namespace Ecommerce.Repositories
         }
         public List<Product> GetByCategory(int categoryId)
         {
-            return _db.Products.Where(c => c.CategoryId == categoryId).Include(c => c.Category).ToList();
+            return _db.Products.Include(c => c.Category).Where(c => c.CategoryId == categoryId).ToList();
         }
 
         public ICollection<Product> GetByPrice(double price)
