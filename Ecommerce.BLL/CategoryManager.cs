@@ -11,40 +11,40 @@ namespace Ecommerce.BLL
     public class CategoryManager:Manager<Category>,ICategoryManager
     {
         private ICategoryRepository _categoryRepository;
-        private IProductRepository _productRepository;
+     //   private IProductRepository _productRepository;
         public CategoryManager(ICategoryRepository customerRepository) : base(customerRepository)
         {
             _categoryRepository = customerRepository;
         }
-        public bool Add(Category entity)
-        {
-            return _categoryRepository.Add(entity);
-        }
+        //public bool Add(Category entity)
+        //{
+        //    return _categoryRepository.Add(entity);
+        //}
 
-        public ICollection<Category> GetAll()
-        {
-            return _categoryRepository.GetAll();
-        }
+        //public ICollection<Category> GetAll()
+        //{
+        //    return _categoryRepository.GetAll();
+        //}
 
-        public Category GetById(long id)
-        {
-            return _categoryRepository.GetById(id);
-        }
+        //public Category GetById(long id)
+        //{
+        //    return _categoryRepository.GetById(id);
+        //}
 
-        public bool Update(Category entity)
-        {
-            return _categoryRepository.Update(entity);
-        }
+        //public bool Update(Category entity)
+        //{
+        //    return _categoryRepository.Update(entity);
+        //}
 
-        public bool Remove(Category entity)
-        {
-            return _categoryRepository.Remove(entity);
-        }
+        //public bool Remove(Category entity)
+        //{
+        //    return _categoryRepository.Remove(entity);
+        //}
 
-        public List<Product> productList()
-        {
-            return _categoryRepository.productList();
-            // return (List<Product>) _productRepository.GetAll();
-        }
+        ////public List<Product> productList()
+        ////{
+        ////    return _categoryRepository.productList();
+        ////    // return (List<Product>) _productRepository.GetAll();
+        ////}
     }
 }

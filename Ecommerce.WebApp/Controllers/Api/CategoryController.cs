@@ -10,18 +10,21 @@ using Ecommerce.Models.APIViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Ecommerce.WebApp.Controllers.API
 {
     [Route("api/categories")]
-    public class CategoryController : ControllerBase
+    public class CategoryController : Controller
     {
         private ICategoryManager _categoryManager;
-        public CategoryController(ICategoryManager categoryManager)
+        private IMapper _mapper;
+        public CategoryController(ICategoryManager categoryManager, IMapper mapper)
         {
             _categoryManager = categoryManager;
+            _mapper = mapper;
         }
             // GET: api/<controller>
             [HttpGet]

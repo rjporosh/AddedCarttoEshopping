@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Ecommerce.Models
 {
@@ -12,6 +14,8 @@ namespace Ecommerce.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public long ParentId { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual  List<Product> Products { get; set; }
 
     }

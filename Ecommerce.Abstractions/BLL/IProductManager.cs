@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Ecommerce.Abstractions.BLL.Base;
@@ -16,6 +17,6 @@ namespace Ecommerce.Abstractions.BLL
         Product Find(long Id);
 
         List<Category> list();
-        object GetByCriteria(ProductSearchCriteriaVM criteria);
+        ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria);
     }
 }

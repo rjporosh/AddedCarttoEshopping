@@ -22,6 +22,13 @@ namespace Ecommerce.Repositories
         {
             return _db.Products.Include(c => c.Category).ToList();
         }
+        public override Product GetById(long id)
+        {
+            
+           var product= _db.Products.Where(c => c.Id == id).Include(c => c.Category).FirstOrDefault();
+            //_db.Products.Find(id)
+            return product;
+        }
         public List<Product> GetByCategory(int categoryId)
         {
             return _db.Products.Where(c => c.CategoryId == categoryId).Include(c => c.Category).ToList();
@@ -49,7 +56,10 @@ namespace Ecommerce.Repositories
 
         public Product Find(long id)
         {
-            return _db.Products.Find(id);
+            var products = _db.Products.Include(c => c.Category).ToList();
+            var product = products.Where(c=>c.Id == id).FirstOrDefault();
+            //var product = _db.Products.Where(c => c.Id == id).Include(c => c.Category).FirstOrDefault();
+            return product;
         }
         public ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria)
         {
@@ -77,30 +87,30 @@ namespace Ecommerce.Repositories
             return products.Include(c => c.Category).ToList();
         }
 
-        object IProductRepository.GetByCriteria(ProductSearchCriteriaVM criteria)
-        {
-            var products = _db.Products.AsQueryable();
-            if (criteria != null)
-            {
-                if (!string.IsNullOrEmpty(criteria.Name))
-                {
-                    products = products.Where(c => c.Name.ToLower().Contains(criteria.Name.ToLower())).Include(c => c.Category);
-                }
+        //ICollection<Product> IProductRepository.GetByCriteria(ProductSearchCriteriaVM criteria)
+        //{
+        //    var products = _db.Products.AsQueryable();
+        //    if (criteria != null)
+        //    {
+        //        if (!string.IsNullOrEmpty(criteria.Name))
+        //        {
+        //            products = products.Where(c => c.Name.ToLower().Contains(criteria.Name.ToLower())).Include(c => c.Category);
+        //        }
 
-                if (criteria.FromPrice > 0)
-                {
-                    products = products.Where(c => c.Price >= criteria.FromPrice).Include(c => c.Category);
-                }
+        //        if (criteria.FromPrice > 0)
+        //        {
+        //            products = products.Where(c => c.Price >= criteria.FromPrice).Include(c => c.Category);
+        //        }
 
-                if (criteria.ToPrice > 0)
-                {
-                    products = products.Where(c => c.Price <= criteria.ToPrice).Include(c => c.Category);
-                }
+        //        if (criteria.ToPrice > 0)
+        //        {
+        //            products = products.Where(c => c.Price <= criteria.ToPrice).Include(c => c.Category);
+        //        }
 
 
-            }
+        //    }
 
-            return products.Include(c => c.Category).ToList();
-        }
+        //    return products.Include(c => c.Category).ToList();
+        //}
     }
 }

@@ -17,19 +17,19 @@ namespace Ecommerce.Repositories
             _db = db as EcommerceDbContext;
         }
         
-        public void LoadProducts(Category category)
-        {
-            _db.Entry(category)
-                .Collection(c=>c.Products)
-                .Query()
-                .Where(c=>c.IsActive)
-                .Load();
+        //public void LoadProducts(Category category)
+        //{
+        //    _db.Entry(category)
+        //        .Collection(c=>c.Products)
+        //        .Query()
+        //        .Where(c=>c.IsActive)
+        //        .Load();
          
-        }
+        //}
 
-        public List<Product> productList()
-        {
-            return _db.Products.Include(i => i.Category).ToList();
-        }
+        //public List<Product> productList()
+        //{
+        //    return _db.Products.Include(i => i.Category).ToList();
+        //}
     }
 }

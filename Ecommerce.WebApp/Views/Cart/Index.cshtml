@@ -8,7 +8,7 @@
             <th>Photo</th>
             <th>Name</th>
             <th> Price </th>
-            <th>Category Id </th>
+            <th>Category Name </th>
             <th>Quantity</th>
             <th>Sub-Total</th>
             <th>Action</th>
@@ -26,7 +26,7 @@
             </td>
             <td>@customer.product.Name</td>
             <td>@customer.product.Price ৳</td>
-            <td>@customer.product.CategoryId</td>
+            <td>@customer.product.Category.Name</td>
             <td>@customer.Quantity</td>
             <td>@(customer.product.Price * customer.Quantity) ৳</td>
            

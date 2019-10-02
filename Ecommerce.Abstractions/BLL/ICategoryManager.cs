@@ -8,6 +8,6 @@ namespace Ecommerce.Abstractions.BLL
 {
     public interface ICategoryManager:IManager<Category>
     {
-        List<Product> productList();
+        //List<Product> productList();
     }
 }

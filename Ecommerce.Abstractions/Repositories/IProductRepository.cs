@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Ecommerce.Abstractions.Repositories.Base;
@@ -13,7 +14,7 @@ namespace Ecommerce.Abstractions.Repositories
         ICollection<Product> GetByName(string Name);
         ICollection<Product> GetByCategory(string CategoryName);
         List<Category> list();
-        object GetByCriteria(ProductSearchCriteriaVM criteria);
+        ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria);
         Product Find(long id);
     }
 }

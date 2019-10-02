@@ -31,10 +31,10 @@ namespace Ecommerce.WebApp.Controllers.API
         public IActionResult Get([FromQuery] ProductSearchCriteriaVM criteria)
         {
             var products = _productManager.GetByCriteria(criteria);
-            
-                      
 
-            if (!(products == null/* && !products.Any()*/))
+
+
+            if (products != null && products.Any())
             {
                 var productDtos = _mapper.Map<ICollection<ProductDto>>(products);
                 return Ok(productDtos);

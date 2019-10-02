@@ -74,7 +74,7 @@ namespace Ecommerce.WebApp
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddSession();
             //services.AddMvc().AddMvcOptions
             //    (options =>
@@ -97,7 +97,8 @@ namespace Ecommerce.WebApp
                        options.FormatterMappings.SetMediaTypeMappingForFormat
                            ("js", MediaTypeHeaderValue.Parse("application/json"));
                    })
-                     .AddXmlSerializerFormatters();
+                     .AddXmlSerializerFormatters()
+                     .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore );
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 

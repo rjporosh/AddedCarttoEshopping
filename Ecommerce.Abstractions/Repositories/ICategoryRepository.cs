@@ -8,6 +8,6 @@ namespace Ecommerce.Abstractions.Repositories
 {
     public interface ICategoryRepository:IRepository<Category>
     {
-        List<Product> productList();
+        //List<Product> productList();
     }
 }
