@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Ecommerce.WebApp.Controllers.API
 {
+    [FormatFilter]
+    [ApiController]
     [Route("api/categories")]
     public class CategoryController : Controller
     {

@@ -18,5 +18,6 @@ namespace Ecommerce.Abstractions.BLL
 
         List<Category> list();
         ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria);
+        ICollection<Product> GetByCatId(long Id);
     }
 }

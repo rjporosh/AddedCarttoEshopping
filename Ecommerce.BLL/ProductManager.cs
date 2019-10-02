@@ -79,6 +79,11 @@ namespace Ecommerce.BLL
             return _productManger.GetByCriteria(criteria);
         }
 
+        public ICollection<Product> GetByCatId(long Id)
+        {
+            return _productManger.GetByCatId(Id);
+        }
+
         //public ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria)
         //{
         //    return _productManger.GetByCriteria(criteria);

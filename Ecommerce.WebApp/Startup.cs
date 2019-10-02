@@ -22,6 +22,7 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Ecommerce.Abstractions.Helper;
+using Microsoft.AspNetCore.Mvc;
 
 //using Microsoft.AspNetCore.Mvc.Formatters;
 
@@ -74,7 +75,12 @@ namespace Ecommerce.WebApp
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.Configure<MvcJsonOptions>(config =>
+            {
+                config.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
             services.AddSession();
             //services.AddMvc().AddMvcOptions
             //    (options =>
@@ -96,6 +102,7 @@ namespace Ecommerce.WebApp
                             ("config", MediaTypeHeaderValue.Parse("application/xml"));
                        options.FormatterMappings.SetMediaTypeMappingForFormat
                            ("js", MediaTypeHeaderValue.Parse("application/json"));
+                       
                    })
                      .AddXmlSerializerFormatters()
                      .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore );

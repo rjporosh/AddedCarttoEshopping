@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Models
 {
@@ -16,7 +17,10 @@ namespace Ecommerce.Models
         public bool IsActive { get; set; }
 
         public long ParentId { get; set; }
-    //    public string CategoryName { get; set; }
+        public virtual Product Parent { get; set; }
+        [InverseProperty("Parent")]
+        public virtual List<Product> Childs { get; set; }
+       // public virtual string CategoryName { get; set; }
         public long CategoryId { get; set; }
         public virtual Category Category { get; set; }
 

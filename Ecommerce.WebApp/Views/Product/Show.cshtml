@@ -60,11 +60,12 @@
             productDD.append('<option>Select...</option>');
 
             $.ajax({
-                url: "/api/products/?categoryId=" + categoryId,
+                //url: "/api/products/?categoryId=" + categoryId,
+                 url: "/api/categories/" + categoryId,
                 type: "GET",
-                success: (products) => {
+                success: (categories) => {
 
-                    $.each(products,
+                    $.each(categories.products,
                         (index, product) => {
                             var productOption = "<option value='" + product.id + "'>" + product.name + "</option>";
                             productDD.append(productOption);

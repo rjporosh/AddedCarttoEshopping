@@ -16,7 +16,17 @@ namespace Ecommerce.Repositories
         {
             _db = db as EcommerceDbContext;
         }
-        
+        public override ICollection<Category> GetAll()
+        {
+            return _db.Categories.Include(c=>c.Products).ToList();
+        }
+        public override Category GetById(long id)
+        {
+            var category = _db.Categories.Include(c => c.Products).ToList();
+            var aCategory = category.Where(c => c.Id == id).FirstOrDefault();
+            return aCategory;
+        }
+
         //public void LoadProducts(Category category)
         //{
         //    _db.Entry(category)
@@ -24,7 +34,7 @@ namespace Ecommerce.Repositories
         //        .Query()
         //        .Where(c=>c.IsActive)
         //        .Load();
-         
+
         //}
 
         //public List<Product> productList()

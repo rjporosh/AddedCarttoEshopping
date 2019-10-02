@@ -11,7 +11,11 @@ namespace Ecommerce.Abstractions.Helper
     {
         public static void SetObjectAsJson(this ISession session,string key,object value)
         {
-            session.SetString(key, JsonConvert.SerializeObject(value));
+            session.SetString(key, JsonConvert.SerializeObject(value, Formatting.None,
+                        new JsonSerializerSettings()
+                        {
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        }));
           
            
 

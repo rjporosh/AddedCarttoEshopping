@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,20 +9,16 @@ using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.APIViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Ecommerce.WebApp.Controllers.API
 {
-    [FormatFilter] 
     [ApiController]
     [Route("api/products")]
-
-  
-    public class ProductController:ControllerBase
+    public class ProductController : ControllerBase
     {
         private IProductManager _productManager;
         private IMapper _mapper;
-        public ProductController(IProductManager productManager,IMapper mapper)
+        public ProductController(IProductManager productManager, IMapper mapper)
         {
             _productManager = productManager;
             _mapper = mapper;
@@ -43,10 +40,10 @@ namespace Ecommerce.WebApp.Controllers.API
             return NoContent();
         }
 
-        [HttpGet("{id}.{format?}"),FormatFilter]
+        [HttpGet("{id}")]
         public IActionResult Get(long id)
         {
-             var product =  _productManager.GetById(id);
+            var product = _productManager.GetById(id);
 
             if (product == null)
             {
@@ -55,16 +52,16 @@ namespace Ecommerce.WebApp.Controllers.API
 
             return Ok(product);
         }
-          [HttpPost]
+
         public IActionResult Post(Product product)
         {
             if (ModelState.IsValid)
             {
-               var isAdded =  _productManager.Add(product);
+                var isAdded = _productManager.Add(product);
 
                 if (isAdded)
                 {
-                    return Created("/api/products/"+product.Id,product);
+                    return Created("/api/products/" + product.Id, product);
                 }
             }
 
@@ -81,19 +78,19 @@ namespace Ecommerce.WebApp.Controllers.API
             }
             if (ModelState.IsValid)
             {
-               
-                    product.Name = model.Name;
-                    product.Price = model.Price;
-                    product.CategoryId = model.CategoryId;
-                    product.IsActive = model.IsActive;
-                    product.ExpireDate = model.ExpireDate;
 
-                    bool isUpdated = _productManager.Update(product);
-                    if (isUpdated)
-                    {
-                        return Ok(product);
-                    }
-             }
+                product.Name = model.Name;
+                product.Price = model.Price;
+                product.CategoryId = model.CategoryId;
+                product.IsActive = model.IsActive;
+                product.ExpireDate = model.ExpireDate;
+
+                bool isUpdated = _productManager.Update(product);
+                if (isUpdated)
+                {
+                    return Ok();
+                }
+            }
 
 
             return BadRequest(ModelState);
@@ -122,6 +119,140 @@ namespace Ecommerce.WebApp.Controllers.API
 
 
 
-        
+
     }
 }
+
+
+
+
+//--------My old Formula----------------------------------------------------------------------------
+//using System;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using AutoMapper;
+//using Ecommerce.Abstractions.BLL;
+//using Ecommerce.Models;
+//using Ecommerce.Models.APIViewModels;
+//using Microsoft.AspNetCore.Mvc;
+//using Microsoft.AspNetCore.Mvc.Formatters;
+
+//namespace Ecommerce.WebApp.Controllers.API
+//{
+//    //[FormatFilter] 
+//    //[ApiController]
+//    [Route("api/products")]
+
+
+//    public class ProductController : ControllerBase
+//    {
+
+//        //-----------------------Its My Style-----------------------------------------------------------------
+//        //private IProductManager _productManager;
+//        //private IMapper _mapper;
+//        //public ProductController(IProductManager productManager,IMapper mapper)
+//        //{
+//        //    _productManager = productManager;
+//        //    _mapper = mapper;
+//        //}
+
+//        //[HttpGet]
+//        //public IActionResult Get([FromQuery] ProductSearchCriteriaVM criteria)
+//        //{
+//        //    var products = _productManager.GetByCriteria(criteria);
+
+
+
+//        //    if (products != null && products.Any())
+//        //    {
+//        //        var productDtos = _mapper.Map<ICollection<ProductDto>>(products);
+//        //        return Ok(productDtos);
+//        //    }
+
+//        //    return NoContent();
+//        //}
+
+//        //[HttpGet("{id}.{format?}"),FormatFilter]
+//        //public IActionResult Get(long id)
+//        //{
+//        //     var product =  _productManager.GetById(id);
+
+//        //    if (product == null)
+//        //    {
+//        //        return BadRequest("No Product Found!");
+//        //    }
+
+//        //    return Ok(product);
+//        //}
+//        //  [HttpPost]
+//        //public IActionResult Post(Product product)
+//        //{
+//        //    if (ModelState.IsValid)
+//        //    {
+//        //       var isAdded =  _productManager.Add(product);
+
+//        //        if (isAdded)
+//        //        {
+//        //            return Created("/api/products/"+product.Id,product);
+//        //        }
+//        //    }
+
+//        //    return BadRequest(ModelState);
+//        //}
+
+//        //[HttpPut("{id}")]
+//        //public IActionResult Put(long id, [FromBody] Product model)
+//        //{
+//        //    var product = _productManager.GetById(id);
+//        //    if (product == null)
+//        //    {
+//        //        return BadRequest("No Product Found to Update!");
+//        //    }
+//        //    if (ModelState.IsValid)
+//        //    {
+
+//        //            product.Name = model.Name;
+//        //            product.Price = model.Price;
+//        //            product.CategoryId = model.CategoryId;
+//        //            product.IsActive = model.IsActive;
+//        //            product.ExpireDate = model.ExpireDate;
+
+//        //            bool isUpdated = _productManager.Update(product);
+//        //            if (isUpdated)
+//        //            {
+//        //                return Ok(product);
+//        //            }
+//        //     }
+
+
+//        //    return BadRequest(ModelState);
+
+
+
+//        //}
+
+//        //[HttpDelete("{id}")]
+//        //public IActionResult Delete(long id)
+//        //{
+//        //    var product = _productManager.GetById(id);
+//        //    if (product == null)
+//        //    {
+//        //        return BadRequest("No Product found to Delete");
+//        //    }
+
+//        //    var isRemoved = _productManager.Remove(product);
+//        //    if (isRemoved)
+//        //    {
+//        //        return Ok();
+//        //    }
+
+//        //    return BadRequest();
+//        //}
+
+
+
+
+//    }
+//}

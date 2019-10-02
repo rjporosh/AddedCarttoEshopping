@@ -87,6 +87,11 @@ namespace Ecommerce.Repositories
             return products.Include(c => c.Category).ToList();
         }
 
+        public ICollection<Product> GetByCatId(long Id)
+        {
+            return _db.Products.Where(c => c.CategoryId == Id).Include(c => c.Category).ToList();
+        }
+
         //ICollection<Product> IProductRepository.GetByCriteria(ProductSearchCriteriaVM criteria)
         //{
         //    var products = _db.Products.AsQueryable();
