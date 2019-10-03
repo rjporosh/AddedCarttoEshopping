@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -15,9 +16,18 @@ namespace Ecommerce.Models.RazorViewModels.Category
 
         public long Id { get; set; }
         public string Name { get; set; }
+        public long? ParentId { get; set; }
+        //[JsonIgnore]
+        //[IgnoreDataMember]
+        public virtual Models.Category Parent { get; set; }
+        public string ParentCategoryName { get; set; }
 
-        [JsonIgnore]
-        [IgnoreDataMember]
+        [InverseProperty("Parent")]
+        public virtual List<Models.Category> Childs { get; set; }
+
+        //[JsonIgnore]
+        //[IgnoreDataMember]
         public virtual List<Models.Product> Products { get; set; }
+        public virtual List<Models.Category> Categories { get; set; }
     }
 }

@@ -49,7 +49,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shared\Category\" />
     <Folder Include="wwwroot\uploads\img\" />
     <Folder Include="wwwroot\assets\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>

@@ -1,39 +1,14 @@
-﻿@*@using Ecommerce.Models.RazorViewModels.Category
-    @model IEnumerable<Ecommerce.Models.RazorViewModels.Category.CategoryVM>*@
-@model IEnumerable<Ecommerce.Models.RazorViewModels.Category.CategoryVM>
+﻿@model ICollection<Ecommerce.Models.Category>
 
-    @{
-        ViewData["Title"] = "Index";
-    }
 
-    <h2>Index</h2>
 
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-               
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>
+<h1>Category List</h1>
+
+<div class="row ">
+    <a id="Add" href="/Category/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Category</a>
+</div>
+<partial name="~/Views/Shared/Category/_CategoryList.cshtml" model="Model" />
+
+
+
+

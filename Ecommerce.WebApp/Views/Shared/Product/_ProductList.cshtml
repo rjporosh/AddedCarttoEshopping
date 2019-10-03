@@ -29,26 +29,26 @@
 
         </thead>
         <tbody>
-            @foreach (var customer in Model)
+            @foreach (var product in Model)
             {
                 <tr>
                     <td>
-                        <img class="img-responsive" width="50" height="50" src="~/@customer.ImagePath" />
-                        @*data:image/jpeg;base64,@Convert.ToBase64String(customer.Image)*@
+                        <img class="img-responsive" width="50" height="50" src="~/@product.ImagePath" />
+                        @*data:image/jpeg;base64,@Convert.ToBase64String(product.Image)*@
                     </td>
-                    <td>@customer.Name</td>
-                    <td>@customer.Price ৳</td>
-                    <td>@customer.ExpireDate</td>
-                    <td>@customer.Category.Name</td>
+                    <td>@product.Name</td>
+                    <td>@product.Price ৳</td>
+                    <td>@product.ExpireDate</td>
+                    <td>@product.Category.Name</td>
 
                     <td>
-                        <a asp-action="Edit" asp-route-id="@customer.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
-                        <a asp-action="Delete" asp-route-id="@customer.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @customer.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
+                        <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
 
 
-                        @*<button class="btn btn-warning" onclick="location.href = '@Url.Action("Edit", "Customer")?Id=@customer.Id'">Edit</button> |
-                            <button class="btn btn-info" onclick="location.href = '@Url.Action("Details", "Customer")?id=@customer.Id'">Details</button> |
-                            <button class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", "Customer")?Id=@customer.Id'">Delete</button>*@
+                        @*<button class="btn btn-warning" onclick="location.href = '@Url.Action("Edit", "product")?Id=@product.Id'">Edit</button> |
+                            <button class="btn btn-info" onclick="location.href = '@Url.Action("Details", "product")?id=@product.Id'">Details</button> |
+                            <button class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", "product")?Id=@product.Id'">Delete</button>*@
                     </td>
                 </tr>
             }

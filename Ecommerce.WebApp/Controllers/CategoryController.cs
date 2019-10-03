@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Ecommerce.Abstractions.BLL;
-using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.Category;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,48 +13,49 @@ namespace Ecommerce.WebApp.Controllers
 {
     public class CategoryController : Controller
     {
-        private ICategoryManager _productManager;
+        private ICategoryManager _categoryManager;
         private IMapper _mapper;
-        public CategoryController(ICategoryManager productManager, IMapper mapper)
+        public CategoryController(ICategoryManager categoryManager, IMapper mapper)
         {
-            _productManager = productManager;
+            _categoryManager = categoryManager;
             _mapper = mapper;
         }
-        public IActionResult Index(string searchBy, string search) //Search Facilities
+        // GET: Category
+        public ActionResult Index()
         {
-          
-
-
-            var model = _productManager.GetAll();
-
-        
+            var model = _categoryManager.GetAll();
+           
             return View(model);
+           
         }
-      
 
-      
-        public IActionResult Create()
+        // GET: Category/Details/5
+        public ActionResult Details(long id)
         {
-            var products = _productManager.GetAll();
+            return View();
+        }
+
+        // GET: Category/Create
+        public ActionResult Create()
+        {
             var model = new CategoryVM();
-          
-            return View(model);
+            return View();
         }
 
+        // POST: Category/Create
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryVM model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CategoryVM model)
         {
             if (ModelState.IsValid)
             {
 
-                var Product = _mapper.Map<Category>(model);
-
-              
-                bool isAdded = _productManager.Add(Product);
+                var Category = _mapper.Map<Category>(model);
+                bool isAdded = _categoryManager.Add(Category);
                 if (isAdded)
                 {
                     ViewBag.SuccessMessage = "Saved Successfully!";
-                   // model. Products = _productManager.GetAll().ToList();
+                    //model.ProductList = _categoryManager.GetAll().ToList();
                     //VwBg();
                     return RedirectToAction(nameof(Index));
                 }
@@ -63,109 +64,83 @@ namespace Ecommerce.WebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Operation Failed!";
             }
-
-           
             return View(model);
         }
 
-        public PartialViewResult CategoryListPartial()
+        // GET: Category/Edit/5
+        public ActionResult Edit(long id)
         {
-            var products = _productManager.GetAll();
-            return PartialView("Category/_CategoryList", products);
-        }
-      
-        public IActionResult Details(int? Id)
-        {
-            if (Id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
 
-            var Product = _productManager.GetById((Int64)Id);
-         
-            CategoryVM aProduct = _mapper.Map<CategoryVM>(Product);
-            if (Product == null)
+            var Category = _categoryManager.GetById((id));
+          
+            CategoryVM aCategory = _mapper.Map<CategoryVM>(Category);
+            if (aCategory == null)
             {
                 return NotFound();
             }
 
-           
-            return View(Product);
-        }
-
-        public IActionResult Edit(int? Id)
-        {
-            if (Id == null)
-            {
-                return NotFound();
-            }
-
-
-            var Product = _productManager.GetById((Int64)Id);
-         
-            CategoryVM aProduct = _mapper.Map<CategoryVM>(Product);
-            if (Product == null)
-            {
-                return NotFound();
-            }
-
-          // aProduct.Products = _productManager.GetAll().ToList();
+           // aProduct.ProductList = _categoryManager.GetAll().ToList();
             //VwBg();
-            return View(Product);
+            return View(aCategory);
         }
+
+        // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long Id,CategoryVM Product)
+        public ActionResult Edit(long id, CategoryVM model)
         {
-            if (Id != Product.Id)
-            {
-                return NotFound();
-            }
-
-          
             if (ModelState.IsValid)
             {
-                var aProduct = _mapper.Map<Category>(Product);
-              
-                bool isUpdated = _productManager.Update(aProduct);
+                var aCategory = _mapper.Map<Category>(model);
+                //aCategory.Name = model.Name;
+                //aCategory.ParentId = model.ParentId;
+
+                bool isUpdated = _categoryManager.Update(aCategory);
                 if (isUpdated)
                 {
-                    var Products = _productManager.GetAll();
+                    var Categories = _categoryManager.GetAll();
                     ViewBag.SuccessMessage = "Updated Successfully!";
-                  
-                    return View("Index", Products);
+                    //VwBg();
+                    return View("Index", Categories);
 
                 }
+                //}
             }
             else
             {
                 ViewBag.ErrorMessage = "Update Failed!";
             }
-           
-            return View(Product);
-
+            model.Categories = _categoryManager.GetAll().ToList();
+            //VwBg();
+          //  return View(Product);
+            return View(model);
         }
 
-
-        public IActionResult Delete(long id)
+        // GET: Category/Delete/5
+        public ActionResult Delete(long id)
         {
-            var Product = _productManager.GetById(id);
+            var Product = _categoryManager.GetById(id);
             if (ModelState.IsValid)
             {
-                bool isDeleted = _productManager.Remove(Product);
+                bool isDeleted = _categoryManager.Remove(Product);
                 if (isDeleted)
                 {
-                    var products = _productManager.GetAll();
+                    var categories = _categoryManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
                     //VwBg();
-                    return View("Index", products);
+                    return View("Index", categories);
                 }
 
             }
-            //VwBg();
+           
             return RedirectToAction(nameof(Index));
         }
-     
+
+      
     }
 }

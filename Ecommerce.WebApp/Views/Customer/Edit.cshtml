@@ -1,17 +1,14 @@
 ﻿@using Ecommerce.Models.RazorViewModels.Customer
 @model Ecommerce.Models.RazorViewModels.Customer.CustomerCreateViewModel
 
-@{
-    ViewData["Title"] = "Edit";
-}
 
 <h2>Edit</h2>
 
-<h4>Edit Customer</h4>
+<h4>Edit Category</h4>
 
 
     <form asp-action="Edit">
-        <div class="container">
+       
             <div class="form-horizontal">
                 <div class="form-group">
                     <label asp-for="Name" class="control-label"></label>
@@ -38,7 +35,7 @@
                     <input type="submit" value="Update" class="btn btn-success" />
                 </div>
             </div>
-        </div>
+       
     </form>
 
 <div>
