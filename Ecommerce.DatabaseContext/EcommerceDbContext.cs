@@ -35,14 +35,22 @@ namespace Ecommerce.DatabaseContext
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new ProductFluentConfiguration());
             modelBuilder.Entity<ProductOrder>().HasKey(c => new {c.ProductId, c.OrderId});
-          //  modelBuilder.Entity<Product>().HasKey(c => new { c.ProductVariantsId, c.ParentId,c.StockId });
+            modelBuilder.Entity<Product>().HasKey(c => new { c.ProductVariantsId, c.ParentId/*,c.StocksId*/ });
+           // modelBuilder.Entity<Product>().HasOne(c => c.Stocks);
+            modelBuilder.Entity<Product>().HasOne(c => c.ProductVariants).WithOne(c=>c.Product);
+           // modelBuilder.Entity<Product>().HasOne(c => c.ProductVariantList);
+
+            modelBuilder.Entity<ProductVariants>().HasKey(c => new { c.Id,c.ProductsId, c.SizeId});
+            modelBuilder.Entity<ProductVariants>().HasOne(c => c.Product);
+           // modelBuilder.Entity<ProductVariants>().HasOne(c => c.ProductList);
 
 
 
             modelBuilder.Entity<ProductOrder>()
                 .HasOne(pt => pt.Product)
                 .WithMany(p => p.Orders)
-                .HasForeignKey(pt => pt.ProductId);
+                .HasForeignKey(pt => pt.ProductId)
+                ;
 
             modelBuilder.Entity<ProductOrder>()
                 .HasOne(pt => pt.Order)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -7,6 +8,7 @@ namespace Ecommerce.Models
 {
     public class ProductVariants
     {
+        [Key]
         public long Id { get; set; }
         public string Color { get; set; }
         public string Brand { get; set; }
@@ -16,7 +18,8 @@ namespace Ecommerce.Models
         [ForeignKey("SizeId")]
         public Size Size { get; set; }
         public string Type { get; set; }
-        [NotMapped]
+        public long ProductsId { get; set; }
+        [ForeignKey("ProductVariantsId")]
         public Product Product { get; set; }
         public virtual List<Product> ProductList { get; set; }
     }

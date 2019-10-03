@@ -10,8 +10,8 @@ namespace Ecommerce.Models
         public long Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
-        
-         [NotMapped]
+        public long ProductVariantId { get; set; }
+        [ForeignKey("ProductVariantId")]
         public virtual List<ProductVariants> ProductVariantsList { get; set; }
     }
 }
