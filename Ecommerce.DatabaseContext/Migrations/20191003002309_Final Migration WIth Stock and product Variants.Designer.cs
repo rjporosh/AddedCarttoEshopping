@@ -4,14 +4,16 @@ using Ecommerce.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ecommerce.DatabaseContext.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    partial class EcommerceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191003002309_Final Migration WIth Stock and product Variants")]
+    partial class FinalMigrationWIthStockandproductVariants
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,11 +105,6 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.HasIndex("ProductVariantsId");
-
-                    b.HasIndex("StockId")
-                        .IsUnique();
-
                     b.ToTable("Products");
                 });
 
@@ -124,44 +121,6 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.ToTable("ProductOrder");
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.ProductVariants", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Brand");
-
-                    b.Property<string>("Color");
-
-                    b.Property<string>("Name");
-
-                    b.Property<long>("SizeId");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SizeId");
-
-                    b.ToTable("ProductVariants");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.Size", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Code");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Size");
-                });
-
             modelBuilder.Entity("Ecommerce.Models.Stock", b =>
                 {
                     b.Property<long>("Id")
@@ -170,11 +129,15 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<long>("ProductId");
 
+                    b.Property<long?>("ProductId1");
+
                     b.Property<double>("Quantity");
 
                     b.Property<string>("Unit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId1");
 
                     b.ToTable("Stocks");
                 });
@@ -362,16 +325,6 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .WithMany("Childs")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Ecommerce.Models.ProductVariants")
-                        .WithMany("ProductList")
-                        .HasForeignKey("ProductVariantsId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Ecommerce.Models.Stock", "Stock")
-                        .WithOne("Product")
-                        .HasForeignKey("Ecommerce.Models.Product", "StockId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductOrder", b =>
@@ -387,12 +340,11 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.ProductVariants", b =>
+            modelBuilder.Entity("Ecommerce.Models.Stock", b =>
                 {
-                    b.HasOne("Ecommerce.Models.Size", "Size")
+                    b.HasOne("Ecommerce.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

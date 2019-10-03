@@ -18,6 +18,8 @@ namespace Ecommerce.DatabaseContext
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<ProductVariants> ProductVariants { get; set;  }
+        public DbSet<Size> Size { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
@@ -33,6 +35,9 @@ namespace Ecommerce.DatabaseContext
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new ProductFluentConfiguration());
             modelBuilder.Entity<ProductOrder>().HasKey(c => new {c.ProductId, c.OrderId});
+          //  modelBuilder.Entity<Product>().HasKey(c => new { c.ProductVariantsId, c.ParentId,c.StockId });
+
+
 
             modelBuilder.Entity<ProductOrder>()
                 .HasOne(pt => pt.Product)
