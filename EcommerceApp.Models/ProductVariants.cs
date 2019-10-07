@@ -9,18 +9,18 @@ namespace Ecommerce.Models
     public class ProductVariants
     {
         [Key]
-        public long Id { get; set; }
-        public string Color { get; set; }
-        public string Brand { get; set; }
-        public string Name { get; set; }
+        public long? Id { get; set; }
+        public string? Color { get; set; }
+        public string? Brand { get; set; }
+        public string? Name { get; set; }
         
-        public long SizeId { get; set; }
+        public long? SizeId { get; set; }
         [ForeignKey("SizeId")]
         public Size Size { get; set; }
-        public string Type { get; set; }
-        public long ProductsId { get; set; }
-        [ForeignKey("ProductVariantsId")]
-        public Product Product { get; set; }
+        public string? Type { get; set; }
+        //public long ProductsId { get; set; }
+        //[ForeignKey("ProductsId")]
+       // public virtual Product Product { get; set; }
         public virtual List<Product> ProductList { get; set; }
     }
 }

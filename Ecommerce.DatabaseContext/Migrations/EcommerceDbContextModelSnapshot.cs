@@ -89,13 +89,15 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<long>("ParentId");
+                    b.Property<long?>("ParentId");
 
                     b.Property<double>("Price");
 
-                    b.Property<long>("ProductVariantsId");
+                    b.Property<long?>("ProductVariantsId");
 
-                    b.Property<long>("StockId");
+                    b.Property<long?>("SizeId");
+
+                    b.Property<long?>("StocksId");
 
                     b.HasKey("Id");
 
@@ -105,8 +107,13 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.HasIndex("ProductVariantsId");
 
-                    b.HasIndex("StockId")
-                        .IsUnique();
+                    b.HasIndex("SizeId")
+                        .IsUnique()
+                        .HasFilter("[SizeId] IS NOT NULL");
+
+                    b.HasIndex("StocksId")
+                        .IsUnique()
+                        .HasFilter("[StocksId] IS NOT NULL");
 
                     b.ToTable("Products");
                 });
@@ -126,7 +133,7 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariants", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -136,13 +143,19 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<long>("SizeId");
+                    b.Property<long?>("SizeId");
+
+                    b.Property<long?>("SizeId1");
 
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SizeId");
+                    b.HasIndex("SizeId")
+                        .IsUnique()
+                        .HasFilter("[SizeId] IS NOT NULL");
+
+                    b.HasIndex("SizeId1");
 
                     b.ToTable("ProductVariants");
                 });
@@ -360,18 +373,19 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.HasOne("Ecommerce.Models.Product", "Parent")
                         .WithMany("Childs")
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ParentId");
 
-                    b.HasOne("Ecommerce.Models.ProductVariants")
+                    b.HasOne("Ecommerce.Models.ProductVariants", "ProductVariants")
                         .WithMany("ProductList")
-                        .HasForeignKey("ProductVariantsId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ProductVariantsId");
 
-                    b.HasOne("Ecommerce.Models.Stock", "Stock")
+                    b.HasOne("Ecommerce.Models.Size", "size")
                         .WithOne("Product")
-                        .HasForeignKey("Ecommerce.Models.Product", "StockId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Ecommerce.Models.Product", "SizeId");
+
+                    b.HasOne("Ecommerce.Models.Stock", "Stocks")
+                        .WithOne("Product")
+                        .HasForeignKey("Ecommerce.Models.Product", "StocksId");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductOrder", b =>
@@ -390,9 +404,12 @@ namespace Ecommerce.DatabaseContext.Migrations
             modelBuilder.Entity("Ecommerce.Models.ProductVariants", b =>
                 {
                     b.HasOne("Ecommerce.Models.Size", "Size")
-                        .WithMany()
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithOne("ProductVariant")
+                        .HasForeignKey("Ecommerce.Models.ProductVariants", "SizeId");
+
+                    b.HasOne("Ecommerce.Models.Size")
+                        .WithMany("ProductVariantsList")
+                        .HasForeignKey("SizeId1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -20,7 +20,7 @@ namespace Ecommerce.Repositories
 
         public override ICollection<Product> GetAll()
         {
-            return _db.Products.Include(c => c.Category).ToList();
+            return _db.Products.Include(c =>  c.Category).ToList();
         }
         public override Product GetById(long id)
         {

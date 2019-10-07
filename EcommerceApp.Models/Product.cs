@@ -11,28 +11,34 @@ namespace Ecommerce.Models
         public double Price { get; set; }
         public DateTime? ExpireDate { get; set; }
 
-        public byte[] Image { get; set; }
-        public string ImagePath { get; set; }
-
+        public byte[]? Image { get; set; }
+        public string? ImagePath { get; set; }
+                                         
         public bool IsActive { get; set; }
-        //public long StocksId { get; set; }
-        //[ForeignKey("StocksId")]
-        //public virtual Stock Stocks { get; set; }
+        public long ? StocksId { get; set; }
+        [ForeignKey("StocksId")]
+        public virtual Stock Stocks { get; set; }
+           [ForeignKey("ParentId")]
+        public long? ParentId { get; set; }
+        [ForeignKey("ProductVariantsId")]
+        public long? ProductVariantsId { get; set; }
+        //[InverseProperty("ProductVariantsId")]
 
-        public long ParentId { get; set; }
-        public long ProductVariantsId { get; set; }
-       [ForeignKey("ProductVariantsId")]
-     
-        public virtual ProductVariants ProductVariants { get; set; }
+        public virtual  ProductVariants ProductVariants { get; set; }
+        [ForeignKey("SizeId")]
+        public long? SizeId { get; set; }
+        //[InverseProperty("SizeId")]
+        public virtual Size size { get; set; }
         public virtual Product Parent { get; set; }
         [InverseProperty("Parent")]
         public virtual List<Product> Childs { get; set; }
-       // public virtual string CategoryName { get; set; }
+        //public string CategoryName { get; set; }
         public long CategoryId { get; set; }
-        public virtual Category Category { get; set; }
+        public  Category Category { get; set; }
 
-         [NotMapped]
-        public virtual List<ProductVariants> ProductVariantList { get; set; }
+           [NotMapped]
+        [ForeignKey("ProductVariantId")]
+        public virtual List<ProductVariants>? ProductVariantList { get; set; }
 
         public List<ProductOrder> Orders { get; set; }
 

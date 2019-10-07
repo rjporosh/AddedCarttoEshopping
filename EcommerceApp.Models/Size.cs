@@ -8,10 +8,12 @@ namespace Ecommerce.Models
     public class Size
     {
         public long Id { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public long ProductVariantId { get; set; }
-        [ForeignKey("ProductVariantId")]
+        public string? Code { get; set; }
+        public string? Name { get; set; }
+        public ProductVariants ProductVariant{ get; set; }
+        public Product Product { get; set; }
+        //public long ProductVariantId { get; set; }
+        //[ForeignKey("ProductVariantId")]
         public virtual List<ProductVariants> ProductVariantsList { get; set; }
     }
 }

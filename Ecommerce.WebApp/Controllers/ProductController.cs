@@ -171,15 +171,17 @@ namespace Ecommerce.WebApp.Controllers
 
             var Product = _productManager.GetById((Int64)Id);
             PopulateDropdownList(Product.CategoryId);
-            ProductVM aProduct = _mapper.Map<ProductVM>(Product);
+            //ProductVM aProduct = _mapper.Map<ProductVM>(Product);
+            Item aProduct = _mapper.Map<Item>(Product);
+            aProduct.product = _mapper.Map<Product>(Product);
             if (Product == null)
             {
                 return NotFound();
             }
 
             //  aProduct.ProductList = _productManager.GetAll().ToList();
-          //VwBg();
-            return View(Product);
+            //VwBg();
+            return View(aProduct);
         }
 
         public IActionResult Edit(int? Id)

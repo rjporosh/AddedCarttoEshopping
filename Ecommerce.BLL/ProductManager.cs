@@ -28,7 +28,7 @@ namespace Ecommerce.BLL
 
         public ICollection<Product> GetAll()
         {
-            return _productManger.GetAll().ToList();
+            return _productManger.GetAll();
              
         }
 

@@ -47,13 +47,17 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [Route("buy/{Id}")]
-        public IActionResult buy(long Id)
+        public IActionResult buy(long Id,Item item)
         {
             
             if (Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
             {
+                if (item.Quantity==0)
+                {
+                    item.Quantity = 1;
+                }
                 var cart = new List<Item>();
-                cart.Add(new Item() { product = _manager.Find(Id), Quantity = 1 });
+                cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity });
                 Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                
             }
