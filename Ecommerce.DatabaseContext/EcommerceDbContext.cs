@@ -34,35 +34,36 @@ namespace Ecommerce.DatabaseContext
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new ProductFluentConfiguration());
-            modelBuilder.Entity<ProductOrder>().HasKey(c => new {c.ProductId, c.OrderId});
+            modelBuilder.Entity<ProductOrder>().HasKey(c => new { c.ProductId, c.OrderId });
 
+            modelBuilder.Entity<Product>()
+
+                .HasOne(c => c.Parent)
+                .WithMany(c => c.Childs)
+                //  .HasPrincipalKey(c=>c.StocksId)
+                .HasForeignKey(c =>  c.ParentId )
+                 .IsRequired(false);
             //modelBuilder.Entity<Product>()
+            //    .HasOne(c => c.ProductVariants)
+            //    .WithOne()
+            //    .    HasForeignKey(c=>c.)
 
-            //    .HasOne(c => c.Parent)
-            //    .WithMany(c => c.Childs)
-            //  //  .HasPrincipalKey(c=>c.StocksId)
-            //    .HasForeignKey(c => new { c.ParentId, c.ProductVariantsId, c.SizeId, c.StocksId })
-            //     .IsRequired(false);
-            //////modelBuilder.Entity<Product>( )
-            //////    .HasOne(c=>c.ProductVariantList)
-            //////    .WithOne(c=>c.Product)
-            //////    .HasForeignKey(c => c.ProductVariantsId)
-            //////    ;
-              modelBuilder.Entity<Product>()
+            modelBuilder.Entity<Product>()
                 .HasOne(c => c.Stocks)
                 .WithOne(c => c.Product)
+              //  .HasForeignKey(c=>c.)
                 .IsRequired(false);
-            //modelBuilder.Entity<Product>()
-            //   .HasOne(c => c.ProductVariants)
-            //   .WithOne(c => c.Product)
-            //   .IsRequired(false);
+            modelBuilder.Entity<Product>()
+               .HasOne(c => c.ProductVariants)
+               .WithOne(c => c.Product)
+               .IsRequired(false);
             modelBuilder.Entity<Product>()
              .HasOne(c => c.size)
              .WithOne(c => c.Product)
              .IsRequired(false);
             modelBuilder.Entity<ProductVariants>()
                .HasOne(c => c.Size)
-               .WithOne(c =>c.ProductVariant)
+               .WithOne(c => c.ProductVariant)
                .IsRequired(false);
             modelBuilder.Entity<Size>()
                 .HasOne(c => c.ProductVariant)

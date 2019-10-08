@@ -21,7 +21,38 @@ namespace Ecommerce.Models.RazorViewModels.Product
         public virtual Models.Category Category { get; set; }
         public virtual List<Models.Category> CategoryList { get; set; }
 
-     
+      //  public virtual Stock Stocks { get; set; }
+      //  public long StocksId { get; set; }
+      // public virtual ProductVariants ProductVariants { get; set; }
+       // public long ProductVariantsId { get; set; }
+   //     public long SizeId { get; set; }
+      //  public virtual Size Size { get; set; }
+    //    public long ProductVariantsSizesId { get; set; }
+     //   public Size ProductVariantsSize { get; set; }
+        public Decimal StockQuantity { get; set; }
+        public string StocksUnit { get; set; }
+        public string ProductVariantsColor { get; set; }
+
+
+        public long? StocksId { get; set; }
+       
+        public virtual Stock Stocks { get; set; }
+      
+        public long? ParentId { get; set; }
+      
+        public long? ProductVariantsId { get; set; }
+        //[InverseProperty("ProductVariantsId")]
+
+        public virtual Models.ProductVariants ProductVariants { get; set; }
+       
+        public long? SizeId { get; set; }
+        //[InverseProperty("SizeId")]
+        public virtual Models.Size size { get; set; }
+        public virtual Models.Product Parent { get; set; }
+      
+        public virtual List<Models.Product> Childs { get; set; }
+
+
 
         public List<Models.Product> ProductList { get; set; }
         public List<ProductOrder> Orders { get; set; }

@@ -68,7 +68,8 @@ namespace Ecommerce.WebApp.Controllers
            // model.ProductList = products.ToList();
             //model.CategoryList = _productManager.list();
             PopulateDropdownList();
-          //VwBg();
+            //VwBg();
+            model.IsActive = true;
             return View(model);
         }
 
@@ -195,6 +196,7 @@ namespace Ecommerce.WebApp.Controllers
             var Product = _productManager.GetById((Int64)Id);
             PopulateDropdownList(Product.CategoryId);
             ProductVM aProduct = _mapper.Map<ProductVM>(Product);
+            aProduct.StockQuantity = Product.Stocks.Quantity;
             if (Product == null)
             {
                 return NotFound();

@@ -13,14 +13,14 @@ namespace Ecommerce.Models
         public string? Color { get; set; }
         public string? Brand { get; set; }
         public string? Name { get; set; }
-        
+
         public long? SizeId { get; set; }
         [ForeignKey("SizeId")]
-        public Size Size { get; set; }
+        public virtual Size Size { get; set; }     
         public string? Type { get; set; }
         //public long ProductsId { get; set; }
-        //[ForeignKey("ProductsId")]
-       // public virtual Product Product { get; set; }
-        public virtual List<Product> ProductList { get; set; }
+        [ForeignKey("ProductId")]
+       public virtual Product Product { get; set; }
+       // public virtual List<Product> ProductList { get; set; }
     }
 }

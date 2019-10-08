@@ -14,7 +14,7 @@ namespace Ecommerce.Models
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
 
-        public Double Quantity { get; set; }
+        public Decimal Quantity { get; set; }
         public string Unit  { get; set; }
 
 

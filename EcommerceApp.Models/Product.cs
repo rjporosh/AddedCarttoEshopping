@@ -15,8 +15,8 @@ namespace Ecommerce.Models
         public string? ImagePath { get; set; }
                                          
         public bool IsActive { get; set; }
-        public long ? StocksId { get; set; }
-        [ForeignKey("StocksId")]
+        public long ? StockId { get; set; }
+        [ForeignKey("StockId")]
         public virtual Stock Stocks { get; set; }
            [ForeignKey("ParentId")]
         public long? ParentId { get; set; }
@@ -36,9 +36,9 @@ namespace Ecommerce.Models
         public long CategoryId { get; set; }
         public  Category Category { get; set; }
 
-           [NotMapped]
-        [ForeignKey("ProductVariantId")]
-        public virtual List<ProductVariants>? ProductVariantList { get; set; }
+        //   [NotMapped]
+        //[ForeignKey("ProductVariantId")]
+        //public virtual List<ProductVariants>? ProductVariantList { get; set; }
 
         public List<ProductOrder> Orders { get; set; }
 

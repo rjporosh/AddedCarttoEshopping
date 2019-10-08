@@ -30,7 +30,7 @@
                 <span asp-validation-for="ExpireDate" class="text-danger"></span>
             </div>
             <div>
-                <img class="preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" width="150" >
+                <img class="preview" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" width="150">
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
@@ -73,6 +73,9 @@
                     <select asp-for="CategoryId" asp-items="@ViewBag.SelectList" class="form-control"> </select>
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
                 </div>
+            </div>
+            <div class="form-group">
+                <input asp-for="StockQuantity"class="col-md-2" /> @Html.DisplayNameFor(m=>m.StockQuantity)
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

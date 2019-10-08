@@ -20,12 +20,23 @@ namespace Ecommerce.Repositories
 
         public override ICollection<Product> GetAll()
         {
-            return _db.Products.Include(c =>  c.Category).ToList();
+            return _db.Products
+                .Include(c => c.Stocks)
+                .Include(c =>  c.Category)
+                .Include(c=>c.size)
+             //   .Include(c=>c.ProductVariants)
+                .ToList();
         }
         public override Product GetById(long id)
         {
             
-           var product= _db.Products.Where(c => c.Id == id).Include(c => c.Category).FirstOrDefault();
+           var product= _db.Products.Where(c => c.Id == id)
+                .Include(c => c.Category)
+                .Include(c => c.Stocks)
+              //  .Include(c => c.size)
+                //.Include(c => c.ProductVariants)
+                
+                .FirstOrDefault();
             //_db.Products.Find(id)
             return product;
         }
