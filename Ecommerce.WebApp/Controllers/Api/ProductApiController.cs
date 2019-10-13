@@ -8,11 +8,13 @@ using AutoMapper;
 using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.APIViewModels;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.WebApp.Controllers.API
 {
     [ApiController]
+    [EnableCors("AllowAll")]
     [Route("api/products")]
     public class ProductApiController : ControllerBase
     {

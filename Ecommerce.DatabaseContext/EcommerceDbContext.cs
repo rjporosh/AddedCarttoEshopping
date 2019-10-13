@@ -51,24 +51,28 @@ namespace Ecommerce.DatabaseContext
             modelBuilder.Entity<Product>()
                 .HasOne(c => c.Stocks)
                 .WithOne(c => c.Product)
-              //  .HasForeignKey(c=>c.)
+                //  .HasForeignKey(c=>c.)
                 .IsRequired(false);
-            modelBuilder.Entity<Product>()
-               .HasOne(c => c.ProductVariants)
-               .WithOne(c => c.Product)
-               .IsRequired(false);
-            modelBuilder.Entity<Product>()
-             .HasOne(c => c.size)
-             .WithOne(c => c.Product)
-             .IsRequired(false);
-            modelBuilder.Entity<ProductVariants>()
-               .HasOne(c => c.Size)
-               .WithOne(c => c.ProductVariant)
-               .IsRequired(false);
-            modelBuilder.Entity<Size>()
-                .HasOne(c => c.ProductVariant)
-                .WithOne(c => c.Size)
-                .IsRequired(false);
+            ////modelBuilder.Entity<Product>()
+            ////   .HasOne(c => c.ProductVariants)
+            ////   .WithOne(c => c.Product)
+            ////   .IsRequired(false);
+            //modelBuilder.Entity<Product>()
+            // .HasOne(c => c.size)
+            // .WithOne(c => c.Product)
+            // .IsRequired(false);
+            ////modelBuilder.Entity<ProductVariants>()
+            ////   .HasOne(c => c.Size)
+            ////   .WithOne(c => c.ProductVariant)
+            ////   .IsRequired(false);
+            ////modelBuilder.Entity<ProductVariants>()
+            ////.HasOne(c => c.Product)
+            ////.WithOne(c => c.ProductVariants)
+            ////.IsRequired(false);
+            ////modelBuilder.Entity<Size>()
+            ////    .HasOne(c => c.ProductVariant)
+            ////    .WithOne(c => c.Size)
+            ////    .IsRequired(false);
             modelBuilder.Entity<Stock>()
                 .HasOne(c => c.Product)
                 .WithOne(c => c.Stocks)

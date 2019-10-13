@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Cors;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,6 +19,7 @@ namespace Ecommerce.WebApp.Controllers.API
 {
     [FormatFilter]
     [ApiController]
+    [EnableCors("AllowAll")]
     [Route("api/categories")]
     public class CategoryApiController : Controller
     {

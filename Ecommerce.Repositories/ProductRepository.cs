@@ -23,8 +23,9 @@ namespace Ecommerce.Repositories
             return _db.Products
                 .Include(c => c.Stocks)
                 .Include(c =>  c.Category)
-                .Include(c=>c.size)
-             //   .Include(c=>c.ProductVariants)
+                //.Include(c=>c.size)
+                .Include(c=>c.ProductVariants)
+                .ThenInclude(c => c.Size)
                 .ToList();
         }
         public override Product GetById(long id)

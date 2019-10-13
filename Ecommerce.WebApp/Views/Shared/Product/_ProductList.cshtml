@@ -23,6 +23,7 @@
             <th> Price </th>
             <th> Expiry Date </th>
             <th>Category Name </th>
+            <th>Stock</th>
             <th>Action</th>
         </tr>
 
@@ -39,7 +40,14 @@
                     <td>@product.Name</td>
                     <td>@product.Price ৳</td>
                     <td>@product.ExpireDate</td>
-                    <td>@product.Category.Name</td>
+                    <td>@if (product.Category.ParentId != 0)
+                    {@( product.Category.Parent.Name + ">" + product.Category.Name); }
+                    else
+                    {
+                        @product.Category.Name;
+                    }
+                    </td>
+                    <td>@product.Stocks.Quantity</td>
 
                     <td>
                         <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
