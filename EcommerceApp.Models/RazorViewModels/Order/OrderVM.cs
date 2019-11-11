@@ -11,5 +11,6 @@ namespace Ecommerce.Models.RazorViewModels.Order
         public DateTime OrderDate { get; set; }
 
         public List<ProductOrder> Products { get; set; }
+        public List<Models.Order>  OrderList { get; set; }
     }
 }

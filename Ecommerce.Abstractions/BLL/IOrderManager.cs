@@ -6,7 +6,8 @@ using Ecommerce.Models;
 
 namespace Ecommerce.Abstractions.BLL
 {
-    public interface IOrderManager:IManager<Order>
+    public interface IOrderManager : IManager<Order>
     {
+        bool OrderExists(long id);
     }
 }

@@ -42,5 +42,9 @@ namespace Ecommerce.BLL
         {
             return _orderRepository.Remove(entity);
         }
+        public bool OrderExists(long Id)
+        {
+            return _orderRepository.OrderExists(Id);
+        }
     }
 }
