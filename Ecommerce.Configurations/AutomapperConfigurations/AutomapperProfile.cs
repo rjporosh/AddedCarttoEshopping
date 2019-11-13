@@ -9,6 +9,7 @@ using Ecommerce.Models.RazorViewModels;
 using Ecommerce.Models.RazorViewModels.Category;
 using Ecommerce.Models.RazorViewModels.Order;
 using Ecommerce.Models.APIViewModels;
+using Ecommerce.Models.RazorViewModels.Stock;
 
 namespace Ecommerce.Configurations.AutomapperConfigurations
 {
@@ -38,6 +39,12 @@ namespace Ecommerce.Configurations.AutomapperConfigurations
             CreateMap<ProductVariants, ProductVM>();
             CreateMap<Size, ProductVM>();
             CreateMap<Category, ProductVM>();
+            CreateMap<Stock, StockVM>();
+            CreateMap<StockVM, Stock>();
+            CreateMap<Order, OrderVM>();
+            CreateMap<OrderVM, Order>();
+
+
 
             //.ForMember(m => m.Category.Name, map => map.MapFrom(vm => vm.CategoryName))
         }

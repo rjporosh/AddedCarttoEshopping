@@ -138,12 +138,12 @@ namespace Ecommerce.WebApp.Controllers
         {                                      
             var category = _productManager.list();
             // category.Prepend<Category>(i=>(i.Name = "Select" , i.Id=0));
-            Category i = new Category
-            {
-                Id = 0,
-                Name = "Select"
-            };
-            category.Prepend(i);
+            //Category i = new Category
+            //{
+            //    Id = 0,
+            //    Name = "Select"
+            //};
+            //category.Prepend(i);
             ViewBag.SelectList = new SelectList(category, "Id", "Name", selectList);
         }
         public PartialViewResult ProductListPartial()

@@ -36,7 +36,7 @@ namespace Ecommerce.Models.RazorViewModels.Product
 
         public long? StocksId { get; set; }
        
-        public virtual Stock Stocks { get; set; }
+        public virtual Models.Stock Stocks { get; set; }
       
         public long? ParentId { get; set; }
       

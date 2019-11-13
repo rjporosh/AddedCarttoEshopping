@@ -39,38 +39,40 @@
     @foreach (var item in Model)
     {
 
-        <div class="col-md-4">
-            <div class="card shadow">
-                <h3 class="card-title" color:"red" ><b>@item.Name</b></h3>
+    <div class="col-md-4">
+        <div class="card shadow">
+            <h3 class="card-title" color:"red"><b>@item.Name</b></h3>
 
-                <div class="main">
-                    @{
-                        //String img64url;
-                        //if (item.ImagePath == null)
-                        //{
-                        String img64 = Convert.ToBase64String(item.Image);
-                        String img64url = string.Format("data:Image/" + item.Image + ";base64,{0}", img64);
-                        @*   }
-                       else
-                           {
-                                 img64url = "~/"+@item.ImagePath;
-                           }*@
-                    }
-                    @* <div id="product" @*style="background-color:red">  *@
-                    <img class="img-responsive JustifyCenter" src="~/@item.ImagePath" style="height: auto ; width: 250px;" alt="...">
-                    @*src="~/@item.ImagePath"*@
-                    @*</div>*@
+            <div class="main">
+                @{
+                    //String img64url;
+                    //if (item.ImagePath == null)
+                    //{
+                    String img64 = Convert.ToBase64String(item.Image);
+                    String img64url = string.Format("data:Image/" + item.Image + ";base64,{0}", img64);
+                    @*   }
+                    else
+                        {
+                              img64url = "~/"+@item.ImagePath;
+                        }*@
+                }
+                @* <div id="product" @*style="background-color:red">  *@
+                <img class="img-responsive JustifyCenter" src="~/@item.ImagePath" style="height: auto ; width: 250px;" alt="...">
+                @*src="~/@item.ImagePath"*@
+                @*</div>*@
 
-                </div>
-                <div class="card-body">
-                    <h4 class="card-subtitle">Price: @item.Price ৳</h4>
-                    <h5 class="card-subtitle">Expire Date : @item.ExpireDate</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a asp-controller="product" asp-action="details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                    <a asp-controller="cart" asp-action="buy" asp-route-id="@item.Id" class="btn btn-primary">Add To Cart</a>
-                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-subtitle">Price: @item.Price ৳</h4>
+                <h5 class="card-subtitle">Expire Date : @item.ExpireDate</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a asp-controller="product" asp-action="details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                <a asp-controller="cart" asp-action="buy" asp-route-id="@item.Id" class="btn btn-primary">Add To Cart</a>
+                <br />
             </div>
         </div>
+        <br />
+    </div>
 
     }
 </div>

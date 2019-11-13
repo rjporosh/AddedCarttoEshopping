@@ -4,74 +4,76 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Ecommerce.Abstractions.BLL;
-using Ecommerce.Models.RazorViewModels.Category;
 using Ecommerce.Models;
-using Microsoft.AspNetCore.Http;
+using Ecommerce.Models.RazorViewModels.Stock;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
-    public class CategoryController : Controller
+    public class StockController : Controller
     {
-        private ICategoryManager _categoryManager;
+        private IStockManager _stockManager;
+        private IProductManager _productManager;
         private IMapper _mapper;
-        public CategoryController(ICategoryManager categoryManager, IMapper mapper)
+        public StockController(IStockManager stockManager, IMapper mapper, IProductManager productManager)
         {
-            _categoryManager = categoryManager;
+            _stockManager = stockManager;
             _mapper = mapper;
+            _productManager = productManager; //Dropdown List
         }
+
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
         {
-            var category = _categoryManager.GetAll();
-          
-            ViewBag.SelectList = new SelectList(category, "Id", "Name", selectList);
+            var product = _productManager.GetAll();
+            ViewBag.SelectList = new SelectList(product, "Id", "Name", selectList);
         }
-        // GET: Category
+        // GET: Stock
         public ActionResult Index()
         {
-            var model = _categoryManager.GetAll();
-           
-            return View(model);
-           
+            var stocks = _stockManager.GetAll();
+            var model = new StockVM();
+            model.StockList = stocks.ToList();
+            PopulateDropdownList(); /*Dropdown List Binding*/
+            return View(stocks);
+
         }
 
-        // GET: Category/Details/5
-        public ActionResult Details(long id)
-        {
-            return View();
-        }
-
+      
         // GET: Category/Create
         public ActionResult Create()
         {
-            var model = new CategoryVM();
-            PopulateDropdownList();
-            return View();
+            var stocks = _stockManager.GetAll();
+            var model = new StockVM();
+            model.StockList = stocks.ToList();
+            PopulateDropdownList(); /*Dropdown List Binding*/
+            return View(model);
         }
 
         // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CategoryVM model)
+        public ActionResult Create(StockVM model)
         {
             if (ModelState.IsValid)
             {
+                var stock = _mapper.Map<Stock>(model); //AutoMapper
 
-                var Category = _mapper.Map<Category>(model);
-                bool isAdded = _categoryManager.Add(Category);
+                bool isAdded = _stockManager.Add(stock);
                 if (isAdded)
                 {
                     ViewBag.SuccessMessage = "Saved Successfully!";
-                    //model.ProductList = _categoryManager.GetAll().ToList();
-                    //VwBg();
-                    return RedirectToAction(nameof(Index));
                 }
+
+
             }
             else
             {
                 ViewBag.ErrorMessage = "Operation Failed!";
             }
+
+            model.StockList = _stockManager.GetAll().ToList();
+            PopulateDropdownList(model.ProductId); /*Dropdown List Binding*/
             return View(model);
         }
 
@@ -83,38 +85,39 @@ namespace Ecommerce.WebApp.Controllers
                 return NotFound();
             }
 
-
-            var Category = _categoryManager.GetById((id));
-            PopulateDropdownList(Category.ParentId);
-            CategoryVM aCategory = _mapper.Map<CategoryVM>(Category);
-            if (aCategory == null)
+          
+            var Stock = _stockManager.GetById((id));
+            PopulateDropdownList(Stock.ProductId);
+            StockVM aStock = _mapper.Map<StockVM>(Stock);
+            if (aStock == null)
             {
                 return NotFound();
             }
 
-           // aProduct.ProductList = _categoryManager.GetAll().ToList();
+            // aProduct.ProductList = _categoryManager.GetAll().ToList();
             //VwBg();
-            return View(aCategory);
+           
+            return View(aStock);
         }
 
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(long id, CategoryVM model)
+        public ActionResult Edit(long id, StockVM model)
         {
             if (ModelState.IsValid)
             {
-                var aCategory = _mapper.Map<Category>(model);
+                var aStock = _mapper.Map<Stock>(model);
                 //aCategory.Name = model.Name;
                 //aCategory.ParentId = model.ParentId;
-
-                bool isUpdated = _categoryManager.Update(aCategory);
+               // PopulateDropdownList();
+                bool isUpdated = _stockManager.Update(aStock);
                 if (isUpdated)
                 {
-                    var Categories = _categoryManager.GetAll();
+                    var Stocks = _stockManager.GetAll();
                     ViewBag.SuccessMessage = "Updated Successfully!";
                     //VwBg();
-                    return View("Index", Categories);
+                    return View("Index", Stocks);
 
                 }
                 //}
@@ -123,32 +126,31 @@ namespace Ecommerce.WebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Update Failed!";
             }
-            model.Categories = _categoryManager.GetAll().ToList();
+          model.StockList = _stockManager.GetAll().ToList();
             //VwBg();
-          //  return View(Product);
+            //  return View(Product);
             return View(model);
         }
 
         // GET: Category/Delete/5
         public ActionResult Delete(long id)
         {
-            var Product = _categoryManager.GetById(id);
+            var Product = _stockManager.GetById(id);
             if (ModelState.IsValid)
             {
-                bool isDeleted = _categoryManager.Remove(Product);
+                bool isDeleted = _stockManager.Remove(Product);
                 if (isDeleted)
                 {
-                    var categories = _categoryManager.GetAll();
+                    var categories = _stockManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
                     //VwBg();
                     return View("Index", categories);
                 }
 
             }
-           
+
             return RedirectToAction(nameof(Index));
         }
 
-      
     }
 }

@@ -1,1 +1,12 @@
-﻿
+﻿@model ICollection<Ecommerce.Models.Order>
+
+
+
+
+
+<h1>Order List</h1>
+
+<div class="row ">
+    <a id="Add" href="/Order/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Order</a>
+</div>
+<partial name="~/Views/Shared/Order/_OrderList.cshtml" model="Model" />

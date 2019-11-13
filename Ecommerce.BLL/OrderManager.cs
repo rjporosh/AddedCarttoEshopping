@@ -18,27 +18,27 @@ namespace Ecommerce.BLL
             _orderRepository = orderRepository;
         }
 
-        public bool Add(Order entity)
+        public override bool Add(Order entity)
         {
             return _orderRepository.Add(entity);
         }
 
-        public ICollection<Order> GetAll()
+        public override ICollection<Order> GetAll()
         {
             return _orderRepository.GetAll();
         }
 
-        public Order GetById(long id)
+        public override Order GetById(long id)
         {
             return _orderRepository.GetById(id);
         }
 
-        public bool Update(Order entity)
+        public override bool Update(Order entity)
         {
             return _orderRepository.Update(entity);
         }
 
-        public bool Remove(Order entity)
+        public override bool Remove(Order entity)
         {
             return _orderRepository.Remove(entity);
         }
