@@ -23,5 +23,18 @@ namespace Ecommerce.Repositories
                .Include(c => c.Product)
                .ToList();
         }
+        public override Stock GetById(long id)
+        {
+            return _db.Stocks
+              .Include(c => c.Product)
+              .Where(c=>c.Id == id)
+              .FirstOrDefault();
+        }
+        public override bool Remove(Stock entity)
+        {
+          
+            _db.Stocks.Remove(entity);
+            return _db.SaveChanges() > 0;
+        }
     }
 }

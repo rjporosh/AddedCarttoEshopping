@@ -43,7 +43,10 @@ namespace Ecommerce.Repositories
         }
         public List<Product> GetByCategory(int categoryId)
         {
-            return _db.Products.Where(c => c.CategoryId == categoryId).Include(c => c.Category).ToList();
+            return _db.Products
+                .Where(c => c.CategoryId == categoryId)
+                .Include(c => c.Category)
+                .ToList();
         }
 
         public ICollection<Product> GetByPrice(double price)
@@ -62,12 +65,17 @@ namespace Ecommerce.Repositories
 
         public ICollection<Product> GetByCategory(string CategoryName)
         {
-            return _db.Products.Where(c => c.Category.Name.Contains(CategoryName)).Include(c => c.Category).ToList();
+            return _db.Products
+                .Where(c => c.Category.Name.Contains(CategoryName))
+                .Include(c => c.Category)
+                .ToList();
         }
 
         public List<Category> list()
         {
-            return _db.Categories.Include(c => c.Products).ToList();
+            return _db.Categories
+                .Include(c => c.Products)
+                .ToList();
         }
 
         public Product Find(long id)
@@ -76,7 +84,8 @@ namespace Ecommerce.Repositories
                 .Include(c => c.Category)
                 .Include(c=>c.Stocks)
                 .Include(c=>c.ProductVariants)
-                .ThenInclude(c=>c.Size).ToList();
+                .ThenInclude(c=>c.Size)
+                .ToList();
             var product = products.Where(c=>c.Id == id).FirstOrDefault();
             //var product = _db.Products.Where(c => c.Id == id).Include(c => c.Category).FirstOrDefault();
             return product;
@@ -114,25 +123,28 @@ namespace Ecommerce.Repositories
         public override bool Update(Product entity)
         {
             _db.Entry(entity).State = EntityState.Modified;
-            _db.Entry(entity.ProductVariants).State = EntityState.Modified;
-            _db.Entry(entity.ProductVariants.Size).State = EntityState.Modified;
-            _db.Entry(entity.Stocks).State = EntityState.Modified;
+            //_db.Entry(entity.ProductVariants).State = EntityState.Modified;
+            //_db.Entry(entity.ProductVariants.Size).State = EntityState.Modified;
+            //_db.Entry(entity.Stocks).State = EntityState.Modified;
             return _db.SaveChanges() > 0;
         }
         public override bool Add(Product entity)
         {
             _db.Products.Add(entity);
-            _db.ProductVariants.Add(entity.ProductVariants);
-            _db.Size.Add(entity.ProductVariants.Size);
-            _db.Stocks.Add(entity.Stocks);
+            //_db.ProductVariants.Add((ProductVariants)entity.ProductVariants);
+            //_db.Size.Add((Size)entity.ProductVariants.Size);
+            //_db.Stocks.Add((Stock)entity.Stocks);
             return _db.SaveChanges() > 0;
         }
         public override bool Remove(Product entity)
         {
+            //var stock = _db.Stocks.Find(entity.StocksId);
+            //_db.Stocks.Remove(stock);
+            //_db.SaveChanges();
             _db.Products.Remove(entity);
-            _db.ProductVariants.Remove(entity.ProductVariants);
-            _db.Size.Remove(entity.ProductVariants.Size);
-            _db.Stocks.Remove(entity.Stocks);
+            //_db.ProductVariants.Remove(entity.ProductVariants);
+            //_db.Size.Remove(entity.ProductVariants.Size);
+            //_db.Stocks.Remove(entity.Stocks);
             return _db.SaveChanges() > 0;
         }
    

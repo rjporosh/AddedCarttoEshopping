@@ -19,11 +19,19 @@ namespace Ecommerce.WebApp.Controllers
     public class ProductController : Controller
     {
         private IProductManager _productManager;
+        private IStockManager _stockManager;
         private IMapper _mapper;
-        public ProductController(IProductManager productManager, IMapper mapper)
+        public ProductController(IProductManager productManager, IMapper mapper, IStockManager stockManager)
         {
             _productManager = productManager;
             _mapper = mapper;
+            _stockManager = stockManager;
+        }
+        private void PopulateDropdownList1(object selectList = null) /*Dropdown List Binding*/
+        {
+            var category = _productManager.GetAll();
+
+            ViewBag.SelectList1 = new SelectList(category, "Id", "Name", selectList);
         }
         public IActionResult Index(string searchBy, string search ) //Search Facilities
         {
@@ -68,7 +76,9 @@ namespace Ecommerce.WebApp.Controllers
            // model.ProductList = products.ToList();
             //model.CategoryList = _productManager.list();
             PopulateDropdownList();
+            PopulateDropdownList1();
             //VwBg();
+            model.ParentId = 0;
             model.IsActive = true;
             return View(model);
         }
@@ -172,6 +182,8 @@ namespace Ecommerce.WebApp.Controllers
 
             var Product = _productManager.GetById((Int64)Id);
             PopulateDropdownList(Product.CategoryId);
+            PopulateDropdownList1(Product.ParentId);
+
             //ProductVM aProduct = _mapper.Map<ProductVM>(Product);
             Item aProduct = _mapper.Map<Item>(Product);
             aProduct.product = _mapper.Map<Product>(Product);
@@ -195,8 +207,12 @@ namespace Ecommerce.WebApp.Controllers
 
             var Product = _productManager.GetById((Int64)Id);
             PopulateDropdownList(Product.CategoryId);
+            PopulateDropdownList1(Product.ParentId);
+            //VwBg();
+            Product.ParentId = 0;
+            Product.IsActive = true;
             ProductVM aProduct = _mapper.Map<ProductVM>(Product);
-            aProduct.StockQuantity = Product.Stocks.Quantity;
+            aProduct.StockQuantity = (Decimal)Product.Stocks.Quantity;
             if (Product == null)
             {
                 return NotFound();
@@ -208,7 +224,7 @@ namespace Ecommerce.WebApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long Id,[Bind("Id,Name,Price,ExpireDate,CategoryId,CategoryList,CategoryName,IsActive,Orders,Image,ImagePath")]ProductVM Product, IFormFile Image)
+        public async Task<IActionResult> Edit(long Id,[Bind("Id,Name,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Image,ImagePath,Parent,Stock,StockQuantity,StockUnit,ProductVariants,ProductVariantsId")]ProductVM Product, IFormFile Image)
         {
             if (Id != Product.Id)
             {
@@ -264,7 +280,7 @@ namespace Ecommerce.WebApp.Controllers
                 var aProduct = _mapper.Map<Product>(Product);
                 aProduct.Image = Product.Image;
                 aProduct.ImagePath = Product.ImagePath;
-
+                _stockManager.Update(aProduct.Stocks);
                 bool isUpdated = _productManager.Update(aProduct);
                 if (isUpdated)
                 {
@@ -292,6 +308,7 @@ namespace Ecommerce.WebApp.Controllers
             var Product = _productManager.GetById(id);
             if (ModelState.IsValid)
             {
+                _stockManager.Remove(Product.Stocks);
                 bool isDeleted = _productManager.Remove(Product);
                 if (isDeleted)
                 {

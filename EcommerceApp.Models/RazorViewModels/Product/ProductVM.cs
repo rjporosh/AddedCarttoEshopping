@@ -10,10 +10,10 @@ namespace Ecommerce.Models.RazorViewModels.Product
         public string Name { get; set; }
         public double Price { get; set; }
         public DateTime? ExpireDate { get; set; }
-        public string CategoryName { get; set; }
+        public string? CategoryName { get; set; }
 
-        public byte[] Image { get; set; }
-        public string ImagePath { get; set; }
+        public byte[]? Image { get; set; }
+        public string? ImagePath { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -29,8 +29,8 @@ namespace Ecommerce.Models.RazorViewModels.Product
       //  public virtual Size Size { get; set; }
     //    public long ProductVariantsSizesId { get; set; }
      //   public Size ProductVariantsSize { get; set; }
-        public Decimal StockQuantity { get; set; }
-        public string StockUnit { get; set; }
+        public Decimal? StockQuantity { get; set; }
+        public string? StockUnit { get; set; }
        
 
 
@@ -53,7 +53,7 @@ namespace Ecommerce.Models.RazorViewModels.Product
 
         public long? SizeId { get; set; }
         public virtual Size Size { get; set; }
-        public string? Type { get; set; }
+        public string? ProductVariantsType { get; set; }
       
         //public long? SizeId { get; set; }
         //[InverseProperty("SizeId")]
