@@ -22,6 +22,7 @@ namespace Ecommerce.DatabaseContext
         public DbSet<Size> Size { get; set; }
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<ProductOrder> ProductOrder { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

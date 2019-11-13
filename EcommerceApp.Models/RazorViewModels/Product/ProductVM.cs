@@ -30,8 +30,8 @@ namespace Ecommerce.Models.RazorViewModels.Product
     //    public long ProductVariantsSizesId { get; set; }
      //   public Size ProductVariantsSize { get; set; }
         public Decimal StockQuantity { get; set; }
-        public string StocksUnit { get; set; }
-        public string ProductVariantsColor { get; set; }
+        public string StockUnit { get; set; }
+       
 
 
         public long? StocksId { get; set; }
@@ -44,8 +44,18 @@ namespace Ecommerce.Models.RazorViewModels.Product
         //[InverseProperty("ProductVariantsId")]
 
         public virtual Models.ProductVariants ProductVariants { get; set; }
-       
+        public string? ProductVariantsColor { get; set; }
+        public string? ProductVariantsBrand { get; set; }
+        public string? ProductVariantsName { get; set; }
+
+        public string? SizeCode { get; set; }
+        public string? SizeName { get; set; }
+
         public long? SizeId { get; set; }
+        public virtual Size Size { get; set; }
+        public string? Type { get; set; }
+      
+        //public long? SizeId { get; set; }
         //[InverseProperty("SizeId")]
         public virtual Models.Size size { get; set; }
         public virtual Models.Product Parent { get; set; }
@@ -55,6 +65,6 @@ namespace Ecommerce.Models.RazorViewModels.Product
 
 
         public List<Models.Product> ProductList { get; set; }
-        public List<ProductOrder> Orders { get; set; }
+        public List<Models.ProductOrder> Orders { get; set; }
     }
 }

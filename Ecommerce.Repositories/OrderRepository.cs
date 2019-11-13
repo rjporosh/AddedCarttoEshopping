@@ -17,6 +17,13 @@ namespace Ecommerce.Repositories
         {
             _db = db as EcommerceDbContext;
         }
+        public override ICollection<Order> GetAll()
+        {
+            return _db.Orders
+                //.Include(c=>c.Customer)
+                //.Include(c => c.Products)
+                .ToList();
+        }
         public bool OrderExists(long Id)
         {
             return _db.Orders.Any(c => c.Id == Id);

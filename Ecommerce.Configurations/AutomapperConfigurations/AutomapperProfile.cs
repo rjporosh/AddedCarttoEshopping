@@ -10,6 +10,7 @@ using Ecommerce.Models.RazorViewModels.Category;
 using Ecommerce.Models.RazorViewModels.Order;
 using Ecommerce.Models.APIViewModels;
 using Ecommerce.Models.RazorViewModels.Stock;
+using Ecommerce.Models.RazorViewModels.ProductOrder;
 
 namespace Ecommerce.Configurations.AutomapperConfigurations
 {
@@ -43,6 +44,14 @@ namespace Ecommerce.Configurations.AutomapperConfigurations
             CreateMap<StockVM, Stock>();
             CreateMap<Order, OrderVM>();
             CreateMap<OrderVM, Order>();
+            CreateMap<Size, ProductVM>();
+            CreateMap<ProductVM, Size>();
+            CreateMap<ProductVariants, ProductVM>();
+            CreateMap<ProductVM, ProductVariants>();
+            CreateMap<ProductOrder, ProductOrderVM>();
+            CreateMap<ProductOrderVM, ProductOrder>();
+
+
 
 
 

@@ -21,25 +21,31 @@ namespace Ecommerce.WebApp.Controllers
             _orderManager = orderManager;
             _mapper = mapper;
         }
-        public IActionResult Index(string searchBy, string search) //Search Facilities
+        public IActionResult Index() //Search Facilities
         {
           
 
-            var model = _orderManager.GetAll();
+            var model = _orderManager.GetAll().ToList();
             return View(model);
         }
 
         public IActionResult Create()
         {
             var orders = _orderManager.GetAll();
+
             var model = new OrderVM();
+            model.OrderDate = DateTime.Now;
+            model.CustomerId = 1;
+            model.OrderNo = "100000"+model.CustomerId;
             model.OrderList = orders.ToList();
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create(OrderVM model)
+        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer")]OrderVM model)
         {
+           
+           // model.OrderNo = 
             if (ModelState.IsValid)
             {
                 var order = _mapper.Map<Order>(model);
@@ -92,7 +98,7 @@ namespace Ecommerce.WebApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int Id, [Bind("Id,Name,Address,LoyaltyPoint")]OrderVM order)
+        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer")]OrderVM order)
         {
             if (Id != order.Id)
             {
