@@ -8,5 +8,6 @@ namespace Ecommerce.Abstractions.Repositories
 {
     public interface ISizeRepository : IRepository<Size>
     {
+        Size Find(long? Id);
     }
 }

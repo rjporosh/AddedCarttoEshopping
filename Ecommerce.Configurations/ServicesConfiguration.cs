@@ -21,7 +21,11 @@ namespace Ecommerce.Configurations
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<ICategoryManager, CategoryManager>();
            services.AddTransient<ICategoryRepository, CategoryRepository>();
-           // services.AddScoped<IOrderManager, OrderManager>();
+            services.AddTransient<IProductVariantsManager, ProductVariantsManager>();
+            services.AddTransient<IProductVariantsRepository, ProductVariantsRepository>();
+            services.AddTransient<ISizeManager, SizeManager>();
+            services.AddTransient<ISizeRepository, SizeRepository>();
+            // services.AddScoped<IOrderManager, OrderManager>();
             services.AddTransient<IOrderManager, OrderManager>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IStockManager, StockManager>();

@@ -1,7 +1,7 @@
-﻿@model ICollection<Ecommerce.Models.Stock>
+﻿@model ICollection<Ecommerce.Models.ProductVariants>
 
 <div class="row ">
-    <a id="Add" href="/Stock/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Stock</a>
+    <a id="Add" href="/ProductVariants/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create ProductVariants</a>
 </div>
 <div class="row">
     @* Add by Biplob*@
@@ -17,9 +17,13 @@
     <table class="table table-striped table-responsive table-hover table-condensed table-bordered">
         <thead>
             <tr>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Units</th>
+                <th>Id</th>
+                <th>Color</th>
+                <th>Brand</th>
+                <th>Type</th>
+                <th>Name</th>
+                <th>SizeId</th>
+
                 <th>Action</th>
 
             </tr>
@@ -28,23 +32,17 @@
             @foreach (var stock in Model)
             {
                 <tr class="text-center">
+                    <td>@stock.Id</td>
+                    <td>@stock.Color</td>
+                    <td>@stock.Brand</td>
+                    <td>@stock.Type</td>
+                    <td>@stock.Name</td>
+                    <td>@stock.SizeId</td>
 
-                    <td>
-                        @if (stock.Product == null)
-                        {
-                            stock.Product.Name = "No Product";
-                        }
-                        else
-                        {
-                            @stock.Product.Name
-                        }
-                    </td>
-                    <td>@stock.Quantity</td>
-                    <td>@stock.Unit</td>
 
                     <td>
                         <a asp-action="Edit" asp-route-id="@stock.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
-                        <a asp-action="Delete" asp-route-id="@stock.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @stock.Product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+                        <a asp-action="Delete" asp-route-id="@stock.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? ProductVariant : @stock.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
 
                     </td>
                 </tr>
@@ -54,4 +52,5 @@
     @*<p><h4><b class="text-danger">If You want to add a new Product Please Click Create Product Button.</b></h4></p>*@
 
 </div>
+
 

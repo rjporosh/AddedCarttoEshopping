@@ -52,7 +52,7 @@ namespace Ecommerce.Models.RazorViewModels.Product
         public string? SizeName { get; set; }
 
         public long? SizeId { get; set; }
-        public virtual Size Size { get; set; }
+        public virtual Models.Size Size { get; set; }
         public string? ProductVariantsType { get; set; }
       
         //public long? SizeId { get; set; }

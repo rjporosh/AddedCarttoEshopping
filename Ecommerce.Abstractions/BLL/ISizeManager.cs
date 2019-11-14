@@ -8,5 +8,7 @@ namespace Ecommerce.Abstractions.BLL
 {
     public interface ISizeManager : IManager<Size>
     {
+        Size Find(long? Id);
+
     }
 }

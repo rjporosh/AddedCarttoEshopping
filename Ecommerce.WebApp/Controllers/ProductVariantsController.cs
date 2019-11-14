@@ -5,47 +5,51 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
-using Ecommerce.Models.RazorViewModels.Stock;
+using Ecommerce.Models.RazorViewModels.ProductVariants;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
-    public class StockController : Controller
+    public class ProductVariantsController : Controller
     {
-        private IStockManager _stockManager;
+        private ISizeManager _sizeManager;
         private IProductManager _productManager;
+        private IProductVariantsManager _productVariantsManager;
         private IMapper _mapper;
-        public StockController(IStockManager stockManager, IMapper mapper, IProductManager productManager)
+        public ProductVariantsController(ISizeManager sizeManager, IMapper mapper, IProductManager productManager,IProductVariantsManager productVariantManager)
         {
-            _stockManager = stockManager;
+            _sizeManager = sizeManager;
             _mapper = mapper;
             _productManager = productManager; //Dropdown List
+            _productVariantsManager = productVariantManager;
         }
 
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
         {
-            var product = _productManager.GetAll();
+            var product = _sizeManager.GetAll();
             ViewBag.SelectList = new SelectList(product, "Id", "Name", selectList);
         }
         // GET: Stock
         public ActionResult Index()
         {
-            var stocks = _stockManager.GetAll();
-            var model = new StockVM();
-            model.StockList = stocks.ToList();
+            var variant = _productVariantsManager.GetAll();
+            var products = _productManager.GetAll();
+            var model = new ProductVariantsVM();
+            model.ProductList = products.ToList();
             PopulateDropdownList(); /*Dropdown List Binding*/
-            return View(stocks);
+            return View(variant);
 
         }
 
-      
+
         // GET: Category/Create
         public ActionResult Create()
         {
-            var stocks = _stockManager.GetAll();
-            var model = new StockVM();
-            model.StockList = stocks.ToList();
+            var size = _sizeManager.GetAll();
+            var products = _productManager.GetAll();
+            var model = new ProductVariantsVM();
+            model.ProductList = products.ToList();
             PopulateDropdownList(); /*Dropdown List Binding*/
             return View(model);
         }
@@ -53,13 +57,13 @@ namespace Ecommerce.WebApp.Controllers
         // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(StockVM model)
+        public ActionResult Create(ProductVariantsVM model)
         {
             if (ModelState.IsValid)
             {
-                var stock = _mapper.Map<Stock>(model); //AutoMapper
-
-                bool isAdded = _stockManager.Add(stock);
+                var size = _mapper.Map<ProductVariants>(model); //AutoMapper
+                //_sizeManager.Add(model.Size);
+                bool isAdded = _productVariantsManager.Add(size);
                 if (isAdded)
                 {
                     ViewBag.SuccessMessage = "Saved Successfully!";
@@ -72,8 +76,8 @@ namespace Ecommerce.WebApp.Controllers
                 ViewBag.ErrorMessage = "Operation Failed!";
             }
 
-            model.StockList = _stockManager.GetAll().ToList();
-            PopulateDropdownList(model.ProductId); /*Dropdown List Binding*/
+            model.ProductList = _productManager.GetAll().ToList();
+            // PopulateDropdownList(model.ProductId); /*Dropdown List Binding*/
             return View(model);
         }
 
@@ -85,10 +89,10 @@ namespace Ecommerce.WebApp.Controllers
                 return NotFound();
             }
 
-          
-            var Stock = _stockManager.GetById((id));
-            PopulateDropdownList(Stock.ProductId);
-            StockVM aStock = _mapper.Map<StockVM>(Stock);
+
+            var Stock = _productVariantsManager.GetById((id));
+             PopulateDropdownList(Stock.SizeId);
+            var aStock = _mapper.Map<ProductVariantsVM>(Stock);
             if (aStock == null)
             {
                 return NotFound();
@@ -96,25 +100,27 @@ namespace Ecommerce.WebApp.Controllers
 
             // aProduct.ProductList = _categoryManager.GetAll().ToList();
             //VwBg();
-           
+
             return View(aStock);
         }
 
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(long id, StockVM model)
+        public ActionResult Edit(long id, ProductVariantsVM model)
         {
             if (ModelState.IsValid)
             {
-                var aStock = _mapper.Map<Stock>(model);
+                var aStock = _mapper.Map<ProductVariants>(model);
                 //aCategory.Name = model.Name;
                 //aCategory.ParentId = model.ParentId;
-               // PopulateDropdownList();
-                bool isUpdated = _stockManager.Update(aStock);
+                 PopulateDropdownList(aStock.SizeId);
+               // _sizeManager.Update(aStock.Size);
+                bool isUpdated = _productVariantsManager.Update(aStock);
+
                 if (isUpdated)
                 {
-                    var Stocks = _stockManager.GetAll();
+                    var Stocks = _productVariantsManager.GetAll();
                     ViewBag.SuccessMessage = "Updated Successfully!";
                     //VwBg();
                     return View("Index", Stocks);
@@ -126,7 +132,7 @@ namespace Ecommerce.WebApp.Controllers
             {
                 ViewBag.ErrorMessage = "Update Failed!";
             }
-          model.StockList = _stockManager.GetAll().ToList();
+            model.ProductList = _productManager.GetAll().ToList();
             //VwBg();
             //  return View(Product);
             return View(model);
@@ -135,15 +141,23 @@ namespace Ecommerce.WebApp.Controllers
         // GET: Category/Delete/5
         public ActionResult Delete(long id)
         {
-            var stock = _stockManager.GetById(id);
+           
+            var productvariants = _productVariantsManager.GetById(id);
+            if(productvariants.SizeId>0 && productvariants.SizeId!=null)
+            {
+               var size = _sizeManager.Find(productvariants.SizeId);
+                _sizeManager.Remove(size);
+            }
+           
             if (ModelState.IsValid)
             {
-                var product = _productManager.GetById((long)stock.ProductId);
-                bool isDeleted = _stockManager.Remove(stock);
-                bool isDeletedWithProduct = _productManager.Remove(product);
+                //var product = _productManager.GetById((long)stock.ProductId);
+               
+                bool isDeleted = _productVariantsManager.Remove(productvariants);
+                // bool isDeletedWithProduct = _productManager.Remove(product);
                 if (isDeleted)
                 {
-                    var categories = _stockManager.GetAll();
+                    var categories = _sizeManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
                     //VwBg();
                     return View("Index", categories);
@@ -153,6 +167,5 @@ namespace Ecommerce.WebApp.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

@@ -16,5 +16,10 @@ namespace Ecommerce.BLL
         {
             _sizeRepository = sizeRepository;
         }
+
+        public Size Find(long? Id)
+        {
+            return _sizeRepository.Find(Id);
+        }
     }
 }

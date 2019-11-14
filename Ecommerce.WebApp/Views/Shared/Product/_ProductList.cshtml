@@ -40,17 +40,35 @@
                     <td>@product.Name</td>
                     <td>@product.Price ৳</td>
                     <td>@product.ExpireDate</td>
-                    <td>@if (product.Category.ParentId != 0)
-                    {@( product.Category.Parent.Name + ">" + product.Category.Name); }
-                    else
+                    <td>
+                        @if (product.Category.ParentId != 0)
+                        {@(product.Category.Parent.Name + ">" + product.Category.Name);
+                    }
+                    else if (product.Category.Parent == null)
                     {
                         @product.Category.Name;
                     }
-                    </td>
-                    <td>@product.Stocks.Quantity</td>
+                    else
+                    {
+                        @product.Category.Name
+                    }
+                                    </td>
+                    <td>@if(product.Stocks.Quantity==null || product.Stocks.Quantity<0 || product.StocksId==null || product.Stocks == null )
+                    {
+                        product.Stocks.Quantity = 0 ;
+                    }
+                    else
+                    {
+                        @product.Stocks.Quantity
+                    }
+                       </td>
 
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
+
+
+                        <td>
+
+
+                            <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
                         <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Product : @product.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
 
 

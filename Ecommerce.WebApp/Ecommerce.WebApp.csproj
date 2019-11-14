@@ -50,7 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\img\" />
     <Folder Include="wwwroot\assets\jquery-file-upload\server\php\files\thumbnail\" />
   </ItemGroup>
 

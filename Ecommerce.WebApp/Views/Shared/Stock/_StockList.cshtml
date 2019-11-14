@@ -27,7 +27,16 @@
             {
                 <tr class="text-center">
 
-                    <td>@stock.Product.Name</td>
+                    <td>
+                        @if (stock.Product == null || stock.ProductId == null)
+                        {
+                            stock.Product.Name = "No Name";
+                        }
+                        else
+                        {
+                            @stock.Product.Name
+                        }
+                                    </td>
                     <td>@stock.Quantity</td>
                     <td>@stock.Unit</td>
 

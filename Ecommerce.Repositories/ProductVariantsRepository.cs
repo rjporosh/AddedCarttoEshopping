@@ -30,21 +30,23 @@ namespace Ecommerce.Repositories
         }
         public override bool Remove(ProductVariants entity)
         {
+            //var size = _db.Size.Find(entity.SizeId);
+            //_db.Size.Remove(size);
             _db.ProductVariants.Remove(entity);
-            _db.Size.Remove(entity.Size);
+            
 
             return _db.SaveChanges() > 0;
         }
         public override bool Add(ProductVariants entity)
         {
             _db.ProductVariants.Add(entity);
-            _db.Size.Add(entity.Size);
+         //   _db.Size.Add(entity.Size);
             return _db.SaveChanges() > 0;
         }
         public override bool Update(ProductVariants entity)
         {
             _db.Entry(entity).State = EntityState.Modified;
-            _db.Entry(entity.Size).State = EntityState.Modified;
+           // _db.Entry(entity.Size).State = EntityState.Modified;
             return _db.SaveChanges() > 0;
         }
     }

@@ -17,5 +17,9 @@ namespace Ecommerce.Repositories
         {
             _db = db as EcommerceDbContext;
         }
+        public  Size Find(long? id)
+        {
+            return _db.Size.Find(id);
+        }
     }
 }

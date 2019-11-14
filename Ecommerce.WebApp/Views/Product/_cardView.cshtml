@@ -57,6 +57,11 @@
                         }*@
                 }
                 @* <div id="product" @*style="background-color:red">  *@
+
+                @if(item.ImagePath == null)
+                {
+                    item.ImagePath = "uploads\\img\\2c2f44a937fb4400ac42558d6fb74abb.jpg";
+                }
                 <img class="img-responsive JustifyCenter" src="~/@item.ImagePath" style="height: auto ; width: 250px;" alt="...">
                 @*src="~/@item.ImagePath"*@
                 @*</div>*@

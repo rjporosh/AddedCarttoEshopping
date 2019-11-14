@@ -80,57 +80,67 @@
                         <select asp-for="ParentId" class="form-control" asp-items="ViewBag.SelectList1"></select>
                     </div>
                 </div>
-                    <div class="form-group col-md-12">
-                        <label asp-for="StocksId" class="control-label"></label>
-                        <input asp-for="StocksId" class="form-control" />
+                <div class="form-group col-md-12">
+                    <label asp-for="StocksId" class="col-md-12">Stocks</label>
+                    <div class="col-md-8">
+                        <select asp-for="StocksId" asp-items="@ViewBag.StockSelectList" class="form-control"> </select>
                         <span asp-validation-for="StocksId" class="text-danger"></span>
                     </div>
-
-                    <div class="form-group col-md-12">
-                        <label asp-for="Stocks.Quantity " class="control-label"></label>
-                        <input asp-for="Stocks.Quantity" class="form-control" />
-                        <span asp-validation-for="Stocks.Quantity" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-12">
-                        <label asp-for="Stocks.Unit" class="control-label"></label>
-                        <input asp-for="Stocks.Unit" class="form-control" />
-                        <span asp-validation-for="Stocks.Unit" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="ProductVariantsId" class="col-md-12">ProductVariants</label>
+                    <div class="col-md-8">
+                        <select asp-for="ProductVariantsId" asp-items="@ViewBag.ProductVariantsSelectList" class="form-control"> </select>
+                        <span asp-validation-for="ProductVariantsId" class="text-danger"></span>
                     </div>
                 </div>
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label asp-for="ProductVariants.Brand" class="control-label"></label>
-                    <input asp-for="ProductVariants.Brand" class="form-control" />
-                    <span asp-validation-for="ProductVariants.Brand" class="text-danger"></span>
-                </div>
+              
 
-                <div class="form-group col-md-12">
-                    <label asp-for="ProductVariants.Color" class="control-label"></label>
-                    <input asp-for="ProductVariants.Color" class="form-control" />
-                    <span asp-validation-for="ProductVariants.Color" class="text-danger"></span>
+                @*<div class="form-group col-md-12">
+                    <label asp-for="Stocks.Quantity " class="control-label"></label>
+                    <input asp-for="Stocks.Quantity" class="form-control" />
+                    <span asp-validation-for="Stocks.Quantity" class="text-danger"></span>
                 </div>
                 <div class="form-group col-md-12">
-                    <label asp-for="ProductVariants.Name" class="control-label"></label>
-                    <input asp-for="ProductVariants.Name" class="form-control" />
-                    <span asp-validation-for="ProductVariants.Name" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-12">
-                    <label asp-for="ProductVariants.Type" class="control-label"></label>
-                    <input asp-for="ProductVariants.Type" class="form-control" />
-                    <span asp-validation-for="ProductVariants.Type" class="text-danger"></span>
+                    <label asp-for="Stocks.Unit" class="control-label"></label>
+                    <input asp-for="Stocks.Unit" class="form-control" />
+                    <span asp-validation-for="Stocks.Unit" class="text-danger"></span>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label asp-for="Size.Code" class="control-label"></label>
-                    <input asp-for="Size.Code" class="form-control" />
-                    <span asp-validation-for="Size.Code" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-12">
-                    <label asp-for="Size.Name" class="control-label"></label>
-                    <input asp-for="Size.Name" class="form-control" />
-                    <span asp-validation-for="Size.Name" class="text-danger"></span>
-                </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label asp-for="ProductVariants.Brand" class="control-label"></label>
+                <input asp-for="ProductVariants.Brand" class="form-control" />
+                <span asp-validation-for="ProductVariants.Brand" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-12">
+                <label asp-for="ProductVariants.Color" class="control-label"></label>
+                <input asp-for="ProductVariants.Color" class="form-control" />
+                <span asp-validation-for="ProductVariants.Color" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="ProductVariants.Name" class="control-label"></label>
+                <input asp-for="ProductVariants.Name" class="form-control" />
+                <span asp-validation-for="ProductVariants.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="ProductVariants.Type" class="control-label"></label>
+                <input asp-for="ProductVariants.Type" class="form-control" />
+                <span asp-validation-for="ProductVariants.Type" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label asp-for="Size.Code" class="control-label"></label>
+                <input asp-for="Size.Code" class="form-control" />
+                <span asp-validation-for="Size.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Size.Name" class="control-label"></label>
+                <input asp-for="Size.Name" class="form-control" />
+                <span asp-validation-for="Size.Name" class="text-danger"></span>
+            </div>   *@
             </div>
            
            
