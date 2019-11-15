@@ -94,6 +94,19 @@ namespace Ecommerce.WebApp.Controllers
 
             return RedirectToAction("Index",cart);
         }
+       // [Route("Clear")]
+        public IActionResult Clear()
+        {
+            var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            if(cart == null)
+            {
+                return RedirectToAction("Index");
+            }
+            cart.Clear();
+            cart.Count();
+            Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return RedirectToAction("Index", cart);
+        }
         private int Exists(List<Item> cart,long Id)
         {
             for(int i=0;i<cart.Count;i++)
