@@ -4,44 +4,53 @@
 
 <h2>Edit</h2>
 
-<h4>Edit Order</h4>
 
 
 <form asp-action="Edit">
 
     <div class="form-horizontal">
         <div class="form-group">
-            <label asp-for="CustomerId" class="control-label"></label>
-            <div>
+            <label asp-for="CustomerId"  class="col-md-2"></label>
+            <div class="col-md-10">
                 <input asp-for="CustomerId" class="form-control" />
                 <span asp-validation-for="CustomerId" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="OrderNo" class="control-label"></label>
-            <div>
+            <label asp-for="OrderNo"  class="col-md-2"></label>
+            <div  class="col-md-10">
                 <input asp-for="OrderNo" class="form-control" />
                 <span asp-validation-for="OrderNo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="OrderDate" class="control-label"></label>
-            <div>
+            <label asp-for="OrderDate" class="col-md-2"></label>
+            <div  class="col-md-10">
                 <input asp-for="OrderDate" class="form-control" />
                 <span asp-validation-for="OrderDate" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" value="Update" class="btn btn-success" />
+            <label asp-for="Status" class="col-md-2">Status</label>@*Dropdown List Binding*@
+            <div class="col-md-10">
+                <select asp-for="Status" asp-items="@ViewBag.SelectList" class="form-control"> </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 text-center">
+                <input type="submit" value="Update" class="btn btn-success" />
+            </div>
+           
         </div>
     </div>
 
 </form>
 
-<div>
-    <h1>Customer List</h1>
+
+    <h1>Order List</h1>
     <partial name="~/Views/Shared/Order/_OrderList.cshtml" model="Model.OrderList" />
-</div>
+
 
 
 @section Scripts

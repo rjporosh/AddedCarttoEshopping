@@ -13,11 +13,15 @@ namespace Ecommerce.WebApp.Controllers
     public class ProductOrderController : Controller
     {
         private IProductOrderManager _productOrderManager;
+        private IOrderManager _orderManager;
+        private IProductManager _productManager;
         private IMapper _mapper;
 
-        public ProductOrderController(IProductOrderManager productorderManager, IMapper mapper)
+        public ProductOrderController(IProductOrderManager productorderManager, IMapper mapper, IOrderManager orderManager, IProductManager productManager)
         {
             _productOrderManager = productorderManager;
+            _productManager = productManager;
+            _orderManager = orderManager;
             _mapper = mapper;
         }
         public IActionResult Index()
@@ -31,7 +35,7 @@ namespace Ecommerce.WebApp.Controllers
 
             var model = new ProductOrderVM();
            
-            return View(orders);
+            return View(model);
         }
 
         [HttpPost]
@@ -47,7 +51,7 @@ namespace Ecommerce.WebApp.Controllers
                     bool isAdded = _productOrderManager.Add(productOrder);
                     if (isAdded)
                     {
-                        ViewBag.SuccessMessage = "Order Saved Successfully!";
+                        ViewBag.SuccessMessage = "ProductOrder Saved Successfully!";
                     }
                 
             }
@@ -56,8 +60,10 @@ namespace Ecommerce.WebApp.Controllers
                 ViewBag.ErrorMessage = "Operation Failed!";
             }
 
-           var orders = _productOrderManager.GetAll();
-            return View(orders);
+           var productorders = _productOrderManager.GetAll();
+            return View("Index",productorders);
         }
+
+       
     }
 }

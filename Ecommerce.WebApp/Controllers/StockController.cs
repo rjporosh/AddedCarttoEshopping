@@ -26,6 +26,22 @@ namespace Ecommerce.WebApp.Controllers
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
         {
             var product = _productManager.GetAll();
+            Product p = new Product
+            {
+                Id = 0,
+                StocksId = null,
+                Name = "No Product"
+            };
+            // product.Prepend(p);
+            //  product.Append(p);
+            product.Clear();
+            product.Add(p);
+
+            var pp = _productManager.GetAll();
+            foreach (var prod in pp)
+            {
+                product.Add(prod);
+            }
             ViewBag.SelectList = new SelectList(product, "Id", "Name", selectList);
         }
         // GET: Stock
@@ -53,18 +69,27 @@ namespace Ecommerce.WebApp.Controllers
         // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(StockVM model)
+        public ActionResult Create([Bind("Id,ProductId,Product,Quantity,Unit")]StockVM model)
         {
             if (ModelState.IsValid)
             {
                 var stock = _mapper.Map<Stock>(model); //AutoMapper
 
-                bool isAdded = _stockManager.Add(stock);
-                if (isAdded)
+                var product = _stockManager.GetByPId(stock.ProductId);
+                if(product.StocksId == null)
                 {
-                    ViewBag.SuccessMessage = "Saved Successfully!";
+                    bool isAdded = _stockManager.Add(stock);
+                    product.StocksId = stock.Id;
+                    _productManager.Update(product);
+                    if (isAdded)
+                    {
+                        ViewBag.SuccessMessage = "Saved Successfully!";
+                    }
                 }
-
+                else
+                {
+                    ViewBag.SuccessMessage = "Stocks Already Exist!";
+                }
 
             }
             else
@@ -87,8 +112,12 @@ namespace Ecommerce.WebApp.Controllers
 
           
             var Stock = _stockManager.GetById((id));
-            PopulateDropdownList(Stock.ProductId);
+           
+            
+            
             StockVM aStock = _mapper.Map<StockVM>(Stock);
+            PopulateDropdownList(aStock.ProductId);
+            var product = _stockManager.GetByPId(aStock.ProductId);
             if (aStock == null)
             {
                 return NotFound();
@@ -103,11 +132,14 @@ namespace Ecommerce.WebApp.Controllers
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(long id, StockVM model)
+        public ActionResult Edit(long id, [Bind("Id,ProductId,Product,Quantity,Unit")]StockVM model)
         {
             if (ModelState.IsValid)
             {
                 var aStock = _mapper.Map<Stock>(model);
+                var product = _stockManager.GetByPId(aStock.ProductId);
+                product.StocksId = aStock.Id;
+                _productManager.Update(product);
                 //aCategory.Name = model.Name;
                 //aCategory.ParentId = model.ParentId;
                // PopulateDropdownList();
@@ -115,6 +147,7 @@ namespace Ecommerce.WebApp.Controllers
                 if (isUpdated)
                 {
                     var Stocks = _stockManager.GetAll();
+                  
                     ViewBag.SuccessMessage = "Updated Successfully!";
                     //VwBg();
                     return View("Index", Stocks);
@@ -141,12 +174,12 @@ namespace Ecommerce.WebApp.Controllers
                 var product = _productManager.GetById((long)stock.ProductId);
                 bool isDeleted = _stockManager.Remove(stock);
                 bool isDeletedWithProduct = _productManager.Remove(product);
-                if (isDeleted)
+                if (isDeletedWithProduct)
                 {
-                    var categories = _stockManager.GetAll();
+                    var stocks = _stockManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
                     //VwBg();
-                    return View("Index", categories);
+                    return View("Index", stocks);
                 }
 
             }

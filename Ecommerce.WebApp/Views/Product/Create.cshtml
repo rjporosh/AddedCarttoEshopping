@@ -2,7 +2,7 @@
 
 
 
-<h2>Create</h2>
+<h2>Create Product</h2>
 
 <br />
 <div class="row">
@@ -94,7 +94,18 @@
                         <span asp-validation-for="ProductVariantsId" class="text-danger"></span>
                     </div>
                 </div>
-              
+                <div class="form-group">
+                    <label asp-for="ProductVariants.SizeId" class="col-md-12"> Size Of ProductVariants</label>
+
+                    <select asp-for="ProductVariants.SizeId" asp-items="@ViewBag.SizeSelectList" class="form-control col-md-12"> </select>
+                    <span asp-validation-for="ProductVariants.SizeId" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="Stocks.Quantity" class="col-md-12">Stocks Quantity</label>
+                    <input asp-for="Stocks.Quantity" class="col-md-12" />
+                </div>
+
 
                 @*<div class="form-group col-md-12">
                     <label asp-for="Stocks.Quantity " class="control-label"></label>

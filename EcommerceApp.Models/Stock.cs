@@ -12,7 +12,7 @@ namespace Ecommerce.Models
 
         public long? ProductId { get; set; }
         [ForeignKey("ProductId")]
-        public virtual Product Product { get; set; }
+        public  Product Product { get; set; }
 
         public Decimal? Quantity { get; set; }
         public string? Unit  { get; set; }

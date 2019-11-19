@@ -14,6 +14,9 @@ namespace Ecommerce.Abstractions.Repositories
         ICollection<Product> GetByName(string Name);
         ICollection<Product> GetByCategory(string CategoryName);
         List<Category> list();
+        Stock GetBySId(long? Id);
+        ProductVariants GetByPVId(long? Id);
+        Size GetBySzId(long? Id);
         ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria);
         ICollection<Product> GetByCatId(long Id);
         Product Find(long id);

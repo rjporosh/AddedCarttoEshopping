@@ -11,10 +11,16 @@ namespace Ecommerce.BLL
     public class StockManager : Manager<Stock>, IStockManager
     {
         private IStockRepository _stockRepository;
-        //   private IProductRepository _productRepository;
-        public StockManager(IStockRepository stockRepository) : base(stockRepository)
+         private IProductRepository _productRepository;
+        public StockManager(IStockRepository stockRepository, IProductRepository productRepository) : base(stockRepository)
         {
             _stockRepository = stockRepository;
+            _productRepository = productRepository;
+        }
+
+        public Product GetByPId(long? Id)
+        {
+            return _stockRepository.GetByPId(Id);
         }
     }
 }

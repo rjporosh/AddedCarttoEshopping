@@ -42,20 +42,30 @@
                     <td>@product.ExpireDate</td>
                     <td>
                         @if (product.Category.ParentId != 0)
-                        {@(product.Category.Parent.Name + ">" + product.Category.Name);
-                    }
-                    else if (product.Category.Parent == null)
+                        {
+                           
+                                @(product.Category.Parent.Name + ">" + product.Category.Name);
+
+                        }
+                        else if (product.Category.Parent == null)
+                        {
+                            @product.Category.Name;
+                        }
+                        else
+                        {
+                            @product.Category.Name
+                        }
+                    </td>
+                    <td>
+                    @if( product.StocksId==null || product.Stocks == null  )
                     {
-                        @product.Category.Name;
-                    }
-                    else
-                    {
-                        @product.Category.Name
-                    }
-                                    </td>
-                    <td>@if(product.Stocks.Quantity==null || product.Stocks.Quantity<0 || product.StocksId==null || product.Stocks == null )
-                    {
-                        product.Stocks.Quantity = 0 ;
+                        product.Stocks = new Ecommerce.Models.Stock()
+                        {
+                            Id = -11,
+                            ProductId=product.Id,
+                            Quantity = 0
+                        };
+                        @product.Stocks.Quantity
                     }
                     else
                     {

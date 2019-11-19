@@ -28,6 +28,22 @@ namespace Ecommerce.WebApp.Controllers
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
         {
             var product = _sizeManager.GetAll();
+            Size p = new Size
+            {
+                Id = null,
+                Name = "No Size"
+            };
+            // product.Prepend(p);
+            //  product.Append(p);
+            product.Clear();
+            product.Add(p);
+           
+            var pp= _sizeManager.GetAll();
+            foreach(var prod in pp)
+            {
+                product.Add(prod);
+            }
+
             ViewBag.SelectList = new SelectList(product, "Id", "Name", selectList);
         }
         // GET: Stock

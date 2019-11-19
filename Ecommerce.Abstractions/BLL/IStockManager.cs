@@ -8,5 +8,6 @@ namespace Ecommerce.Abstractions.BLL
 {
     public interface IStockManager : IManager<Stock>
     {
+        Product GetByPId(long? Id);
     }
 }

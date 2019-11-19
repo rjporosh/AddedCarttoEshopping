@@ -15,11 +15,17 @@ namespace Ecommerce.BLL
     public class ProductManager:Manager<Product>,IProductManager
     {
         private IProductRepository _productManger;
+        private IProductVariantsRepository _productVariantRepository;
+        private ISizeRepository _sizeRepository;
+        private IStockRepository _stockRepository;
        
 
-        public ProductManager(IProductRepository productRepository):base(productRepository)
+        public ProductManager(IProductRepository productRepository, IProductVariantsRepository productVariantRepository, ISizeRepository sizeRepository, IStockRepository stockRepository) :base(productRepository)
         {
             _productManger = productRepository;
+            _productVariantRepository = productVariantRepository;
+            _sizeRepository = sizeRepository;
+            _stockRepository = stockRepository;
         }
         public bool Add(Product entity)
         {
@@ -82,6 +88,21 @@ namespace Ecommerce.BLL
         public ICollection<Product> GetByCatId(long Id)
         {
             return _productManger.GetByCatId(Id);
+        }
+
+        public Stock GetBySId(long? Id)
+        {
+            return _productManger.GetBySId(Id);
+        }
+
+        public ProductVariants GetByPVId(long? Id)
+        {
+            return _productManger.GetByPVId(Id);
+        }
+
+        public Size GetBySzId(long? Id)
+        {
+            return _productManger.GetBySzId(Id);
         }
 
         //public ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria)

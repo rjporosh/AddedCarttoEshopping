@@ -14,6 +14,9 @@ namespace Ecommerce.Abstractions.BLL
         ICollection<Product> GetByPrice(double price);
         ICollection<Product> GetByName(string Name);
         ICollection<Product> GetByCategory(string CategoryName);
+        Stock GetBySId(long? Id);
+        ProductVariants GetByPVId(long? Id);
+        Size GetBySzId(long? Id);
         Product Find(long Id);
 
         List<Category> list();

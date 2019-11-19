@@ -28,9 +28,16 @@
                 <tr class="text-center">
 
                     <td>
-                        @if (stock.Product == null || stock.ProductId == null)
+                        @if (stock.Product == null )
                         {
-                            stock.Product.Name = "No Name";
+                            stock.Product = new Ecommerce.Models.Product()
+                            {
+                                Id = 0,
+                                Name = "No Name(No Product)"
+
+                            };
+                            @stock.Product.Name
+
                         }
                         else
                         {

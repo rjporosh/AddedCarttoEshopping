@@ -8,18 +8,34 @@ using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.Order;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
     public class OrderController : Controller
     {
         private IOrderManager _orderManager;
+        private IProductOrderManager _productOrderManager;
         private IMapper _mapper;
 
-        public OrderController(IOrderManager orderManager, IMapper mapper)
+        public OrderController(IOrderManager orderManager, IMapper mapper, IProductOrderManager productOrderManager)
         {
             _orderManager = orderManager;
+            _productOrderManager = productOrderManager;
             _mapper = mapper;
+        }
+        private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
+        {
+            // var category = _productManager.GetAll();
+            //  ViewBag.SelectList= new SelectList(category, "Id", "Name", selectList);
+            List<string> option = new List<string>();
+            option.Add("Pending");
+            option.Add("Accepted");
+            option.Add("Packed");
+            option.Add("On The Way");
+            option.Add("Delivered");
+            ViewBag.SelectList = new SelectList(option, selectList);
+               
         }
         public IActionResult Index() //Search Facilities
         {
@@ -32,7 +48,7 @@ namespace Ecommerce.WebApp.Controllers
         public IActionResult Create()
         {
             var orders = _orderManager.GetAll();
-
+            PopulateDropdownList();
             var model = new OrderVM();
             model.OrderDate = DateTime.Now;
             model.CustomerId = 1;
@@ -42,7 +58,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer")]OrderVM model)
+        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status")]OrderVM model)
         {
            
            // model.OrderNo = 
@@ -51,15 +67,17 @@ namespace Ecommerce.WebApp.Controllers
                 var order = _mapper.Map<Order>(model);
                 if (_orderManager.OrderExists(model.Id))
                 {
-                    ViewBag.ErrorMessage = "Order Exists Already";
+                    ViewBag.ErrorMessage = "Order Exists Already";                        
                 }
                 else
                 {
+                    order.Status = "Pending";
 
                     bool isAdded = _orderManager.Add(order);
                     if (isAdded)
                     {
                         ViewBag.SuccessMessage = "Order Saved Successfully!";
+                        //return nameof()
                     }
                 }
             }
@@ -87,6 +105,7 @@ namespace Ecommerce.WebApp.Controllers
             }
 
             var order = _orderManager.GetById((Int64)Id);
+            PopulateDropdownList();
             OrderVM aOrder = _mapper.Map<OrderVM>(order);
             if (order == null)
             {
@@ -98,15 +117,16 @@ namespace Ecommerce.WebApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer")]OrderVM order)
+        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status")]OrderVM order)
         {
             if (Id != order.Id)
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
+              
                 var aOrder = _mapper.Map<Order>(order);
                 //if (_customerManager.CustomerExists(customer.Name))
                 //{

@@ -8,5 +8,6 @@ namespace Ecommerce.Abstractions.Repositories
 {
     public interface IStockRepository : IRepository<Stock>
     {
+        Product GetByPId(long? Id);
     }
 }

@@ -30,6 +30,14 @@ namespace Ecommerce.Repositories
               .Where(c=>c.Id == id)
               .FirstOrDefault();
         }
+
+        public Product GetByPId(long? Id)
+        {
+            return _db.Products
+                .Where(c=>c.Id == Id)
+                .FirstOrDefault();
+        }
+
         public override bool Remove(Stock entity)
         {
           

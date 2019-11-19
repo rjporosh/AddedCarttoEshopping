@@ -120,34 +120,37 @@ namespace Ecommerce.Repositories
         {
             return _db.Products.Where(c => c.CategoryId == Id).Include(c => c.Category).ToList();
         }
-        public override bool Update(Product entity)
-        {
-            _db.Entry(entity).State = EntityState.Modified;
-            //_db.Entry(entity.ProductVariants).State = EntityState.Modified;
-            //_db.Entry(entity.ProductVariants.Size).State = EntityState.Modified;
-            //_db.Entry(entity.Stocks).State = EntityState.Modified;
-            return _db.SaveChanges() > 0;
-        }
-        public override bool Add(Product entity)
-        {
-            _db.Products.Add(entity);
-            //_db.ProductVariants.Add((ProductVariants)entity.ProductVariants);
-            //_db.Size.Add((Size)entity.ProductVariants.Size);
-            //_db.Stocks.Add((Stock)entity.Stocks);
-            return _db.SaveChanges() > 0;
-        }
+     
+      
         public override bool Remove(Product entity)
         {
             //var stock = _db.Stocks.Find(entity.StocksId);
             //_db.Stocks.Remove(stock);
             //_db.SaveChanges();
-            _db.Products.Remove(entity);
-            //_db.ProductVariants.Remove(entity.ProductVariants);
+
             //_db.Size.Remove(entity.ProductVariants.Size);
+            //_db.ProductVariants.Remove(entity.ProductVariants);
             //_db.Stocks.Remove(entity.Stocks);
+            _db.Products.Remove(entity);
+          
             return _db.SaveChanges() > 0;
         }
-   
+
+        public Stock GetBySId(long? Id)
+        {
+            return _db.Stocks.Where(c => c.Id == Id).FirstOrDefault();
+        }
+
+        public ProductVariants GetByPVId(long? Id)
+        {
+            return _db.ProductVariants.Where(c => c.Id == Id).FirstOrDefault();
+        }
+
+        public Size GetBySzId(long? Id)
+        {
+            return _db.Size.Where(c => c.Id == Id).FirstOrDefault();
+        }
+
 
         //ICollection<Product> IProductRepository.GetByCriteria(ProductSearchCriteriaVM criteria)
         //{

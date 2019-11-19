@@ -17,7 +17,7 @@ namespace Ecommerce.Models
     public bool IsActive { get; set; }
     public long? StocksId { get; set; }
     [ForeignKey("StocksId")]
-    public virtual Stock Stocks { get; set; }
+    public Stock Stocks { get; set; }
     [ForeignKey("ParentId")]
     public long? ParentId { get; set; }
     [ForeignKey("ProductVariantsId")]
