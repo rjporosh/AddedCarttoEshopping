@@ -29,7 +29,7 @@ namespace Ecommerce.WebApp.Controllers
             Product p = new Product
             {
                 Id = 0,
-                StocksId = null,
+                //StocksId = null,
                 Name = "No Product"
             };
             // product.Prepend(p);
@@ -76,16 +76,16 @@ namespace Ecommerce.WebApp.Controllers
                 var stock = _mapper.Map<Stock>(model); //AutoMapper
 
                 var product = _stockManager.GetByPId(stock.ProductId);
-                if(product.StocksId == null)
-                {
+                //if(product.StocksId == null)
+                //{
                     bool isAdded = _stockManager.Add(stock);
-                    product.StocksId = stock.Id;
+                    //product.StocksId = stock.Id;
                     _productManager.Update(product);
                     if (isAdded)
                     {
                         ViewBag.SuccessMessage = "Saved Successfully!";
                     }
-                }
+               // }
                 else
                 {
                     ViewBag.SuccessMessage = "Stocks Already Exist!";
@@ -105,11 +105,7 @@ namespace Ecommerce.WebApp.Controllers
         // GET: Category/Edit/5
         public ActionResult Edit(long id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+         
           
             var Stock = _stockManager.GetById((id));
            
@@ -138,7 +134,7 @@ namespace Ecommerce.WebApp.Controllers
             {
                 var aStock = _mapper.Map<Stock>(model);
                 var product = _stockManager.GetByPId(aStock.ProductId);
-                product.StocksId = aStock.Id;
+                //product.StocksId = aStock.Id;
                 _productManager.Update(product);
                 //aCategory.Name = model.Name;
                 //aCategory.ParentId = model.ParentId;

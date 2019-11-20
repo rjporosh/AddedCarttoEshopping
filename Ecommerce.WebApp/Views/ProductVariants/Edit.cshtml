@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Edit";
 }
-    <h2>Edit ProductVariants</h2>
+<h2>Edit ProductVariants</h2>
 
 
 <form asp-action="Edit">
@@ -36,21 +36,24 @@
             </div>
         </div>
         @*<div class="form-group col-md-12">
-            <label asp-for="Size.Code" class="control-label"></label>
-            <input asp-for="Size.Code" class="form-control" />
-            <span asp-validation-for="Size.Code" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-12">
-            <label asp-for="Size.Name" class="control-label"></label>
-            <input asp-for="Size.Name" class="form-control" />
-            <span asp-validation-for="Size.Name" class="text-danger"></span>
-        </div>*@
+                <label asp-for="Size.Code" class="control-label"></label>
+                <input asp-for="Size.Code" class="form-control" />
+                <span asp-validation-for="Size.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Size.Name" class="control-label"></label>
+                <input asp-for="Size.Name" class="form-control" />
+                <span asp-validation-for="Size.Name" class="text-danger"></span>
+            </div>*@
     </div>
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-default" />
     </div>
 </form>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 
 @section Scripts {

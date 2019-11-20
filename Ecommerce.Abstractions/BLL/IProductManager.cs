@@ -18,7 +18,7 @@ namespace Ecommerce.Abstractions.BLL
         ProductVariants GetByPVId(long? Id);
         Size GetBySzId(long? Id);
         Product Find(long Id);
-
+        Product ProductWithoutStock();
         List<Category> list();
         ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria);
         ICollection<Product> GetByCatId(long Id);

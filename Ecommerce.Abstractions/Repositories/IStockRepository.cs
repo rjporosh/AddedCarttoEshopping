@@ -9,5 +9,6 @@ namespace Ecommerce.Abstractions.Repositories
     public interface IStockRepository : IRepository<Stock>
     {
         Product GetByPId(long? Id);
+        Stock check(long? Id);
     }
 }

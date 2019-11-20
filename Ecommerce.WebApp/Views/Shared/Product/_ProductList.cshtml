@@ -57,7 +57,7 @@
                         }
                     </td>
                     <td>
-                    @if( product.StocksId==null || product.Stocks == null  )
+                    @if(  product.Stocks == null  )
                     {
                         product.Stocks = new Ecommerce.Models.Stock()
                         {

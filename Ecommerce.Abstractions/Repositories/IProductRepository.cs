@@ -20,5 +20,6 @@ namespace Ecommerce.Abstractions.Repositories
         ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria);
         ICollection<Product> GetByCatId(long Id);
         Product Find(long id);
+        Product ProductWithoutStock();
     }
 }

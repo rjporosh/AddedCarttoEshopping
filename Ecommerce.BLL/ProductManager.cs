@@ -27,28 +27,28 @@ namespace Ecommerce.BLL
             _sizeRepository = sizeRepository;
             _stockRepository = stockRepository;
         }
-        public bool Add(Product entity)
+        public override bool Add(Product entity)
         {
             return _productManger.Add(entity);
         }
 
-        public ICollection<Product> GetAll()
+        public override ICollection<Product> GetAll()
         {
             return _productManger.GetAll();
              
         }
 
-        public Product GetById(long id)
+        public override Product GetById(long id)
         {
             return _productManger.GetById(id);
         }
 
-        public bool Update(Product entity)
+        public override bool Update(Product entity)
         {
             return _productManger.Update(entity);
         }
 
-        public bool Remove(Product entity)
+        public override bool Remove(Product entity)
         {
             return _productManger.Remove(entity);
         }
@@ -103,6 +103,11 @@ namespace Ecommerce.BLL
         public Size GetBySzId(long? Id)
         {
             return _productManger.GetBySzId(Id);
+        }
+
+        public Product ProductWithoutStock()
+        {
+            return _productManger.ProductWithoutStock();
         }
 
         //public ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria)

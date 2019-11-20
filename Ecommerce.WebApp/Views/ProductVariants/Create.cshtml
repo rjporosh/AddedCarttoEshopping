@@ -3,7 +3,7 @@
     ViewData["Title"] = "Create";
 }
 
-    <h2>Create ProductVariants</h2>
+<h2>Create ProductVariants</h2>
 <form asp-action="Create">
     <div class="row">
         <div class="form-group col-md-12">
@@ -31,29 +31,32 @@
             <label asp-for="SizeId" class="col-md-12">Size</label>
             <div class="col-md-8">
                 <select asp-for="SizeId" asp-items="@ViewBag.SelectList" class="form-control"> </select>
-                
+
             </div>
         </div>
         @*<div class="form-group col-md-12">
-            <label asp-for="Size.Code" class="control-label"></label>
-            <input asp-for="Size.Code" class="form-control" />
-            <span asp-validation-for="Size.Code" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-12">
-            <label asp-for="Size.Name" class="control-label"></label>
-            <input asp-for="Size.Name" class="form-control" />
-            <span asp-validation-for="Size.Name" class="text-danger"></span>
-        </div>*@
+                <label asp-for="Size.Code" class="control-label"></label>
+                <input asp-for="Size.Code" class="form-control" />
+                <span asp-validation-for="Size.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-12">
+                <label asp-for="Size.Name" class="control-label"></label>
+                <input asp-for="Size.Name" class="form-control" />
+                <span asp-validation-for="Size.Name" class="text-danger"></span>
+            </div>*@
     </div>
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-default" />
     </div>
 </form>
 
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
 

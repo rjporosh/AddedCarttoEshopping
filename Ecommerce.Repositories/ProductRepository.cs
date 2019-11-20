@@ -120,35 +120,54 @@ namespace Ecommerce.Repositories
         {
             return _db.Products.Where(c => c.CategoryId == Id).Include(c => c.Category).ToList();
         }
-     
-      
+
+
         public override bool Remove(Product entity)
         {
-            //var stock = _db.Stocks.Find(entity.StocksId);
-            //_db.Stocks.Remove(stock);
-            //_db.SaveChanges();
 
-            //_db.Size.Remove(entity.ProductVariants.Size);
-            //_db.ProductVariants.Remove(entity.ProductVariants);
-            //_db.Stocks.Remove(entity.Stocks);
+            //if (entity.ProductVariants != null)
+            //{
+            //    if (entity.ProductVariants.Size != null)
+            //    {
+            //        var stock1 = _db.Size.Find(entity.Stocks.Id);
+            //        _db.Size.Remove(stock1);
+            //        //    _db.SaveChanges();
+            //    }
+            //    var stock = _db.ProductVariants.Find(entity.ProductVariants.Id);
+            //    _db.ProductVariants.Remove(stock);
+            //    //_db.SaveChanges();
+            //}
+
+
+
+            //if (entity.Stocks != null)
+            //{
+            //    var stock = _db.Stocks.Find(entity.Stocks.Id);
+            //    _db.Stocks.Remove(stock);
+            //    // _db.SaveChanges();
+            //}
             _db.Products.Remove(entity);
-          
             return _db.SaveChanges() > 0;
         }
 
         public Stock GetBySId(long? Id)
         {
-            return _db.Stocks.Where(c => c.Id == Id).FirstOrDefault();
+            return _db.Stocks.Where(c => c.Id == Id).Include(c=>c.Product).FirstOrDefault();
         }
 
         public ProductVariants GetByPVId(long? Id)
         {
-            return _db.ProductVariants.Where(c => c.Id == Id).FirstOrDefault();
+            return _db.ProductVariants.Where(c => c.Id == Id).Include(c=>c.Size).FirstOrDefault();
         }
 
         public Size GetBySzId(long? Id)
         {
             return _db.Size.Where(c => c.Id == Id).FirstOrDefault();
+        }
+
+        public Product ProductWithoutStock()
+        {
+            return _db.Products.Where(c => c.Stocks == null).Include(c=>c.Stocks).FirstOrDefault();
         }
 
 

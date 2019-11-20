@@ -9,5 +9,6 @@ namespace Ecommerce.Abstractions.BLL
     public interface IStockManager : IManager<Stock>
     {
         Product GetByPId(long? Id);
+        Stock check(long? Id);
     }
 }

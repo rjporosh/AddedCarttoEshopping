@@ -22,5 +22,9 @@ namespace Ecommerce.BLL
         {
             return _stockRepository.GetByPId(Id);
         }
+        public Stock check(long? Id)
+        {
+            return _stockRepository.check(Id);
+        }
     }
 }

@@ -44,5 +44,11 @@ namespace Ecommerce.Repositories
             _db.Stocks.Remove(entity);
             return _db.SaveChanges() > 0;
         }
+        public Stock check(long? Id)
+        {
+
+            return _db.Stocks.Where(c=>c.ProductId == Id).FirstOrDefault();
+             
+        }
     }
 }
