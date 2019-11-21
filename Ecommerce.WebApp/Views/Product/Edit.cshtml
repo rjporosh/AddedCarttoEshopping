@@ -40,9 +40,9 @@
                 }
             </div>
             <div class="form-group">
-                <label asp-for="ImagePath" class="control-label"></label>
-                <input type="file" asp-for="ImagePath" accept="image/png , image/jpg" id="profile-img" class="form-control" />
-                <span asp-validation-for="ImagePath" class="text-danger"></span>
+                <label asp-for="Image" class="control-label"></label>
+                <input type="file" asp-for="Image" accept="image/png , image/jpg" id="profile-img" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
                 <div>
                     @*<img class="preview" src="~/@Model.ImagePath" width="150" id="profile-img-tag"/>*@
                     <img class="preview" src="" width="150" id="profile-img-tag" />
@@ -94,12 +94,12 @@
 
             </div>
             @*<div class="form-group">
-                <label asp-for="Stocks" class="col-md-12">Stocks</label>
+            <label asp-for="Stocks" class="col-md-12">Stocks</label>
 
-                <select asp-for="Stocks" asp-items="@ViewBag.StockSelectList" class="form-control col-md-12"> </select>
-                <span asp-validation-for="Stocks" class="text-danger"></span>
+            <select asp-for="Stocks" asp-items="@ViewBag.StockSelectList" class="form-control col-md-12"> </select>
+            <span asp-validation-for="Stocks" class="text-danger"></span>
 
-            </div>*@
+        </div>*@
             <div class="form-group">
                 <label asp-for="ProductVariantsId" class="col-md-12">ProductVariants</label>
 
@@ -115,8 +115,37 @@
 
             </div>
             <div class="form-group">
+                <label asp-for="ProductVariants.Name" class="col-md-12">Product Variants Name</label>
+                <input asp-for="ProductVariants.Name" class="col-md-12" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductVariants.Brand" class="col-md-12">Product Variants Brand</label>
+                <input asp-for="ProductVariants.Brand" class="col-md-12" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductVariants.Color" class="col-md-12">Product Variants Color</label>
+                <input asp-for="ProductVariants.Color" class="col-md-12" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductVariants.Type" class="col-md-12">Product Variants Type</label>
+                <input asp-for="ProductVariants.Type" class="col-md-12" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ProductVariants.Size.Code" class="col-md-12">Product Variants Size Code</label>
+                <input asp-for="ProductVariants.Size.Code" class="col-md-12" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ProductVariants.Size.Name" class="col-md-12">Product Variants Size Name</label>
+                <input asp-for="ProductVariants.Size.Name" class="col-md-12" />
+            </div>
+            <div class="form-group">
                 <label asp-for="Stocks.Quantity" class="col-md-12">Stocks Quantity</label>
                 <input asp-for="Stocks.Quantity" class="col-md-12" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Stocks.Unit" class="col-md-12">Stocks Unit</label>
+                <input asp-for="Stocks.Unit" class="col-md-12" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

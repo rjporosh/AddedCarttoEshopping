@@ -40,7 +40,7 @@ namespace Ecommerce.Models
     //[ForeignKey("ProductVariantId")]
     //public virtual List<ProductVariants>? ProductVariantList { get; set; }
 
-    public List<ProductOrder> Orders { get; set; }
+    public virtual List<ProductOrder> Orders { get; set; }
 
 }
 }

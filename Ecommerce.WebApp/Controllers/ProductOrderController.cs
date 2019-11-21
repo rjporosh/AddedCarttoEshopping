@@ -39,7 +39,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("OrderId,ProductId")]ProductOrderVM model)
+        public IActionResult Create([Bind("OrderId,ProductId,Status,Quantity,Unit,Product,Order")]ProductOrderVM model)
         {
 
             // model.OrderNo = 
@@ -64,6 +64,68 @@ namespace Ecommerce.WebApp.Controllers
             return View("Index",productorders);
         }
 
-       
+        //public ActionResult Edit(long id)
+        //{
+        //    var productOrder = _productOrderManager.GetById((id));
+        //    ProductOrderVM model = _mapper.Map<ProductOrderVM>(productOrder);
+        //    if (model == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(model);
+        //}
+
+        //// POST: Category/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit([Bind("Id,ProductId,OrdertId,Quantity,Unit,Product,Order")]ProductOrderVM model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var aStock = _mapper.Map<ProductOrder>(model);
+        //        var product = _productManager.GetById(model.ProductId);
+        //        var order = _orderManager.GetById(model.OrderId);
+        //       // _productOrderManager.Update(aStock);
+        //        bool isUpdated = _productOrderManager.Update(aStock);
+        //        if (isUpdated)
+        //        {
+        //            var Stocks = _productOrderManager.GetAll();
+
+        //            ViewBag.SuccessMessage = "Updated Successfully!";
+        //            //VwBg();
+        //            return View("Index", Stocks);
+
+        //        }
+        //        //}
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ErrorMessage = "Update Failed!";
+        //    }
+        //   var gs = _productOrderManager.GetAll();
+        //    //VwBg();
+        //    //  return View(Product);
+        //    return View(gs);
+        //}
+
+        //// GET: Category/Delete/5
+        //public ActionResult Delete(long id)
+        //{
+        //    var stock = _productOrderManager.GetById(id);
+        //    if (ModelState.IsValid)
+        //    {
+        //        bool isDeletedWithProduct = _productOrderManager.Remove(stock);
+        //        if (isDeletedWithProduct)
+        //        {
+        //            var stocks = _productOrderManager.GetAll();
+        //            ViewBag.SuccessMessage = "Deleted Successfully.!";
+        //            //VwBg();
+        //            return View("Index", stocks);
+        //        }
+
+        //    }
+
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }

@@ -82,6 +82,8 @@ namespace Ecommerce.Repositories
         {
             var products = _db.Products
                 .Include(c => c.Category)
+              //  .Include(c=>c.Image)
+               // .Include (c=>c.ImagePath)
                 .Include(c=>c.Stocks)
                 .Include(c=>c.ProductVariants)
                 .ThenInclude(c=>c.Size)
@@ -167,7 +169,7 @@ namespace Ecommerce.Repositories
 
         public Product ProductWithoutStock()
         {
-            return _db.Products.Where(c => c.Stocks == null).Include(c=>c.Stocks).FirstOrDefault();
+            return _db.Products.Where(c => c.Stocks == null).FirstOrDefault();
         }
 
 

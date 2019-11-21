@@ -4,8 +4,11 @@
     <table class="table table-striped table-responsive table-hover">
         <thead>
             <tr>
+                @*<th>Id</th>*@
                 <th>Order Id</th>
                 <th> Product Id </th>
+                <th>Quantity</th>
+                <th>Status</th>
                 @*<th>Customer Id</th>*@
                 @*<th>Action</th>*@
             </tr>
@@ -16,8 +19,12 @@
             @foreach (var order in Model)
             {
                 <tr>
+                    @*<th>@order.Id</th>*@
                     <td>@order.OrderId</td>
                     <td>@order.ProductId</td>
+                  
+                    <td>@order.Quantity</td>
+                    <td>@order.Status</td>
                       @*<td>@order.CustomerId</td>*@
 
                     @*<td>

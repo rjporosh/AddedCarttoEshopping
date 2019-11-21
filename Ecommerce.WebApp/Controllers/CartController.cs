@@ -15,11 +15,18 @@ namespace Ecommerce.WebApp.Controllers
     public class CartController : Controller
     {
         private IProductManager _manager;
+        private IOrderManager _orderManager;
+        private IProductOrderManager _productOrderManager;
+        private ICustomerManager _customerManager;
         private IMapper _mapper;
+        private Models.ProductOrder po = new Models.ProductOrder();
         private EcommerceDbContext _db;
-        public CartController(IProductManager productManager, IMapper mapper)
+        public CartController(IProductManager productManager, IMapper mapper,IProductOrderManager productOrderManager , IOrderManager orderManager, ICustomerManager customerManager)
         {
             _manager = productManager;
+            _productOrderManager = productOrderManager;
+            _orderManager = orderManager;
+            _customerManager = customerManager;
             _mapper = mapper;
         }
         [Route("Index")]
@@ -47,7 +54,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [Route("buy/{Id}")]
-        public IActionResult buy(long Id,Item item)
+        public IActionResult buy(long Id,[Bind("Product,Quantity")]Item item)
         {
             
             if (Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
@@ -56,8 +63,13 @@ namespace Ecommerce.WebApp.Controllers
                 {
                     item.Quantity = 1;
                 }
+              
                 var cart = new List<Item>();
                 cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity });
+               // po.ProductList.Add(item.product);
+                po.Quantity = item.Quantity;
+                po.Product = item.product;
+
                 Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                
             }
@@ -68,6 +80,9 @@ namespace Ecommerce.WebApp.Controllers
                 if(index== -1)
                 {
                     cart.Add(new Item() { product = _manager.Find(Id), Quantity = 1 });
+                   // po.ProductList.Add(item.product);
+                    po.Quantity = item.Quantity;
+                    po.Product = item.product;
                 }
                 else
                 {
@@ -90,11 +105,31 @@ namespace Ecommerce.WebApp.Controllers
                 cart.Count();
 
             Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            
-
             return RedirectToAction("Index",cart);
         }
-       // [Route("Clear")]
+
+        [Route("Edit/{Id}")]
+        public IActionResult Edit( long Id)
+        {
+            var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            int index = Exists(cart, Id);
+            var model = cart[index];
+            
+            
+            //  Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return View(model);
+        }
+
+      //  [Route("Edit/{Id}")]
+        public IActionResult Edit (long Id,[Bind("Product,Quantity")]Item item)
+        {
+            var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            int index = Exists(cart, Id);
+            cart[index]= item;
+            Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            return RedirectToAction("Index", cart);
+        }
+        // [Route("Clear")]
         public IActionResult Clear()
         {
             var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
@@ -106,6 +141,19 @@ namespace Ecommerce.WebApp.Controllers
             cart.Count();
             Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index", cart);
+        }
+
+        private Item toEdit(List<Item> cart, long Id)
+        {
+             var item = new Item();
+            for (int i = 0; i < cart.Count; i++)
+            {
+                if (cart[i].product.Id == Id)
+                {
+                    return item = cart[i];
+                }
+            }
+            return item;
         }
         private int Exists(List<Item> cart,long Id)
         {

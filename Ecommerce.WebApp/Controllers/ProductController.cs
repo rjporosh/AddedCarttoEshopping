@@ -184,9 +184,12 @@ namespace Ecommerce.WebApp.Controllers
             model.CategoryList = _productManager.list();
             PopulateDropdownList();
             PopulateDropdownList1();
-            //StockPopulateDropdownList();
+            StockPopulateDropdownList();
             ProductVariantsPopulateDropdownList();
             SizePopulateDropdownList();
+            model.Stocks = new Stock();
+            model.Stocks.Quantity = 0;
+            model.Stocks.Unit = "nothing";
             //VwBg();
             model.ParentId = 0;
             model.ExpireDate = DateTime.Now;
@@ -195,8 +198,17 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,ExpireDate,CategoryId,CategoryList,CategoryName,IsActive,Orders,Image,ImagePath,ProductVariantsId,StocksId,ParentId,ProductVariants,Parent,StocksQuantity,ProductVariantsSizeId,Size,ProductVariantsSize,Stocks.Quantity")]ProductVM model, IFormFile Image)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,ExpireDate,CategoryId,CategoryList,CategoryName,IsActive,Orders,Image,ImagePath,ProductVariantsId,StocksId,ParentId,ProductVariants,Parent,StocksQuantity,ProductVariantsSizeId,Size,ProductVariantsSize,StocksQuantity,StocksUnit,Stocks")]ProductVM model, IFormFile Image)
         {
+            //  var qnty = model.Stocks.Quantity;
+            if (model.Stocks.Quantity == null)
+            {
+                model.Stocks.Quantity = 0;
+            }
+            if (model.Stocks.Unit == null)
+            {
+                model.Stocks.Unit = "Nothing";
+            }
             if (Image != null)
             {
                 using (var ms = new MemoryStream())
@@ -254,54 +266,12 @@ namespace Ecommerce.WebApp.Controllers
             {
 
                 var Product = _mapper.Map<Product>(model);
-                //if(Product.ProductVariantsId!=null && Product.ProductVariantsId > 0)
-                //{
-                //    if(Product.ProductVariants.SizeId!= null && Product.ProductVariants.SizeId>0)
-                //    {
-                //        _sizeManager.Add(Product.ProductVariants.Size);
-                //        _productVariantManager.Add(Product.ProductVariants);
-                //    }
-                //    else
-                //    {
-                //        _productVariantManager.Add(Product.ProductVariants);
-                //    }
-
-                //}
-                //ProductVariants p = new ProductVariants()
-                //{
-                //  Name = Product.
-                //};
-                //_productVariantManager.Add(Product.ProductVariants);
-               
-                Product.ProductVariants.Name = Product.Name + "New Variants";
                 bool isAdded = _productManager.Add(Product);
-                var prod = _productManager.ProductWithoutStock();
-                var stock = new Stock();
-                if (prod.Stocks == null)
+                if (isAdded)
                 {
-
-                    // stock.Product = prod,
-                    stock.ProductId = prod.Id;
-
-                    stock.Quantity = (Decimal)0.00;
-                    stock.Unit = "nothing";
-                   
-
-
-
-                    _stockManager.Add(stock);
-
-                    //    //  Product.StocksId = St.Id;
-                    //}
-
-                    //_productManager.Update(Product);
-                    if (isAdded)
-                    {
-                        ViewBag.SuccessMessage = "Saved Successfully!";
-                        model.ProductList = _productManager.GetAll().ToList();
-                        //VwBg();
-                        return RedirectToAction(nameof(Index), model.ProductList);
-                    }
+                    ViewBag.SuccessMessage = "Saved Successfully!";
+                    model.ProductList = _productManager.GetAll().ToList();
+                    return RedirectToAction(nameof(Index), model.ProductList);
                 }
                 else
                 {
@@ -310,8 +280,6 @@ namespace Ecommerce.WebApp.Controllers
 
                 model.ProductList = _productManager.GetAll().ToList();
                 model.CategoryList = _productManager.list().ToList();
-                //VwBg();
-               // return View(model);
             }
             return View(model);
         }
@@ -557,13 +525,17 @@ namespace Ecommerce.WebApp.Controllers
             {
                // var pr = _productManager.GetById(aProduct.Id);
                 aProduct.Image = aProduct.Image;
-                aProduct.ImagePath = aProduct.ImagePath;
+                //aProduct.ImagePath = aProduct.ImagePath;
+                if (aProduct.Image == null && aProduct.ImagePath == null)
+                {
+                    aProduct.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                }
             }
             if (aProduct.ParentId == null || aProduct.ParentId < 0)
             {
                 aProduct.ParentId = 0;
             }
-            if (aProduct.Image != null || aProduct.ImagePath == null)
+            if (aProduct.ImagePath == null)
             {
                 aProduct.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
             }
@@ -571,10 +543,10 @@ namespace Ecommerce.WebApp.Controllers
             //Product.Stocks.Quantity = Product.Stocks.Quantity;
             //Product.Stocks.Unit = "new";
 
-           // _stockManager.Update(Product.Stocks);
+            // _stockManager.Update(Product.Stocks);
             if (ModelState.IsValid)
             {
-               
+                 Product = _mapper.Map<Product>(aProduct);
                 //if (Product.Stocks != null && Product.StocksId>0 )
                 //{
                 //    var s=_productManager.GetBySId(Product.StocksId);
@@ -607,8 +579,11 @@ namespace Ecommerce.WebApp.Controllers
                 //Product.Stocks.Unit = "new";
 
                 ////_stockManager.Update(Product.Stocks);
-               //ast.Product = Product;
-               
+                //ast.Product = Product;
+                if (Product.ImagePath == null)
+                {
+                    Product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                }
                 bool isUpdated = _productManager.Update(Product);
                 var pv = _productManager.GetByPVId(aProduct.ProductVariantsId);
                 pv.SizeId = aProduct.ProductVariants.SizeId;

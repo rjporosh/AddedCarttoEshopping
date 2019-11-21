@@ -1,0 +1,25 @@
+﻿@model Ecommerce.Abstractions.Helper.Item
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit Item</h2>
+<form asp-action="Edit">
+    <div class="form-group">
+        <label asp-for="product.Name" class="control-label"></label>
+        <input asp-for="product.Name" class="form-control" />
+        <span asp-validation-for="product.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Quantity" class="control-label"></label>
+        <input asp-for="Quantity" class="form-control" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="update" asp-action="Edit" class="btn btn-default" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

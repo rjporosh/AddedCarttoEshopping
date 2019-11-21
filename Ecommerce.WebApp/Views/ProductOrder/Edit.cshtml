@@ -1,11 +1,11 @@
 ﻿@using Ecommerce.Models.RazorViewModels.ProductOrder
 @model Ecommerce.Models.RazorViewModels.ProductOrder.ProductOrderVM
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <h2>Create ProductOrder</h2>
-<form asp-action="Create">
+<form asp-action="Edit">
     <div class="row">
         <div class="form-group col-md-12">
             <label asp-for="OrderId" class="control-label"></label>
@@ -30,14 +30,14 @@
         </div>
 
         @*<div class="form-group col-md-12">
-            <label asp-for="CustomerId" class="control-label"></label>
-            <input asp-for="CustomerId" class="form-control" />
-            <span asp-validation-for="CustomerId" class="text-danger"></span>
-        </div>*@
+                <label asp-for="CustomerId" class="control-label"></label>
+                <input asp-for="CustomerId" class="form-control" />
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>*@
 
     </div>
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-default" />
+        <input type="submit" value="Update" class="btn btn-default" />
     </div>
 </form>
 

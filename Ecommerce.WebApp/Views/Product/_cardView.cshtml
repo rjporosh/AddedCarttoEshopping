@@ -44,23 +44,24 @@
             <h3 class="card-title" color:"red"><b>@item.Name</b></h3>
 
             <div class="main">
-                @{
-                    //String img64url;
-                    //if (item.ImagePath == null)
-                    //{
-                    String img64 = Convert.ToBase64String(item.Image);
-                    String img64url = string.Format("data:Image/" + item.Image + ";base64,{0}", img64);
-                    @*   }
+                @*@{
+                    String img64url;
+                    if (item.Image != null)
+                    {
+                        String img64 = Convert.ToBase64String(item.Image);
+                        img64url = string.Format("data:Image/" + item.Image + ";base64,{0}", img64);
+                        <img class="img-responsive JustifyCenter" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)" style="height: auto ; width: 250px;" alt="...">
+                    }
                     else
-                        {
-                              img64url = "~/"+@item.ImagePath;
-                        }*@
-                }
+                    {
+                        img64url = "~/" + @item.ImagePath;
+                    }
+                }*@
                 @* <div id="product" @*style="background-color:red">  *@
 
-                @if(item.ImagePath == null)
+                @if (item.ImagePath == null)
                 {
-                    item.ImagePath = "uploads\\img\\2c2f44a937fb4400ac42558d6fb74abb.jpg";
+                    item.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
                 }
                 <img class="img-responsive JustifyCenter" src="~/@item.ImagePath" style="height: auto ; width: 250px;" alt="...">
                 @*src="~/@item.ImagePath"*@
