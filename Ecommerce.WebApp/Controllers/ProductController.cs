@@ -39,8 +39,6 @@ namespace Ecommerce.WebApp.Controllers
                 Id = 0,
                 Name = "Select a Category"
             };
-            // product.Prepend(p);
-            //  product.Append(p);
             category.Clear();
             category.Add(p);
 
@@ -59,8 +57,6 @@ namespace Ecommerce.WebApp.Controllers
                 Id = 0,
                 Name = "No Parent"
             };
-            // product.Prepend(p);
-            //  product.Append(p);
             product.Clear();
             product.Add(p);
 
@@ -82,12 +78,9 @@ namespace Ecommerce.WebApp.Controllers
                 Quantity = (Decimal)0.00,
                 Product = new Product
                 {
-                    Name = "No Stock",
-                  //  StocksId = 0
+                    Name = "No Stock"
                 }
             };
-            // product.Prepend(p);
-            //  product.Append(p);
             stock.Clear();
             stock.Add(p);
 
@@ -106,11 +99,8 @@ namespace Ecommerce.WebApp.Controllers
                 Id = null,
                 Name = "No Variant"
             };
-            // product.Prepend(p);
-            //  product.Append(p);
             ProductVariants.Clear();
             ProductVariants.Add(p);
-
             var pp = _productVariantManager.GetAll();
             foreach (var prod in pp)
             {
@@ -128,8 +118,6 @@ namespace Ecommerce.WebApp.Controllers
                 Id = null,
                 Name = "No Size"
             };
-            // product.Prepend(p);
-            //  product.Append(p);
             size.Clear();
             size.Add(p);
 
@@ -144,34 +132,20 @@ namespace Ecommerce.WebApp.Controllers
         {
             if (searchBy == "Price")
             {
-              //VwBg();
                 return View(_productManager.GetByPrice(Convert.ToDouble(search)));
             }
             else if (searchBy == "Name")
             {
-              //VwBg();
                 return View(_productManager.GetByName(search));
             }
             else if (searchBy == "CategoryName")
             {
-              //VwBg();
-                return View(_productManager.GetByCategory(search));
+              return View(_productManager.GetByCategory(search));
             }
-           
-
             var model = _productManager.GetAll();
-
-          //VwBg();
             return View(model);
         }
-        //public void VwBg()
-        //{
-        //    var cart = SessionHelper.GetObjectFromJson<List<Models.Item>>(HttpContext.Session, "cart");
-        //    ViewBag.cart = cart;
-        //    ViewBag.Total = cart.Sum(i => i.product.Price * i.Quantity);
-        //    ViewBag.Count = cart.Sum(i => i.Quantity);
-        //}
-
+      
         public IActionResult show()
         {
             return View();
@@ -190,7 +164,6 @@ namespace Ecommerce.WebApp.Controllers
             model.Stocks = new Stock();
             model.Stocks.Quantity = 0;
             model.Stocks.Unit = "nothing";
-            //VwBg();
             model.ParentId = 0;
             model.ExpireDate = DateTime.Now;
             model.IsActive = true;
@@ -200,7 +173,6 @@ namespace Ecommerce.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,ExpireDate,CategoryId,CategoryList,CategoryName,IsActive,Orders,Image,ImagePath,ProductVariantsId,StocksId,ParentId,ProductVariants,Parent,StocksQuantity,ProductVariantsSizeId,Size,ProductVariantsSize,StocksQuantity,StocksUnit,Stocks")]ProductVM model, IFormFile Image)
         {
-            //  var qnty = model.Stocks.Quantity;
             if (model.Stocks.Quantity == null)
             {
                 model.Stocks.Quantity = 0;
@@ -235,23 +207,18 @@ namespace Ecommerce.WebApp.Controllers
 
                                 using (var fileStream = new FileStream(Path.Combine(root, uploads, fileName), FileMode.Create))
                                 {
-                                    await file.CopyToAsync(fileStream);
+                                    await file.CopyToAsync(fileStream).ConfigureAwait(true);
                                     // This will produce uploads\img\fileName.ext
                                     model.ImagePath = Path.Combine(uploads, fileName);
                                 }
                             }
                         }
                     }
-
-                    // ImageConverter converter = new ImageConverter();
-                    // model.Image = (byte[])converter.ConvertTo(Image, typeof(byte[]));
                 }
 
             }
             else
             {
-
-                //model.Image = ms.ToArray();
                 model.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
             }
             if (model.ParentId == null || model.ParentId < 0)
@@ -327,19 +294,15 @@ namespace Ecommerce.WebApp.Controllers
                     }
                     ProductVariantsPopulateDropdownList(Product.ProductVariantsId);
                 }
-
-                //VwBg();
                 if (Product.ParentId == null)
                 {
                     Product.ParentId = 0;
                 }
                 if (Product.Image == null || Product.ImagePath == null)
                 {
-                    Product.ImagePath = "uploads\\img\\2c2f44a937fb4400ac42558d6fb74abb.jpg";
+                    Product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
                 }
-
-                //ProductVM aProduct = _mapper.Map<ProductVM>(Product);
-                Item aProduct = _mapper.Map<Item>(Product);
+                Ecommerce.Abstractions.Helper.Item aProduct = _mapper.Map < Ecommerce.Abstractions.Helper.Item> (Product);
                 PopulateDropdownList(Product.CategoryId);
                 if (Product.Parent == null || Product.ParentId != 0)
                 {
@@ -363,9 +326,6 @@ namespace Ecommerce.WebApp.Controllers
                 {
                     return NotFound();
                 }
-
-                //  aProduct.ProductList = _productManager.GetAll().ToList();
-                //VwBg();
                 return View(aProduct);
             }
         
@@ -393,18 +353,6 @@ namespace Ecommerce.WebApp.Controllers
                     }
 
                 }
-
-                //if(Product.Stocks != null)
-                //{
-                //    var stock = _stockManager.GetById(Product.Stocks.Id);
-                //    StockPopulateDropdownList(Product.Stocks.Id);
-
-                //}
-                //else
-                //{
-                //    StockPopulateDropdownList(0);
-                //}
-
                 if (Product.ProductVariants != null && Product.ProductVariantsId >= 0 || Product.ProductVariantsId == null)
                 {
                     if (Product.ProductVariantsId == null)
@@ -443,8 +391,6 @@ namespace Ecommerce.WebApp.Controllers
                         Product.Stocks = _productManager.GetBySId(Product.Stocks.Id);
                     }
                 }
-
-                //VwBg();
                 if (Product.ParentId == null)
                 {
                     Product.ParentId = 0;
@@ -456,15 +402,12 @@ namespace Ecommerce.WebApp.Controllers
 
                 Product.IsActive = true;
                 ProductVM aProduct = _mapper.Map<ProductVM>(Product);
-
-
                 if (Product == null)
                 {
                     return NotFound();
                 }
 
                 aProduct.ProductList = _productManager.GetAll().ToList();
-                //VwBg();
                 return View(aProduct);
             }
         
@@ -478,10 +421,6 @@ namespace Ecommerce.WebApp.Controllers
             {
                 return NotFound();
             }
-        
-           // aProduct.Stocks = ast;
-           
-         // a = _mapper.Map<Product>(aProduct);
             if (Image!=null)
             {
                 using (var ms = new MemoryStream())
@@ -497,35 +436,26 @@ namespace Ecommerce.WebApp.Controllers
                         if (image != null && image.Length > 0)
                         {
                             var file = Image;
-                            // var root = _appEnvironment.WebRootPath;
                             var root = "wwwroot\\";
                             var uploads = "uploads\\img";
                             if (file.Length > 0)
                             {
-                                // you can change the Guid.NewGuid().ToString().Replace("-", "")
-                                // to Guid.NewGuid().ToString("N") it will produce the same result
                                 var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
-
                                 using (var fileStream = new FileStream(Path.Combine(root, uploads, fileName), FileMode.Create))
                                 {
-                                    await file.CopyToAsync(fileStream);
-                                    // This will produce uploads\img\fileName.ext
+                                    await file.CopyToAsync(fileStream).ConfigureAwait(true);
                                     aProduct.ImagePath = Path.Combine(uploads, fileName);
                                 }
                             }
                         }
                     }
 
-                    // ImageConverter converter = new ImageConverter();
-                    // model.Image = (byte[])converter.ConvertTo(Image, typeof(byte[]));
                 }
               
             }
             else
             {
-               // var pr = _productManager.GetById(aProduct.Id);
                 aProduct.Image = aProduct.Image;
-                //aProduct.ImagePath = aProduct.ImagePath;
                 if (aProduct.Image == null && aProduct.ImagePath == null)
                 {
                     aProduct.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
@@ -539,47 +469,11 @@ namespace Ecommerce.WebApp.Controllers
             {
                 aProduct.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
             }
-            //var stock = _stockManager.GetById(Product.Stocks.Id);
-            //Product.Stocks.Quantity = Product.Stocks.Quantity;
-            //Product.Stocks.Unit = "new";
-
-            // _stockManager.Update(Product.Stocks);
+           
             if (ModelState.IsValid)
             {
                  Product = _mapper.Map<Product>(aProduct);
-                //if (Product.Stocks != null && Product.StocksId>0 )
-                //{
-                //    var s=_productManager.GetBySId(Product.StocksId);
-                //    _stockManager.Update(s);
-                //}
-                //if (Product.ProductVariants != null && Product.ProductVariantsId > 0)
-                //{
-                //    if (Product.ProductVariants.Size != null && Product.ProductVariants.SizeId>0)
-                //    {
-                //        _sizeManager.Update(Product.ProductVariants.Size);
-                //        _productVariantManager.Update(Product.ProductVariants);
-                //    }
-
-                //    else
-                //    {
-                //        Product.ProductVariants.SizeId = null;
-                //        _productVariantManager.Update(Product.ProductVariants);
-                //    }
-                //}
-                // _productVariantManager(aProduct.ProductVariantsId);
-                //  var sz = _productManager.GetBySzId(Product.ProductVariants.SizeId);
-                //  _sizeManager.Update(sz);
-                //   var st = _stockManager.GetByPId(aProduct.Id);
-                //  st.Stocks.Quantity = aProduct.Stocks.Quantity;
-                //var pv = _productManager.GetByPVId(Product.ProductVariantsId);
-                //pv.SizeId = Product.ProductVariants.SizeId;
-                // _productVariantManager.Update(Product.ProductVariants);
-                //var stock = _productManager.GetBySId(Product.Stocks.Id);
-                //Product.Stocks.Quantity = Product.Stocks.Quantity;
-                //Product.Stocks.Unit = "new";
-
-                ////_stockManager.Update(Product.Stocks);
-                //ast.Product = Product;
+             
                 if (Product.ImagePath == null)
                 {
                     Product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
@@ -592,64 +486,62 @@ namespace Ecommerce.WebApp.Controllers
                 var ast = _stockManager.check(Id);
                 ast.Quantity = aProduct.Stocks.Quantity;
                 _stockManager.Update(ast);
-                // var st = _productManager.GetBySId(a.Stocks.Id);
-                //ast.Quantity = aProduct.Stocks.Quantity;
-                // st.ProductId = Product.Id;
-
-
-
                 if (isUpdated)
                 {
                     var Products = _productManager.GetAll();
                     ViewBag.SuccessMessage = "Updated Successfully!";
-                    //VwBg();
                     return RedirectToAction(nameof(Index), Products);
-
                 }
-                //}
             }
             else
             {
                 ViewBag.ErrorMessage = "Update Failed!";
             }
             aProduct.ProductList = _productManager.GetAll().ToList();
-          //VwBg();
             return View(aProduct);
 
         }
         public IActionResult Delete(long id)
         {
             var Product = _productManager.GetById(id);
+            var variantsize = new Models.Size();
+            var variant = new Models.ProductVariants();
+            var stock = new Models.Stock();
+            if(Product.Stocks != null)
+            {
+                stock = _productManager.GetBySId(Product.Stocks.Id);
+                //_stockManager.Remove(stock);
+            }
+            if (Product.ProductVariantsId != null)
+            {
+                if (Product.ProductVariants.SizeId != null)
+                {
+                    variantsize = _productManager.GetBySzId(Product.ProductVariants.SizeId);
+                }
+                variant = _productManager.GetByPVId(Product.ProductVariantsId);
+                variant.SizeId = null;
+                _productVariantManager.Update(variant);
+                variant = _productManager.GetByPVId(Product.ProductVariantsId);
+              //  _productVariantManager.Remove(variant);
+               // _sizeManager.Remove(variantsize);
+            }
             if (ModelState.IsValid)
             {
-                //if (Product.Stocks != null)
-                //{
-                //    _stockManager.Remove(Product.Stocks);
-                //}
-                //if (Product.ProductVariantsId != null)
-                //{
-                //    //if(Product.ProductVariants.SizeId !=null)
-                //    //{
-                //    //    //_sizeManager.Remove(Product.ProductVariants.Size);
-                //    //  //  Product.ProductVariants.SizeId = null;
-                //    //    _productVariantManager.Update(Product.ProductVariants);
-                //    //}
-                   
-                //    _productVariantManager.Remove(Product.ProductVariants);
-                //}
-               
+               // _sizeManager.Remove(variantsize);
                 
                 bool isDeleted = _productManager.Remove(Product);
+                _productVariantManager.Remove(variant);
+                _stockManager.Remove(stock);
+                 _sizeManager.Remove(variantsize);
+
                 if (isDeleted)
                 {
                     var products = _productManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
-                  //VwBg();
                     return View("Index", products);
                 }
 
             }
-          //VwBg();
             return RedirectToAction(nameof(Index));
         }
         public IActionResult GetProductPartial(long id)

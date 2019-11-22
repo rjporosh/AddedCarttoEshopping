@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29512.175
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Models", "EcommerceApp.Models\Ecommerce.Models.csproj", "{D92607BA-D96B-4376-8BA6-D987A0BFC873}"
 EndProject
@@ -11,11 +11,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.DatabaseContext",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.WebApp", "Ecommerce.WebApp\Ecommerce.WebApp.csproj", "{21F7A12F-D764-4B27-A343-389EE4AEAAD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.BLL", "Ecommerce.BLL\Ecommerce.BLL.csproj", "{4DF59EEA-C40D-44C9-B1BF-9A94B53B2EA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.BLL", "Ecommerce.BLL\Ecommerce.BLL.csproj", "{4DF59EEA-C40D-44C9-B1BF-9A94B53B2EA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Abstractions", "Ecommerce.Abstractions\Ecommerce.Abstractions.csproj", "{136D4F3B-3652-410B-B4F8-8E1E2CE0720E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Abstractions", "Ecommerce.Abstractions\Ecommerce.Abstractions.csproj", "{136D4F3B-3652-410B-B4F8-8E1E2CE0720E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecommerce.Configurations", "Ecommerce.Configurations\Ecommerce.Configurations.csproj", "{376A2957-ED47-4EC1-8245-BE04951ACA0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce.Configurations", "Ecommerce.Configurations\Ecommerce.Configurations.csproj", "{376A2957-ED47-4EC1-8245-BE04951ACA0E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F4B169D7-E6F2-4BFD-AB76-0CBFD164C843}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

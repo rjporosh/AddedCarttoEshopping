@@ -30,8 +30,8 @@ namespace Ecommerce.Configurations.AutomapperConfigurations
             CreateMap<CategoryVM, Category>();
             CreateMap<Product, ProductDto>()/*.ForMember(m=>m.CategoryName, map=>map.MapFrom(vm=>vm.Category.Name))*/;
             CreateMap<ProductDto, Product>()/*.ForMember(m=>m.Category.Name, map=>map.MapFrom(vm=>vm.CategoryName))*/;
-            CreateMap<Product, Item>()/*.ForMember(m=>m.product.Category.Name , map=>map.MapFrom(vm=>vm.CategoryName))*/;
-            CreateMap<Item, Product>();
+            CreateMap<Product, Ecommerce.Abstractions.Helper.Item>()/*.ForMember(m=>m.product.Category.Name , map=>map.MapFrom(vm=>vm.CategoryName))*/;
+            CreateMap<Ecommerce.Abstractions.Helper.Item, Product>();
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto,Category>();
             CreateMap<ProductVM, Stock>();

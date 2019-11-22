@@ -173,7 +173,7 @@ namespace Ecommerce.WebApp.Controllers
                 // bool isDeletedWithProduct = _productManager.Remove(product);
                 if (isDeleted)
                 {
-                    var categories = _sizeManager.GetAll();
+                    var categories = _productVariantsManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
                     //VwBg();
                     return View("Index", categories);
