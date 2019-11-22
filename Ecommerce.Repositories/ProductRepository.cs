@@ -126,28 +126,6 @@ namespace Ecommerce.Repositories
 
         public override bool Remove(Product entity)
         {
-
-            //if (entity.ProductVariants != null)
-            //{
-            //    if (entity.ProductVariants.Size != null)
-            //    {
-            //        var stock1 = _db.Size.Find(entity.Stocks.Id);
-            //        _db.Size.Remove(stock1);
-            //        //    _db.SaveChanges();
-            //    }
-            //    var stock = _db.ProductVariants.Find(entity.ProductVariants.Id);
-            //    _db.ProductVariants.Remove(stock);
-            //    //_db.SaveChanges();
-            //}
-
-
-
-            //if (entity.Stocks != null)
-            //{
-            //    var stock = _db.Stocks.Find(entity.Stocks.Id);
-            //    _db.Stocks.Remove(stock);
-            //    // _db.SaveChanges();
-            //}
             _db.Products.Remove(entity);
             return _db.SaveChanges() > 0;
         }
@@ -167,9 +145,9 @@ namespace Ecommerce.Repositories
             return _db.Size.Where(c => c.Id == Id).FirstOrDefault();
         }
 
-        public Product ProductWithoutStock()
+        public Product ProductWithoutProductCode()
         {
-            return _db.Products.Where(c => c.Stocks == null).FirstOrDefault();
+            return _db.Products.Where(c => c.ProductCode == null).FirstOrDefault();
         }
 
 

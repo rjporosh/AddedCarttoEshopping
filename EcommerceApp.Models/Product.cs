@@ -9,6 +9,9 @@ namespace Ecommerce.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
+        public double BuyCost { get; set; }
+        public string? Description { get; set; }
+        public string? ProductCode { get; set; }
         public DateTime? ExpireDate { get; set; }
 
         public byte[]? Image { get; set; }

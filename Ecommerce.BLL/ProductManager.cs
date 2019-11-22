@@ -105,9 +105,9 @@ namespace Ecommerce.BLL
             return _productManger.GetBySzId(Id);
         }
 
-        public Product ProductWithoutStock()
+        public Product ProductWithoutProductCode()
         {
-            return _productManger.ProductWithoutStock();
+            return _productManger.ProductWithoutProductCode();
         }
 
         //public ICollection<Product> GetByCriteria(ProductSearchCriteriaVM criteria)
