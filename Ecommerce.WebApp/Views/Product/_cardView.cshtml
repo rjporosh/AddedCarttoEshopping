@@ -1,84 +1,112 @@
 ﻿@model IEnumerable<Ecommerce.Models.Product>
 
-
 @section Styles
-{
-    <style type="text/css">
-       .container {
-    width: 150px;
-    height: 100px;
-    background-image: url("http://i.stack.imgur.com/2OrtT.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-      }
-       
-       .main{
-           border : 0px solid black;
-           height : 250px;
-           width : 250px;
-       }
-       h3{
-              color: #0094ff;
-               }
-       .inner {
-    overflow: hidden;
-}
+    {
+        <style type="text/css">
+            .zoom-effect-container {
+                float: right;
+                position: relative;
+                margin: 0 auto;
+                overflow: hidden;
+            }
 
-    .inner img {
-        transition: all 1.5s ease;
+            .card img {
+                -webkit-transition: 0.4s ease;
+                transition: 0.4s ease;
+            }
+
+            .zoom-effect-container:hover .card img {
+                -webkit-transform: scale(1.20);
+                transform: scale(1.20);
+            }
+
+            .container {
+                width: 150px;
+                height: 100px;
+                background-image: url("http://i.stack.imgur.com/2OrtT.jpg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: 50% 50%;
+            }
+
+           .main{
+               border : 0px solid black;
+               height : 250px;
+               width : 250px;
+           }
+           h3{
+                  color: #0094ff;
+                   }
+           .inner {
+        overflow: hidden;
     }
 
-    .inner:hover img{
-        transform: scale(1.5);
+        .inner img {
+            transition: all 1.5s ease;
+        }
+
+        .inner:hover img{
+            transform: scale(1.5);
+        }
+        </style>
     }
-    </style>
-}
 <div class="row">
 
-    @foreach (var item in Model)
+    @foreach (var product in Model)
     {
 
-    <div class="col-md-4">
-        <div class="card shadow">
-            <h3 class="card-title" color:"red"><b>@item.Name</b></h3>
+        <div class="col-md-4">
+                <div class="card shadow">
+                    <h3 class="card-title" color:"red"><b>@product.Name</b></h3>
 
-            <div class="main">
-                @*@{
-                    String img64url;
-                    if (item.Image != null)
-                    {
-                        String img64 = Convert.ToBase64String(item.Image);
-                        img64url = string.Format("data:Image/" + item.Image + ";base64,{0}", img64);
-                        <img class="img-responsive JustifyCenter" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)" style="height: auto ; width: 250px;" alt="...">
-                    }
-                    else
-                    {
-                        img64url = "~/" + @item.ImagePath;
-                    }
-                }*@
-                @* <div id="product" @*style="background-color:red">  *@
-
-                @if (item.ImagePath == null)
-                {
-                    item.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
-                }
-                <img class="img-responsive JustifyCenter" src="~/@item.ImagePath" style="height: auto ; width: 250px;" alt="...">
-                @*src="~/@item.ImagePath"*@
-                @*</div>*@
-
-            </div>
-            <div class="card-body">
-                <h4 class="card-subtitle">Price: @item.Price ৳</h4>
-                <h5 class="card-subtitle">Expire Date : @item.ExpireDate</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a asp-controller="product" asp-action="details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                <a asp-controller="cart" asp-action="buy" asp-route-id="@item.Id" class="btn btn-primary">Add To Cart</a>
+                    <div class="main">
+                        @if (product.ImagePath == null)
+                        {
+                            product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                        }
+                        <div class="zoom-effect-container">
+                            <div class="card shadow">
+                                <img class="card-img-top " src="~/@product.ImagePath" style="height: 250px ; width: 250px;" alt="...">
+                            </div>
+                        </div>
+                        @*<img class="img-responsive JustifyCenter" src="~/@product.ImagePath" style="height: auto ; width: 250px;" alt="...">*@
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-subtitle">Price: @product.Price ৳</h4>
+                        <h5 class="card-subtitle">Product Code : @product.ProductCode</h5>
+                        <br />
+                        <h5 class="card-subtitle">Category : @product.Category.Name</h5>
+                        <br />
+                        <h5 class="card-subtitle">Expire Date : @product.ExpireDate</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
+                        <a asp-controller="cart" asp-action="buy" asp-route-id="@product.Id" class="btn btn-primary">Add To Cart</a>
+                        <br />
+                    </div>
+                </div>
                 <br />
             </div>
-        </div>
-        <br />
-    </div>
+        @*<div class="col-md-3">
+            <div class="card">
+                @if (product.ImagePath == null)
+                {
+                    product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                }
+                <div class="zoom-effect-container">
+                    <div class="card shadow">
+                        <img class="card-img-top" src="~/@product.ImagePath">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Name : @product.Name</h5>
+                    <p class="card-subtitle">Product Code:  @product.ProductCode</p>
+                    <p class="card-subtitle">Category:  @product.Category.Name</p>
+                    <p class="card-text">Price: ৳ @product.Price</p>
+                      <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
+                    <a asp-controller="cart" asp-action="buy" asp-route-id="@product.Id" class="btn btn-primary">Add To Cart</a>
+                </div>
+            </div>
+        </div>*@
 
     }
 </div>
