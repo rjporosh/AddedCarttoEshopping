@@ -1,9 +1,6 @@
 .zoom-effect-container {
     float: right;
     position: relative;
-    width: 0 auto;
-    height: 0 auto;
-    margin: 0 auto;
     overflow: hidden;
 }
 .card img {
