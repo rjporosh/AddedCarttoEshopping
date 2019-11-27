@@ -108,27 +108,27 @@ namespace Ecommerce.WebApp.Controllers
             return RedirectToAction("Index",cart);
         }
 
-        [Route("Edit/{Id}")]
-        public IActionResult Edit( long Id)
-        {
-            var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            int index = Exists(cart, Id);
-            var model = cart[index];
-            
-            
-            //  Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            return View(model);
-        }
-
       //  [Route("Edit/{Id}")]
-        public IActionResult Edit (long Id,[Bind("Product,Quantity,cart")]Item item)
-        {
-            var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-            int index = Exists(cart, Id);
-            cart[index]= item;
-            Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            return RedirectToAction("Index", cart);
-        }
+      //  public IActionResult Edit( long Id)
+      //  {
+      //      var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+      //      int index = Exists(cart, Id);
+      //      var model = cart[index];
+            
+            
+      //      //  Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+      //      return View(model);
+      //  }
+
+      ////  [Route("Edit/{Id}")]
+      //  public IActionResult Edit (long Id,[Bind("Product,Quantity,cart")]Item item)
+      //  {
+      //      var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+      //      int index = Exists(cart, Id);
+      //      cart[index]= item;
+      //      Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+      //      return RedirectToAction("Index", cart);
+      //  }
         // [Route("Clear")]
         public IActionResult Clear()
         {
@@ -142,18 +142,18 @@ namespace Ecommerce.WebApp.Controllers
             return RedirectToAction("Index", cart);
         }
 
-        private Item toEdit(List<Item> cart, long Id)
-        {
-             var item = new Item();
-            for (int i = 0; i < cart.Count; i++)
-            {
-                if (cart[i].product.Id == Id)
-                {
-                    return item = cart[i];
-                }
-            }
-            return item;
-        }
+        //private Item toEdit(List<Item> cart, long Id)
+        //{
+        //     var item = new Item();
+        //    for (int i = 0; i < cart.Count; i++)
+        //    {
+        //        if (cart[i].product.Id == Id)
+        //        {
+        //            return item = cart[i];
+        //        }
+        //    }
+        //    return item;
+        //}
         private  int Exists(List<Item> cart,long Id)
         {
             for(int i=0;i<cart.Count;i++)
