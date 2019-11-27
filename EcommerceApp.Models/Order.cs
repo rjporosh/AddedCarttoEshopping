@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceStack.DataAnnotations;
+using System;
 using System.Collections.Generic;
 
 namespace Ecommerce.Models
@@ -7,9 +8,12 @@ namespace Ecommerce.Models
     {
         public long Id { get; set; }
         public long CustomerId { get; set; }
+        [Unique]
         public string OrderNo { get; set; }
         public DateTime OrderDate { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
+        public string? ShippingAddress { get; set; }
+        public string PaymentMethod { get; set; }
 
         public List<ProductOrder> Products { get; set; }
         public virtual Customer Customer { get; set; }

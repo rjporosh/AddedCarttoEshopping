@@ -10,10 +10,10 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="form-group">
-            <label asp-for="Id" class="control-label"></label>
-            <input asp-for="Id" class="form-control" />
-            <span asp-validation-for="Id" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="Id" class="control-label"></label>
+                    <input asp-for="Id" class="form-control" />
+                    <span asp-validation-for="Id" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -55,7 +55,7 @@
                 }
             </div>
             <div class="form-group">
-              
+
                 <input type="file" asp-for="Image" accept="image/png , image/jpg" id="profile-img" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
                 <div>
@@ -90,10 +90,10 @@
                 </div>
             </div>
             @*<div class="form-group">
-            <label asp-for="CategoryId" class="control-label"></label>
-            <input asp-for="CategoryId" class="form-control" />
-            <span asp-validation-for="CategoryId" class="text-danger"></span>
-        </div>*@
+                    <label asp-for="CategoryId" class="control-label"></label>
+                    <input asp-for="CategoryId" class="form-control" />
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <label asp-for="CategoryId" class="col-md-12">Category</label>@*Dropdown List Binding*@
 
@@ -109,12 +109,12 @@
 
             </div>
             @*<div class="form-group">
-            <label asp-for="Stocks" class="col-md-12">Stocks</label>
+                    <label asp-for="Stocks" class="col-md-12">Stocks</label>
 
-            <select asp-for="Stocks" asp-items="@ViewBag.StockSelectList" class="form-control col-md-12"> </select>
-            <span asp-validation-for="Stocks" class="text-danger"></span>
+                    <select asp-for="Stocks" asp-items="@ViewBag.StockSelectList" class="form-control col-md-12"> </select>
+                    <span asp-validation-for="Stocks" class="text-danger"></span>
 
-        </div>*@
+                </div>*@
             <div class="form-group">
                 <label asp-for="ProductVariantsId" class="col-md-12">ProductVariants</label>
 
@@ -172,4 +172,14 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts
+ {
+    @*<script src="~/node_modules/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.js"></script>*@
+    <script src="~/jquery-validate/jquery.validate.js"></script>
+    <script src="~/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+}
+
 

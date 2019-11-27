@@ -30,12 +30,26 @@ namespace Ecommerce.WebApp.Controllers
             //  ViewBag.SelectList= new SelectList(category, "Id", "Name", selectList);
             List<string> option = new List<string>();
             option.Add("Pending");
+            option.Add("Cancelled");
             option.Add("Accepted");
             option.Add("Packed");
             option.Add("On The Way");
             option.Add("Delivered");
             ViewBag.SelectList = new SelectList(option, selectList);
                
+        }
+        private void PaymentMethodPopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
+        {
+            // var category = _productManager.GetAll();
+            //  ViewBag.SelectList= new SelectList(category, "Id", "Name", selectList);
+            List<string> option = new List<string>();
+            option.Add("Bkash");
+            option.Add("Rocket");
+            option.Add("Paypal");
+            option.Add("Master/Visa Card");
+            option.Add("On Delivery");
+            ViewBag.PaymentMethodSelectList = new SelectList(option, selectList);
+
         }
         public IActionResult Index() //Search Facilities
         {
@@ -49,18 +63,24 @@ namespace Ecommerce.WebApp.Controllers
         {
             var orders = _orderManager.GetAll();
             PopulateDropdownList();
+            PaymentMethodPopulateDropdownList();
             var model = new OrderVM();
             model.OrderDate = DateTime.Now;
             model.CustomerId = 1;
-            model.OrderNo = "100000"+model.CustomerId;
+            model.OrderNo = DateTime.Now.ToBinary().ToString()+model.CustomerId;
             model.OrderList = orders.ToList();
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status")]OrderVM model)
+        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod")]OrderVM model)
         {
-           
+            if(model.OrderNo == null || model.CustomerId==0 || model.OrderDate == null)
+            {
+                model.OrderDate = DateTime.Now;
+                model.CustomerId = 1;
+                model.OrderNo = DateTime.Now.ToString() + model.CustomerId;
+            }
            // model.OrderNo = 
             if (ModelState.IsValid)
             {
@@ -106,6 +126,7 @@ namespace Ecommerce.WebApp.Controllers
 
             var order = _orderManager.GetById((Int64)Id);
             PopulateDropdownList();
+            PaymentMethodPopulateDropdownList();
             OrderVM aOrder = _mapper.Map<OrderVM>(order);
             if (order == null)
             {
@@ -117,7 +138,7 @@ namespace Ecommerce.WebApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status")]OrderVM order)
+        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod")]OrderVM order)
         {
             if (Id != order.Id)
             {

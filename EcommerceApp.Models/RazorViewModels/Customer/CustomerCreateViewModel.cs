@@ -17,6 +17,10 @@ namespace Ecommerce.Models.RazorViewModels.Customer
         [Required]
         [Range(0,90)]
         public int LoyaltyPoint { get; set; }
+        public byte[]? Image { get; set; }
+        public string? ImagePath { get; set; }
+        public long Phone { get; set; }
+        public string Email { get; set; }
 
         [NotMapped]
         public List<Ecommerce.Models.Customer> CustomerList { get; set; }

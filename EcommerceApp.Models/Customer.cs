@@ -19,6 +19,10 @@ namespace Ecommerce.Models
 
         [Required]
         public int LoyaltyPoint { get; set; }
-        
+        public byte[]? Image { get; set; }
+        public string? ImagePath { get; set; }
+        public long Phone { get; set; }
+        public string Email { get; set; }
+
     }
 }

@@ -32,6 +32,8 @@ namespace Ecommerce.Configurations
             services.AddTransient<IStockRepository, StockRepository>();
             services.AddTransient<IProductOrderManager, ProductOrderManager>();
             services.AddTransient<IProductOrderRepository, ProductOrderRepository>();
+            services.AddTransient<Microsoft.AspNetCore.Identity.IdentityUser, Microsoft.AspNetCore.Identity.IdentityUser>();
+            services.AddTransient<Microsoft.AspNetCore.Identity.IdentityUser, Ecommerce.DatabaseContext.ApplicationUser>();
 
             services.AddTransient<DbContext, EcommerceDbContext>();
         }

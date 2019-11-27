@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="3.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ecommerce.Abstractions\Ecommerce.Abstractions.csproj" />
     <ProjectReference Include="..\Ecommerce.Repositories\Ecommerce.Repositories.csproj" />
     <ProjectReference Include="..\EcommerceApp.Models\Ecommerce.Models.csproj" />

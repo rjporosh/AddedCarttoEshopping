@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Ecommerce.Models.RazorViewModels.Product
@@ -7,6 +8,7 @@ namespace Ecommerce.Models.RazorViewModels.Product
     public class ProductVM
     {
         public long Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public double BuyCost { get; set; }
         public double Price { get; set; }
@@ -14,12 +16,12 @@ namespace Ecommerce.Models.RazorViewModels.Product
         public string? ProductCode { get; set; }
         public DateTime? ExpireDate { get; set; }
         public string? CategoryName { get; set; }
-
+        public Review  Review { get; set; }
         public byte[]? Image { get; set; }
         public string? ImagePath { get; set; }
 
         public bool IsActive { get; set; }
-
+        [Required]
         public long CategoryId { get; set; }
         public  Models.Category Category { get; set; }
         public virtual List<Models.Category> CategoryList { get; set; }

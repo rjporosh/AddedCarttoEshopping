@@ -37,9 +37,9 @@ namespace Ecommerce.WebApp
             services.AddDbContext<EcommerceDbContext>();
 
 
+          
 
-
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<EcommerceDbContext>();
             services.ConfigureServicesForEcommerce();
@@ -72,7 +72,7 @@ namespace Ecommerce.WebApp
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
                 options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                options.AccessDeniedPath ="/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
             services.AddCors(options =>

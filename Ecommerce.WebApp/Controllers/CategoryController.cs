@@ -24,7 +24,20 @@ namespace Ecommerce.WebApp.Controllers
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
         {
             var category = _categoryManager.GetAll();
-          
+            Category p = new Category
+            {
+                Id = 0,
+                Name = "Select a Category"
+            };
+            category.Clear();
+            category.Add(p);
+
+            var pp = _categoryManager.GetAll();
+            foreach (var prod in pp)
+            {
+                category.Add(prod);
+            }
+
             ViewBag.SelectList = new SelectList(category, "Id", "Name", selectList);
         }
         // GET: Category

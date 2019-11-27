@@ -18,9 +18,10 @@ namespace Ecommerce.Models
     public string? ImagePath { get; set; }
 
     public bool IsActive { get; set; }
-    //public long? StocksId { get; set; }
-    //[ForeignKey("StocksId")]
-    public Stock Stocks { get; set; }
+        public Review Review { get; set; }   
+        //public long? StocksId { get; set; }
+        //[ForeignKey("StocksId")]
+        public Stock Stocks { get; set; }
     [ForeignKey("ParentId")]
     public long? ParentId { get; set; }
     [ForeignKey("ProductVariantsId")]
