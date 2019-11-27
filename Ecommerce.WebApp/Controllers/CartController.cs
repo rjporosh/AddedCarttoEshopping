@@ -121,7 +121,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
       //  [Route("Edit/{Id}")]
-        public IActionResult Edit (long Id,[Bind("Product,Quantity")]Item item)
+        public IActionResult Edit (long Id,[Bind("Product,Quantity,cart")]Item item)
         {
             var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             int index = Exists(cart, Id);
@@ -138,7 +138,6 @@ namespace Ecommerce.WebApp.Controllers
                 return RedirectToAction("Index");
             }
             cart.Clear();
-            cart.Count();
             Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index", cart);
         }
@@ -155,7 +154,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             return item;
         }
-        private int Exists(List<Item> cart,long Id)
+        private  int Exists(List<Item> cart,long Id)
         {
             for(int i=0;i<cart.Count;i++)
             {

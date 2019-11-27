@@ -11,6 +11,7 @@ namespace Ecommerce.Models.RazorViewModels.Product
         [Required]
         public string Name { get; set; }
         public double BuyCost { get; set; }
+        public double? DiscountPrice { get; set; }
         public double Price { get; set; }
         public string? Description { get; set; }
         public string? ProductCode { get; set; }
@@ -65,11 +66,11 @@ namespace Ecommerce.Models.RazorViewModels.Product
        // public virtual Models.Size size { get; set; }
         public   Models.Product Parent { get; set; }
       
-        public virtual List<Models.Product> Childs { get; set; }
+        public  List<Models.Product> Childs { get; set; }
 
 
 
-        public virtual List<Models.Product> ProductList { get; set; }
+        public  List<Models.Product> ProductList { get; set; }
         public virtual List<Models.ProductOrder> Orders { get; set; }
     }
 }

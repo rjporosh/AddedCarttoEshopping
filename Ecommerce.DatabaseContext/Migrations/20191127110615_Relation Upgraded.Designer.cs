@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ecommerce.DatabaseContext.Migrations
 {
     [DbContext(typeof(EcommerceDbContext))]
-    [Migration("20191126131241_Test Migration")]
-    partial class TestMigration
+    [Migration("20191127110615_Relation Upgraded")]
+    partial class RelationUpgraded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -125,10 +125,18 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.Property<string>("Address")
                         .IsRequired();
 
+                    b.Property<string>("Email");
+
+                    b.Property<byte[]>("Image");
+
+                    b.Property<string>("ImagePath");
+
                     b.Property<int>("LoyaltyPoint");
 
                     b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<long>("Phone");
 
                     b.HasKey("Id");
 
@@ -183,6 +191,8 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<long?>("OrderId");
+
                     b.Property<long?>("ParentId");
 
                     b.Property<double>("Price");
@@ -194,6 +204,8 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ParentId");
 
@@ -336,6 +348,9 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Name")
                         .HasMaxLength(256);
 
@@ -350,6 +365,8 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -442,6 +459,22 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Ecommerce.DatabaseContext.ApplicationUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired();
+
+                    b.Property<string>("ApplicationUserRoleId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ApplicationUserRoleId");
+
+                    b.HasDiscriminator().HasValue("ApplicationUserRole");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Category", b =>
                 {
                     b.HasOne("Ecommerce.Models.Category", "Parent")
@@ -464,6 +497,10 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("Ecommerce.Models.Order")
+                        .WithMany("Products")
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("Ecommerce.Models.Product", "Parent")
                         .WithMany("Childs")
                         .HasForeignKey("ParentId");
@@ -480,7 +517,7 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("Ecommerce.Models.Order", "Order")
-                        .WithMany("Products")
+                        .WithMany("ProductOrders")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
@@ -535,7 +572,7 @@ namespace Ecommerce.DatabaseContext.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("Ecommerce.DatabaseContext.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -543,7 +580,7 @@ namespace Ecommerce.DatabaseContext.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("Ecommerce.DatabaseContext.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -564,9 +601,21 @@ namespace Ecommerce.DatabaseContext.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.HasOne("Ecommerce.DatabaseContext.ApplicationUser")
-                        .WithMany()
+                        .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Ecommerce.DatabaseContext.ApplicationUserRole", b =>
+                {
+                    b.HasOne("Ecommerce.DatabaseContext.ApplicationUser")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Ecommerce.DatabaseContext.ApplicationUserRole")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("ApplicationUserRoleId");
                 });
 #pragma warning restore 612, 618
         }

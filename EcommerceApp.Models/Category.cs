@@ -15,14 +15,10 @@ namespace Ecommerce.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public long? ParentId { get; set; }
-        //[JsonIgnore]
-        //[IgnoreDataMember]
         public virtual Category Parent { get; set; }
 
         [InverseProperty("Parent")]
-        public virtual List<Category> Childs { get; set; }
-       // [JsonIgnore]
-      // [IgnoreDataMember]
+        public List<Category> Childs { get; set; }
         public virtual List<Product> Products { get; set; }
        
 

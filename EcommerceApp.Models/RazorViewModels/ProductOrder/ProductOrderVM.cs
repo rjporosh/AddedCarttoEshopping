@@ -13,7 +13,7 @@ namespace Ecommerce.Models.RazorViewModels.ProductOrder
         public string Status { get; set; }
        // public Models.Customer Customer { get; set; }
         //  public long CustomerId { get; set; }
-        public virtual Models.Order Order { get; set; }
-        public virtual Models.Product Product { get; set; }
+        public  Models.Order Order { get; set; }
+        public  Models.Product Product { get; set; }
     }
 }

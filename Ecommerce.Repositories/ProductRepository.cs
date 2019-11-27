@@ -20,9 +20,13 @@ namespace Ecommerce.Repositories
 
         public override ICollection<Product> GetAll()
         {
-            return _db.Products
-                .Include(c => c.Stocks)
+            return _db.Products.Include(c => c.Stocks)
+                .Include(c=>c.Review)
                 .Include(c =>  c.Category)
+                .ThenInclude(c=>c.Parent)
+                .ThenInclude(c=>c.Childs)
+                .Include(c=>c.Childs)
+
                 //.Include(c=>c.size)
                 .Include(c=>c.ProductVariants)
                 .ThenInclude(c => c.Size)
@@ -33,8 +37,13 @@ namespace Ecommerce.Repositories
             
            var product= _db.Products.Where(c => c.Id == id)
                 .Include(c => c.Category)
+                 .ThenInclude(c => c.Parent)
+                .ThenInclude(c => c.Childs)
+                .Include(c => c.Childs)
                 .Include(c => c.Stocks)
-              //  .Include(c => c.size)
+                 .Include(c => c.Review)
+
+                //  .Include(c => c.size)
                 .Include(c => c.ProductVariants)
                  .ThenInclude(c=>c.Size)
                 .FirstOrDefault();

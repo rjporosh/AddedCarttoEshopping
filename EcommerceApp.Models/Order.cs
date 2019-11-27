@@ -16,6 +16,7 @@ namespace Ecommerce.Models
         public string PaymentMethod { get; set; }
 
         public List<ProductOrder> Products { get; set; }
+        public List<Item> ProductList { get; set; }
         public virtual Customer Customer { get; set; }
     }
 }
