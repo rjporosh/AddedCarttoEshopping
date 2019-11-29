@@ -104,10 +104,11 @@ namespace Ecommerce.WebApp.Controllers
 
                     bool isAdded = _orderManager.Add(order);
                     long id = order.Id;
+
                     if (isAdded)
                     {
                         ProductOrder po = new ProductOrder();
-                        Order o = _orderManager.OrderPending();
+                        Order o = _orderManager.GetById(id);
                         var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                     
                         foreach(var item in cart)
