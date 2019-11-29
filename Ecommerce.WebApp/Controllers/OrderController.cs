@@ -120,6 +120,8 @@ namespace Ecommerce.WebApp.Controllers
                             po.Status = "Pending";
                             _productOrderManager.Add(po);
                         }
+                        cart.Clear();
+                        Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                         ViewBag.SuccessMessage = "Order Saved Successfully!";
                         //return nameof()
                     }
