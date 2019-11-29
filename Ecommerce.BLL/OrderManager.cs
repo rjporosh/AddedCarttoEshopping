@@ -23,5 +23,10 @@ namespace Ecommerce.BLL
         {
             return _orderRepository.OrderExists(Id);
         }
+
+        public Order OrderPending()
+        {
+            return _orderRepository.OrderPending();
+        }
     }
 }

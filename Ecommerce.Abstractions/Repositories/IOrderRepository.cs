@@ -10,5 +10,6 @@ namespace Ecommerce.Abstractions.Repositories
     public interface IOrderRepository:IRepository<Order>
     {
         bool OrderExists(long Id);
+        Order OrderPending();
     }
 }

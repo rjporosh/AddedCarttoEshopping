@@ -28,5 +28,10 @@ namespace Ecommerce.Repositories
         {
             return _db.Orders.Any(c => c.Id == Id);
         }
+
+        public Order OrderPending()
+        {
+            return _db.Orders.Where(c => c.Status == "Pending").FirstOrDefault();
+        }
     }
 }

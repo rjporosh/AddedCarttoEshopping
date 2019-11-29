@@ -9,5 +9,6 @@ namespace Ecommerce.Abstractions.BLL
     public interface IOrderManager : IManager<Order>
     {
         bool OrderExists(long id);
+        Order OrderPending();
     }
 }

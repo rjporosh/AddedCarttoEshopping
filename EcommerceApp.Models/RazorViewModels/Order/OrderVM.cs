@@ -24,5 +24,6 @@ namespace Ecommerce.Models.RazorViewModels.Order
         public string Status { get; set; }
         public List<Models.ProductOrder> Products { get; set; }
         public List<Models.Order>  OrderList { get; set; }
+        public List<Item> ProductList { get; set; }
     }
 }

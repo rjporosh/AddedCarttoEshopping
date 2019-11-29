@@ -102,11 +102,14 @@ namespace Ecommerce.WebApp.Controllers
                 var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 int index = Exists(cart, Id);
                 cart.RemoveAt(index);
-                cart.Count();
-
             Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index",cart);
         }
+        
+        //public IActionResult Checkout()
+        //{
+        //    return View();
+        //}
 
       //  [Route("Edit/{Id}")]
       //  public IActionResult Edit( long Id)

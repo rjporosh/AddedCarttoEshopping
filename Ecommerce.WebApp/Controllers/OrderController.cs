@@ -30,10 +30,11 @@ namespace Ecommerce.WebApp.Controllers
             //  ViewBag.SelectList= new SelectList(category, "Id", "Name", selectList);
             List<string> option = new List<string>();
             option.Add("Pending");
+            option.Add("Rejected");
             option.Add("Cancelled");
             option.Add("Accepted");
             option.Add("Packed");
-            option.Add("On The Way");
+            option.Add("On The Way");      
             option.Add("Delivered");
             ViewBag.SelectList = new SelectList(option, selectList);
                
@@ -61,6 +62,7 @@ namespace Ecommerce.WebApp.Controllers
 
         public IActionResult Create()
         {
+            var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             var orders = _orderManager.GetAll();
             PopulateDropdownList();
             PaymentMethodPopulateDropdownList();
@@ -68,14 +70,21 @@ namespace Ecommerce.WebApp.Controllers
             model.OrderDate = DateTime.Now;
             model.CustomerId = 1;
             model.OrderNo = DateTime.Now.ToBinary().ToString()+model.CustomerId;
+            model.ProductList = cart;
             model.OrderList = orders.ToList();
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod")]OrderVM model)
+        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList")]OrderVM model)
         {
-            if(model.OrderNo == null || model.CustomerId==0 || model.OrderDate == null)
+            //var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+            //if(model.ProductList == null)
+            //{
+            //    model.ProductList = cart;
+
+            //}
+            if (model.OrderNo == null || model.CustomerId==0 || model.OrderDate == null)
             {
                 model.OrderDate = DateTime.Now;
                 model.CustomerId = 1;
@@ -96,6 +105,21 @@ namespace Ecommerce.WebApp.Controllers
                     bool isAdded = _orderManager.Add(order);
                     if (isAdded)
                     {
+                        ProductOrder po = new ProductOrder();
+                        Order o = _orderManager.OrderPending();
+                        var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+                    
+                        foreach(var item in cart)
+                        {
+                            po.ProductId = item.product.Id;
+                           
+                            po.Quantity = item.Quantity;
+                            po.OrderId = o.Id;
+                            po.Customer = o.Customer;
+                            po.CustomerId = o.CustomerId;
+                            po.Status = "Pending";
+                            _productOrderManager.Add(po);
+                        }
                         ViewBag.SuccessMessage = "Order Saved Successfully!";
                         //return nameof()
                     }
