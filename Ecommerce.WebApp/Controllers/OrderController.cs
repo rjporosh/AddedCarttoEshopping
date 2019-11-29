@@ -103,6 +103,7 @@ namespace Ecommerce.WebApp.Controllers
                     order.Status = "Pending";
 
                     bool isAdded = _orderManager.Add(order);
+                    long id = order.Id;
                     if (isAdded)
                     {
                         ProductOrder po = new ProductOrder();
@@ -114,7 +115,7 @@ namespace Ecommerce.WebApp.Controllers
                             po.ProductId = item.product.Id;
                            
                             po.Quantity = item.Quantity;
-                            po.OrderId = o.Id;
+                            po.OrderId = id;
                             po.Customer = o.Customer;
                             po.CustomerId = o.CustomerId;
                             po.Status = "Pending";
