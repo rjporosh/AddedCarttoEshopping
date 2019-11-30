@@ -23,6 +23,7 @@ namespace Ecommerce.Repositories
             return _db.ProductOrder
                .Include(c => c.Product)
                .Include(c => c.Order)
+               .ThenInclude(c=>c.Customer)
                .ToList();
         }
     }

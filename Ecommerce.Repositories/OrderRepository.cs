@@ -20,8 +20,9 @@ namespace Ecommerce.Repositories
         public override ICollection<Order> GetAll()
         {
             return _db.Orders
-                //.Include(c=>c.Customer)
-                //.Include(c => c.Products)
+                .Include(c=>c.Customer)
+                .Include(c => c.Products)
+               // .Include(c=>c.ProductList)
                 .ToList();
         }
         public bool OrderExists(long Id)

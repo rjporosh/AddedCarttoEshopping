@@ -5,9 +5,18 @@
         <thead>
             <tr>
                 @*<th>Id</th>*@
+                <th>Customer Id</th>
+                <th>Customer Photo</th>
+                <th>Customer Name</th>
                 <th>Order Id</th>
+                <th>Order No</th>
+                <th>Shipping Address</th>
+                <th>Payment Method</th>
                 <th> Product Id </th>
+                <th> Product Name </th>
+                <th> Product Photo </th>
                 <th>Quantity</th>
+                <th>Date</th>
                 <th>Status</th>
                 @*<th>Customer Id</th>*@
                 @*<th>Action</th>*@
@@ -18,23 +27,31 @@
         <tbody>
             @foreach (var order in Model)
             {
-                <tr>
-                    @*<th>@order.Id</th>*@
-                    <td>@order.OrderId</td>
-                    <td>@order.ProductId</td>
-                  
-                    <td>@order.Quantity</td>
-                    <td>@order.Status</td>
-                      @*<td>@order.CustomerId</td>*@
+            <tr>
+                @*<th>@order.Id</th>*@
+                <td>@order.CustomerId</td>
+                <td>   <img class="img-responsive" width="50" height="50" src="~/@order.Customer.ImagePath" /></td>
+                <td>@order.Customer.Name</td>
+                <td>@order.OrderId</td>
+                <td>@order.Order.OrderNo</td>
+                <td>@order.Order.ShippingAddress</td>
+                <td>@order.Order.PaymentMethod</td>
+                <td>@order.ProductId</td>
+                <td>@order.Product.Name</td>
+                <td>   <img class="img-responsive" width="50" height="50" src="~/@order.Product.ImagePath" /></td>
+                <td>@order.Quantity</td>
+                <td>@order.Order.OrderDate</td>
+                <td>@order.Order.Status</td>
+                @*<td>@order.CustomerId</td>*@
 
-                    @*<td>
-                        <a asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
-                        <a asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Order : @order.Id')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+                @*<td>
+            <a asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
+            <a asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Order : @order.Id')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
 
 
-                   
-                    </td>*@
-                </tr>
+
+        </td>*@
+            </tr>
             }
         </tbody>
     </table>
