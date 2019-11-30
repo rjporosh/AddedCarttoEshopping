@@ -234,7 +234,8 @@ namespace Ecommerce.WebApp.Controllers
 
                 var Product = _mapper.Map<Product>(model);
                 bool isAdded = _productManager.Add(Product);
-                var p = _productManager.ProductWithoutProductCode();
+                long id = Product.Id;
+                var p = _productManager.GetById(id);
                 string pc = p.ParentId.ToString();
                 pc = pc + (p.CategoryId)+(p.ProductVariantsId)+(p.Id);
                 p.ProductCode = pc;
@@ -407,6 +408,7 @@ namespace Ecommerce.WebApp.Controllers
 
                 Product.IsActive = true;
                 ProductVM aProduct = _mapper.Map<ProductVM>(Product);
+                 aProduct.Image = Product.Image;
                 if (Product == null)
                 {
                     return NotFound();
@@ -419,9 +421,9 @@ namespace Ecommerce.WebApp.Controllers
 
       [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long Id, [Bind("Id,Name,Description,BuyCost,ProductCode,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Parent,Stocks,StocksQuantity,StocksUnit,ProductVariants,ProductVariantsId,ProductVariantsSize,Parent,Category,ProductVariantsSizeId,StocksQuantity")]ProductVM aProduct, IFormFile Image)
+        public async Task<IActionResult> Edit(long Id, [Bind("Id,ImagePath,Image,Name,Description,BuyCost,ProductCode,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Parent,Stocks,StocksQuantity,StocksUnit,ProductVariants,ProductVariantsId,ProductVariantsSize,Parent,Category,ProductVariantsSizeId,StocksQuantity")]ProductVM aProduct, IFormFile Image)
         {
-            var Product = _mapper.Map<Product>(aProduct);
+          //  var Product = _mapper.Map<Product>(aProduct);
             if (Id != aProduct.Id)
             {
                 return NotFound();
@@ -460,7 +462,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             else
             {
-                aProduct.Image = aProduct.Image;
+              
                 if (aProduct.Image == null && aProduct.ImagePath == null)
                 {
                     aProduct.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
@@ -477,19 +479,26 @@ namespace Ecommerce.WebApp.Controllers
            
             if (ModelState.IsValid)
             {
-                 Product = _mapper.Map<Product>(aProduct);
-             
-                if (Product.ImagePath == null)
-                {
-                    Product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
-                }
+               var  Product = _mapper.Map<Product>(aProduct);
                 bool isUpdated = _productManager.Update(Product);
                 var pv = _productManager.GetByPVId(aProduct.ProductVariantsId);
+                pv.Brand = aProduct.ProductVariants.Brand;
+                pv.Color = aProduct.ProductVariants.Color;
+                pv.Name = aProduct.ProductVariants.Name;
+                pv.Type = aProduct.ProductVariants.Type;
                 pv.SizeId = aProduct.ProductVariants.SizeId;
-                 _productVariantManager.Update(pv);
+                pv.Size.Name = aProduct.ProductVariants.Size.Name;
+                pv.Size.Code = aProduct.ProductVariants.Size.Code;
+                _productVariantManager.Update(pv);
                 var a = _productManager.GetById(Id);
+                long? i = pv.SizeId;
+                var sz = _sizeManager.Find(i);
+                sz.Name = aProduct.ProductVariants.Size.Name;
+                sz.Code = aProduct.ProductVariants.Size.Code;
+                _sizeManager.Update(sz);
                 var ast = _stockManager.check(Id);
                 ast.Quantity = aProduct.Stocks.Quantity;
+                ast.Unit = aProduct.Stocks.Unit;
                 _stockManager.Update(ast);
                 if (isUpdated)
                 {
