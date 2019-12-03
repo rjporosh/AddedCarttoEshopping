@@ -76,7 +76,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList")]OrderVM model)
+        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone")]OrderVM model)
         {
             //var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             //if(model.ProductList == null)
@@ -166,7 +166,7 @@ namespace Ecommerce.WebApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod")]OrderVM order)
+        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,Phone")]OrderVM order)
         {
             if (Id != order.Id)
             {

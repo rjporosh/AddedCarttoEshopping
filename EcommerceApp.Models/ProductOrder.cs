@@ -14,6 +14,8 @@ namespace Ecommerce.Models
         public long CustomerId { get; set; }
         public Order Order { get; set; }
         public Product Product { get; set; }
+        public int? DiscountPercentage { get; set; }
+        public Decimal? UnitPrice { get; set; }
 
     }
 }

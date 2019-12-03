@@ -10,6 +10,8 @@ namespace Ecommerce.Models
         public long CustomerId { get; set; }
         [Unique]
         public string OrderNo { get; set; }
+        public string Phone { get; set; }
+        //public Decimal? DiscountPercentage { get; set; }
         public DateTime OrderDate { get; set; }
         public string? Status { get; set; }
         public string? ShippingAddress { get; set; }

@@ -54,9 +54,12 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [Route("buy/{Id}")]
-        public IActionResult buy(long Id,[Bind("Product,Quantity")]Item item)
+        public IActionResult buy(long Id,[Bind("product,Quantity")]Item item)
         {
-            
+            if(item==null)
+            {
+                item.product = _manager.GetById(Id);
+            }
             if (Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart") == null)
             {
                 if (item.Quantity==0)
@@ -79,7 +82,7 @@ namespace Ecommerce.WebApp.Controllers
                 int index = Exists(cart,Id);
                 if(index== -1)
                 {
-                    cart.Add(new Item() { product = _manager.Find(Id), Quantity = 1 });
+                    cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity });
                    // po.ProductList.Add(item.product);
                     po.Quantity = item.Quantity;
                     po.Product = item.product;

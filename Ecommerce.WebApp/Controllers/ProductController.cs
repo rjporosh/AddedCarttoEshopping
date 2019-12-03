@@ -274,65 +274,16 @@ namespace Ecommerce.WebApp.Controllers
 
                 return View(products);
             }
-            public IActionResult Details(int? Id)
+            public IActionResult Details(long Id)
             {
-                if (Id == null)
-                {
-                    return NotFound();
-                }
-
-
-                var Product = _productManager.GetById((Int64)Id);
-                PopulateDropdownList(Product.CategoryId);
-                if (Product.Parent == null || Product.ParentId != 0)
-                {
-                    PopulateDropdownList1(Product.ParentId);
-                }
-                if (Product.Stocks == null)
-                {
-                    StockPopulateDropdownList(0);
-                }
-                if (Product.ProductVariants == null || Product.ProductVariantsId > 0)
-                {
-                    if (Product.ProductVariants.Size == null || Product.ProductVariants.SizeId > 0)
-                    {
-                        SizePopulateDropdownList(Product.ProductVariants.SizeId);
-                    }
-                    ProductVariantsPopulateDropdownList(Product.ProductVariantsId);
-                }
-                if (Product.ParentId == null)
-                {
-                    Product.ParentId = 0;
-                }
-                if (Product.Image == null || Product.ImagePath == null)
-                {
-                    Product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
-                }
-                Ecommerce.Abstractions.Helper.Item aProduct = _mapper.Map < Ecommerce.Abstractions.Helper.Item> (Product);
-                PopulateDropdownList(Product.CategoryId);
-                if (Product.Parent == null || Product.ParentId != 0)
-                {
-                    PopulateDropdownList1(Product.ParentId);
-                }
-                if (Product.Stocks == null)
-                {
-                    var stock = _stockManager.GetByPId(Product.Id);
-                    StockPopulateDropdownList(stock.Stocks.Id);
-                }
-                if (Product.ProductVariants == null || Product.ProductVariantsId > 0)
-                {
-                    if (Product.ProductVariants.Size == null || Product.ProductVariants.SizeId > 0)
-                    {
-                        SizePopulateDropdownList(Product.ProductVariants.SizeId);
-                    }
-                    ProductVariantsPopulateDropdownList(Product.ProductVariantsId);
-                }
-                aProduct.product = _mapper.Map<Product>(Product);
-                if (Product == null)
-                {
-                    return NotFound();
-                }
-                return View(aProduct);
+                           var Product = _productManager.Find(Id);
+                           Ecommerce.Abstractions.Helper.Item Item = new Ecommerce.Abstractions.Helper.Item
+                                      {
+                                         product = Product,
+                                         ProductCategoryName = Product.Category.Name,
+                                         Quantity = 2
+                                       };
+                           return View(Item);
             }
         
 

@@ -20,6 +20,8 @@ namespace Ecommerce.Models.RazorViewModels.Order
         [ServiceStack.DataAnnotations.Unique]
         [Required(ErrorMessage = "Please provide OrderNo!")]
         public string OrderNo { get; set; }
+        public string Phone { get; set; }
+       // public Decimal? DiscountPercentage { get; set; }
         public DateTime OrderDate { get; set; }
         public string Status { get; set; }
         public List<Models.ProductOrder> Products { get; set; }

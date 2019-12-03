@@ -61,7 +61,7 @@
                     </div>
                     <div class="col-12">
                         <div class="row">
-                            <a asp-controller="cart" asp-action="buy" asp-route-id="@Model.product.Id" class="btn btn-primary">
+                            <a asp-controller="cart" asp-action="buy" asp-route-id="@Model.product.Id" asp-route-all="@Model" class="btn btn-primary">
                                 Add to cart
                             </a>
                         </div>
