@@ -31,7 +31,8 @@ namespace Ecommerce.DatabaseContext
         {
             optionsBuilder
                 .UseLazyLoadingProxies(false)
-                .UseSqlServer("Server=(local);Database=Ecommerce; Integrated Security=true");
+                .UseSqlServer("Server=(local);Database=Ecommerce; Integrated Security=true")
+                .EnableSensitiveDataLogging() ;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

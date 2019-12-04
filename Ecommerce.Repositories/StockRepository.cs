@@ -35,7 +35,13 @@ namespace Ecommerce.Repositories
         {
             return _db.Products
                 .Where(c=>c.Id == Id)
+                .Include(c=>c.Stocks)
                 .FirstOrDefault();
+        }
+        public override bool Update(Stock entity)
+        {
+            _db.Entry(entity).State = EntityState.Modified;
+            return _db.SaveChanges() > 0;
         }
 
         public override bool Remove(Stock entity)

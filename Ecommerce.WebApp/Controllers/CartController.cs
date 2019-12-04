@@ -79,6 +79,10 @@ namespace Ecommerce.WebApp.Controllers
             else
             {
                 var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+                if (item.Quantity == 0)
+                {
+                    item.Quantity = 1;
+                }
                 int index = Exists(cart,Id);
                 if(index== -1)
                 {

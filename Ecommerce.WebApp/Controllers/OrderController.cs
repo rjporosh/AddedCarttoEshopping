@@ -16,12 +16,17 @@ namespace Ecommerce.WebApp.Controllers
     {
         private IOrderManager _orderManager;
         private IProductOrderManager _productOrderManager;
+        private IProductManager _productManager;
+
+        private IStockManager _stockManager;
         private IMapper _mapper;
 
-        public OrderController(IOrderManager orderManager, IMapper mapper, IProductOrderManager productOrderManager)
+        public OrderController(IOrderManager orderManager, IMapper mapper, IProductOrderManager productOrderManager, IStockManager stockManager, IProductManager productManager)
         {
             _orderManager = orderManager;
             _productOrderManager = productOrderManager;
+            _stockManager = stockManager;
+            _productManager = productManager;
             _mapper = mapper;
         }
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
@@ -114,13 +119,17 @@ namespace Ecommerce.WebApp.Controllers
                         foreach(var item in cart)
                         {
                             po.ProductId = item.product.Id;
-                           
+                            long pid = item.product.Id;
                             po.Quantity = item.Quantity;
+                            int qty = item.Quantity;
                             po.OrderId = id;
                             po.Customer = o.Customer;
                             po.CustomerId = o.CustomerId;
                             po.Status = "Pending";
                             _productOrderManager.Add(po);
+                            var stock = _stockManager.check(pid);
+                            stock.Quantity = stock.Quantity- qty;
+                            _stockManager.Update(stock);
                         }
                         cart.Clear();
                         Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
@@ -166,7 +175,7 @@ namespace Ecommerce.WebApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,Phone")]OrderVM order)
+        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,Phone,Products")]OrderVM order)
         {
             if (Id != order.Id)
             {
@@ -177,17 +186,11 @@ namespace Ecommerce.WebApp.Controllers
             {
               
                 var aOrder = _mapper.Map<Order>(order);
-                //if (_customerManager.CustomerExists(customer.Name))
-                //{
-                //    ViewBag.ErrorMessage = "Customer Exists Already";
-                //}
-                //else
-                //{
                 bool isUpdated = _orderManager.Update(aOrder);
                 if (isUpdated)
                 {
                     var orders = _orderManager.GetAll();
-                    ViewBag.SuccessMessage = "Updated Successfully!";
+                    ViewBag.SuccessMessage = "Order Updated Successfully!";
                     return View("Index", orders);
 
                 }
@@ -212,7 +215,7 @@ namespace Ecommerce.WebApp.Controllers
                 if (isDeleted)
                 {
                     var orders = _orderManager.GetAll();
-                    ViewBag.SuccessMessage = "Deleted Successfully.!";
+                    ViewBag.SuccessMessage = "Order Deleted Successfully.!";
                     return View("Index", orders);
                 }
 

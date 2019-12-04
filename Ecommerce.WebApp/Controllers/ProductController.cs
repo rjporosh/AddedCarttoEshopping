@@ -171,7 +171,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,ExpireDate,Description,BuyCost,ProductCode,CategoryId,CategoryList,CategoryName,IsActive,Orders,DiscountPrice,Image,ImagePath,ProductVariantsId,StocksId,ParentId,ProductVariants,Parent,StocksQuantity,ProductVariantsSizeId,Size,ProductVariantsSize,StocksQuantity,StocksUnit,Stocks")]ProductVM model, IFormFile Image)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,ExpireDate,Description,BuyCost,ProductCode,CategoryId,CategoryList,CategoryName,IsActive,Orders,DiscountPrice,Image,ImagePath,ProductVariantsId,StocksId,ParentId,ProductVariants,Parent,StocksQuantity,ProductVariantsSizeId,Size,ProductVariantsSize,StocksQuantity,StocksUnit,Stocks,DiscountPercent")]ProductVM model, IFormFile Image)
         {
             if (model.Stocks.Quantity == null)
             {
@@ -372,7 +372,7 @@ namespace Ecommerce.WebApp.Controllers
 
       [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long Id, [Bind("Id,ImagePath,Image,Name,Description,BuyCost,DiscountPrice,ProductCode,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Parent,Stocks,StocksQuantity,StocksUnit,ProductVariants,ProductVariantsId,ProductVariantsSize,Parent,Category,ProductVariantsSizeId,StocksQuantity")]ProductVM aProduct, IFormFile Image)
+        public async Task<IActionResult> Edit(long Id, [Bind("Id,ImagePath,Image,Name,Description,BuyCost,DiscountPrice,ProductCode,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Parent,Stocks,StocksQuantity,StocksUnit,ProductVariants,ProductVariantsId,ProductVariantsSize,Parent,Category,ProductVariantsSizeId,StocksQuantity,DiscountPercent")]ProductVM aProduct, IFormFile Image)
         {
           //  var Product = _mapper.Map<Product>(aProduct);
             if (Id != aProduct.Id)

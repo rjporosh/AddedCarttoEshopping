@@ -55,38 +55,6 @@
 
     @foreach (var product in Model)
     {
-
-        @*<div class="col-md-4">
-                <div class="card shadow">
-                    <h3 class="card-title" color:"red"><b>@product.Name</b></h3>
-
-                    <div class="main">
-                        @if (product.ImagePath == null)
-                        {
-                            product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
-                        }
-                        <div class="zoom-effect-container">
-                            <div class="card shadow">
-                                <img class="card-img-top " src="~/@product.ImagePath" style="height: 250px ; width: 250px;" alt="...">
-                            </div>
-                        </div>
-                   
-                    </div>
-                    <div class="card-body">
-                        <h4 class="card-subtitle">Price: @product.Price ৳</h4>
-                        <h5 class="card-subtitle">Product Code : @product.ProductCode</h5>
-                        <br />
-                        <h5 class="card-subtitle">Category : @product.Category.Name</h5>
-                        <br />
-                        <h5 class="card-subtitle">Expire Date : @product.ExpireDate</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
-                        <a asp-controller="cart" asp-action="buy" asp-route-id="@product.Id" class="btn btn-primary">Add To Cart</a>
-                        <br />
-                    </div>
-                </div>
-                <br />
-            </div>*@
         <div class="col-md-3">
             <div class="card">
                 @if (product.ImagePath == null)
@@ -98,14 +66,53 @@
                         <img class="card-img-top" src="~/@product.ImagePath">
                     </div>
                 </div>
-                <div class="card-body">
-                    <h5 class="card-title">Name : @product.Name</h5>
-                    <p class="card-subtitle">Product Code:  @product.ProductCode</p>
-                    <p class="card-subtitle">Category:  @product.Category.Name</p>
-                    <p class="card-text">Price: ৳ @product.Price</p>
-                      <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
+                @*<div class="card-body">
+                    @if (product.Stocks.Quantity > 0)
+                    {
+                        <p class="card-title">Available : Yes</p>
+                    }
+                    else
+                    {
+                        <p class="card-title">Available : No</p>
+                    }
+                    <p class="card-text">Actual Price: ৳ @product.Price</p>
+                    @if (product.DiscountPercent == null)
+                    {
+                        <p class="card-text">Discount Percent: 0      %</p>
+                    }
+                    else
+                    {
+                        <p class="card-text">Discount Percent:@product.DiscountPercent %</p>
+                    }
+                </div>*@
+            <div class="card-body">
+                <h5 class="card-title">Name : @product.Name</h5>
+                <p class="card-subtitle">Product Code:  @product.ProductCode</p>
+                <p class="card-subtitle">Category:  @product.Category.Name</p>
+                <p class="card-text">Price: ৳ @product.DiscountPrice</p>
+                @if (product.Stocks.Quantity > 0)
+                {
+                    <p class="card-title">Available : Yes</p>
+                }
+                else
+                {
+                    <p class="card-title">Available : No</p>
+                }
+                <p class="card-text">Actual Price: ৳ @product.Price</p>
+                @if (product.DiscountPercent == null)
+                {
+                    <p class="card-text">Discount Percent: 0      %</p>
+                }
+                else
+                {
+                    <p class="card-text">Discount Percent:@product.DiscountPercent %</p>
+                }
+                <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
+                @if (product.Stocks.Quantity > 0)
+                {
                     <a asp-controller="cart" asp-action="buy" asp-route-id="@product.Id" class="btn btn-primary">Add To Cart</a>
-                </div>
+                }
+            </div>
             </div>
         </div>
 

@@ -11,6 +11,7 @@ namespace Ecommerce.Models.RazorViewModels.Product
         [Required]
         public string Name { get; set; }
         public double BuyCost { get; set; }
+        public double? DiscountPercent { get; set; }
         public double? DiscountPrice { get; set; }
         public double Price { get; set; }
         public string? Description { get; set; }

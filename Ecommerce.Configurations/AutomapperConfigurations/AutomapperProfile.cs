@@ -56,6 +56,12 @@ namespace Ecommerce.Configurations.AutomapperConfigurations
             CreateMap<SizeVM, Size>();
             CreateMap<ProductVariants, ProductVariantsVM>();
             CreateMap<ProductVariantsVM, ProductVariants>();
+            CreateMap<ProductOrder, Item>();
+            CreateMap<Item, ProductOrder>();
+            CreateMap<ProductVM, Item>();
+            CreateMap<Item, ProductVM>();
+            CreateMap<ProductOrderVM, Item>();
+            CreateMap<Item, ProductOrderVM>();
 
 
 
