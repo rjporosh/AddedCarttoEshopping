@@ -9,7 +9,7 @@
             <th>Name</th>
             <th> Parent </th>
             @*<th> Parent Category </th>*@
-            @*<th>Childs</th>*@
+            <th>Childs</th>
             <th>Action</th>
         </tr>
 
@@ -18,57 +18,75 @@
     <tbody>
         @foreach (var category in Model)
         {
-            <tr>
-                <td>
-                   @category.Id
-                </td>
-                <td>@category.Name</td>
-                <td>
-                    @if (category.ParentId != null || category.ParentId != 0)
+        <tr>
+            <td>
+                @category.Id
+            </td>
+            <td>@category.Name</td>
+            <td>
+                @if (category.ParentId != null || category.ParentId != 0)
+                {
+                    if (category.Parent == null)
                     {
-                        if (category.Parent == null)
-                        {
-                          
-                        }
-
-                        else
-                        {
-                            @category.Parent.Name
-                        }
 
                     }
+
                     else
                     {
+                        @category.Parent.Name
                     }
-                            </td>
 
-                @*<td>
+                }
+                else
+                {
+                }
+            </td>
+
+            @*<td>
+            @foreach (var c in category.Childs)
+            {
+                if (c == null || c.Childs == null)
+                {
+                }
+                else
+                {
+                    @c.Name
+                    <br />
+                }
+
+            }
+        </td>*@
+            <td>
+                <table>
                     @foreach (var c in category.Childs)
                     {
-                        if (c == null || c.Childs == null)
-                        {
-                        }
-                        else
-                        {
-                            @c.Name
-                            <br />
-                        }
-
-                    }
-                </td>*@
-                @*<td>@category.Parent</td>*@
-               
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
-                    <a  asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? category : @category.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+                        <tr>
+                            <td>
+                               @if (c == null || c.Childs == null)
+                                {
+                                }
+                                else
+                                {
+                                  @c.Name
+                                }
+                            </td>
+                        </tr>
+}
+                </table>
+            </td>
+            @*<td>@category.Parent</td>*@
 
 
-                    @*<button class="btn btn-warning" onclick="location.href = '@Url.Action("Edit", "category")?Id=@category.Id'">Edit</button> |
-                        <button class="btn btn-info" onclick="location.href = '@Url.Action("Details", "category")?id=@category.Id'">Details</button> |
-                        <button class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", "category")?Id=@category.Id'">Delete</button>*@
-                </td>
-            </tr>
+            <td>
+                <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
+                <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? category : @category.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+
+
+                @*<button class="btn btn-warning" onclick="location.href = '@Url.Action("Edit", "category")?Id=@category.Id'">Edit</button> |
+            <button class="btn btn-info" onclick="location.href = '@Url.Action("Details", "category")?id=@category.Id'">Details</button> |
+            <button class="btn btn-danger" onclick="location.href = '@Url.Action("Delete", "category")?Id=@category.Id'">Delete</button>*@
+            </td>
+        </tr>
         }
     </tbody>
 </table>

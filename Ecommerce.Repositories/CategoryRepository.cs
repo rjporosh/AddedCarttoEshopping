@@ -19,8 +19,9 @@ namespace Ecommerce.Repositories
         public override ICollection<Category> GetAll()
         {
             return _db.Categories
+                .Include(c => c.Childs)
                 .Include(c=>c.Parent)
-                .ThenInclude(c=>c.Childs)
+                  .ThenInclude(c=>c.Childs)
                 .Include(c => c.Products)
                 .Include(c => c.Parent)
                 .ToList();
