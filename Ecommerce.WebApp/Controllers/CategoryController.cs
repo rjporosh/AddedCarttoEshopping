@@ -27,7 +27,8 @@ namespace Ecommerce.WebApp.Controllers
             Category p = new Category
             {
                 Id = 0,
-                Name = "Select a Category"
+                Name = "Select a Category",
+                ParentId = 0
             };
             category.Clear();
             category.Add(p);

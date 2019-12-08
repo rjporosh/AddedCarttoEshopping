@@ -39,7 +39,7 @@ namespace Ecommerce.WebApp.Controllers
             {
                 return "No Hierarchies";
             }
-            var idMap = new Dictionary<long, long>();
+            var idMap = new Dictionary<long, long?>();
             var titleMap = new Dictionary<long, string>();
 
             foreach (var cat in categories)
@@ -48,13 +48,13 @@ namespace Ecommerce.WebApp.Controllers
                 titleMap.Add(cat.Id, cat.Name);
             }
             var titles = new List<String>();
-            var id = catId;
+            var id = (long?)catId;
             titles.Add(titleMap[catId]);
-            while (idMap[id] != 0)
+            while (idMap[(long)id] != 0)
             {
-                id = idMap[id];
+                id = idMap[(long)id];
                 //  Console.WriteLine("id = " + id);
-                titles.Add(titleMap[id]);
+                titles.Add(titleMap[(long)id]);
             }
 
             var hierarchyString = "";
