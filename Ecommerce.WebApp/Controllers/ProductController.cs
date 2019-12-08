@@ -22,14 +22,51 @@ namespace Ecommerce.WebApp.Controllers
         private IStockManager _stockManager;
         private IProductVariantsManager _productVariantManager;
         private ISizeManager _sizeManager;
+        private ICategoryManager _categoryManager;
         private IMapper _mapper;
-        public ProductController(IProductManager productManager, IMapper mapper, IStockManager stockManager, IProductVariantsManager productVariantManager, ISizeManager sizeManager)
+        public ProductController(IProductManager productManager, IMapper mapper, IStockManager stockManager, IProductVariantsManager productVariantManager, ISizeManager sizeManager, ICategoryManager categoryManager)
         {
             _sizeManager = sizeManager;
             _productManager = productManager;
             _productVariantManager = productVariantManager;
             _stockManager = stockManager;
+            _categoryManager = categoryManager;
             _mapper = mapper;   
+        }
+        private String GetHierarchies(List<Category> categories, long catId)
+        {
+            if (catId <= 0)
+            {
+                return "No Hierarchies";
+            }
+            var idMap = new Dictionary<long, long>();
+            var titleMap = new Dictionary<long, string>();
+
+            foreach (var cat in categories)
+            {
+                idMap.Add(cat.Id, cat.ParentId);
+                titleMap.Add(cat.Id, cat.Name);
+            }
+            var titles = new List<String>();
+            var id = catId;
+            titles.Add(titleMap[catId]);
+            while (idMap[id] != 0)
+            {
+                id = idMap[id];
+                //  Console.WriteLine("id = " + id);
+                titles.Add(titleMap[id]);
+            }
+
+            var hierarchyString = "";
+            var len = titles.Count - 1;
+            while (len >= 0)
+            {
+                hierarchyString = hierarchyString + ">>" + titles[len];
+                len = len - 1;
+            }
+
+            char[] charsToTrim = { '>' };
+            return hierarchyString.Trim(charsToTrim);
         }
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
         {
@@ -142,7 +179,13 @@ namespace Ecommerce.WebApp.Controllers
             {
               return View(_productManager.GetByCategory(search));
             }
-            var model = _productManager.GetAll();
+          var model = _productManager.GetAll();
+            var categories = _categoryManager.GetAll();
+          foreach(var c in model )
+            {
+                c.Categories = categories.ToList();
+                c.Category.Name = GetHierarchies(c.Categories,c.CategoryId);
+            }
             return View(model);
         }
       

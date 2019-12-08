@@ -42,35 +42,37 @@
                     <td>@product.Price ৳</td>
                     <td>@product.ExpireDate</td>
                     <td>
-                        @if (product.Category.ParentId != 0)
-                        {
-                            //bool hasParent(long? Id)
-                            //{
-                            //    if(Id<=0 ||Id==null)
-                            //    {
-                            //        return false;
-                            //    }
-                            //    return true;
-                            //}
-                            //var catpId = product.Category.Parent.ParentId;
-                            //while(hasParent(catpId))
-                            //{
-                            //    product.Category.Parent.Name = product.Category.Parent.Name + " > " + product.Category.Parent.Parent
-                            //        .Name;
-                            //    catpId = product.Category.Parent.ParentId;
-                            //}
 
-                                @(product.Category.Parent.Name + ">" + product.Category.Name);
+                        @*@if (product.Category.ParentId != 0)
+        {
+            //bool hasParent(long? Id)
+            //{
+            //    if(Id<=0 ||Id==null)
+            //    {
+            //        return false;
+            //    }
+            //    return true;
+            //}
+            //var catpId = product.Category.Parent.ParentId;
+            //while(hasParent(catpId))
+            //{
+            //    product.Category.Parent.Name = product.Category.Parent.Name + " > " + product.Category.Parent.Parent
+            //        .Name;
+            //    catpId = product.Category.Parent.ParentId;
+            //}
 
-                        }
-                        else if (product.Category.Parent == null)
-                        {
-                            @product.Category.Name;
-                        }
-                        else
-                        {
-                            @product.Category.Name
-                        }
+                @(product.Category.Parent.Name + ">" + product.Category.Name);
+
+        }
+        else if (product.Category.Parent == null)
+        {
+            @product.Category.Name;
+        }
+        else
+        {
+            @product.Category.Name
+        }*@
+                        @product.Category.Name
                     </td>
                     <td>
                     @if(  product.Stocks == null  )

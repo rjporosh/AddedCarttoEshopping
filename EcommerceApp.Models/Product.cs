@@ -42,11 +42,12 @@ namespace Ecommerce.Models
     public long CategoryId { get; set; }
     public Models.Category Category { get; set; }
 
-    //   [NotMapped]
-    //[ForeignKey("ProductVariantId")]
-    //public virtual List<ProductVariants>? ProductVariantList { get; set; }
-
-    public virtual List<ProductOrder> Orders { get; set; }
+        //   [NotMapped]
+        //[ForeignKey("ProductVariantId")]
+        //public virtual List<ProductVariants>? ProductVariantList { get; set; }
+        [NotMapped]
+        public  List<Category> Categories { get; set; }
+        public virtual List<ProductOrder> Orders { get; set; }
 
 }
 }

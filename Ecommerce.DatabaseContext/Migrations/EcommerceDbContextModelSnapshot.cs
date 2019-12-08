@@ -99,15 +99,15 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Comment", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Comments");
 
-                    b.Property<long>("CustomerId");
+                    b.Property<long?>("CustomerId");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime?>("Date");
 
                     b.HasKey("Id");
 
@@ -141,6 +141,29 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long?>("OrderId");
+
+                    b.Property<string>("ProductCategoryName");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<long?>("productId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("productId");
+
+                    b.ToTable("Item");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Order", b =>
                 {
                     b.Property<long>("Id")
@@ -154,6 +177,8 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.Property<string>("OrderNo");
 
                     b.Property<string>("PaymentMethod");
+
+                    b.Property<string>("Phone");
 
                     b.Property<string>("ShippingAddress");
 
@@ -178,6 +203,10 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<double?>("DiscountPercent");
+
+                    b.Property<double?>("DiscountPrice");
+
                     b.Property<DateTime?>("ExpireDate");
 
                     b.Property<byte[]>("Image");
@@ -188,8 +217,6 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-
-                    b.Property<long?>("OrderId");
 
                     b.Property<long?>("ParentId");
 
@@ -202,8 +229,6 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("OrderId");
 
                     b.HasIndex("ParentId");
 
@@ -218,11 +243,15 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.Property<long>("OrderId");
 
-                    b.Property<long?>("CustomerId");
+                    b.Property<long>("CustomerId");
+
+                    b.Property<int?>("DiscountPercentage");
 
                     b.Property<decimal?>("Quantity");
 
                     b.Property<string>("Status");
+
+                    b.Property<decimal?>("UnitPrice");
 
                     b.HasKey("ProductId", "OrderId");
 
@@ -258,46 +287,48 @@ namespace Ecommerce.DatabaseContext.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Reply", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CommentId");
+                    b.Property<long?>("CommentId");
 
-                    b.Property<long>("CustomerId");
+                    b.Property<long?>("CustomerId");
 
-                    b.Property<DateTime>("Date");
+                    b.Property<DateTime?>("Date");
 
                     b.Property<string>("Message");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CommentId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[CommentId] IS NOT NULL");
 
                     b.ToTable("Replies");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Review", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long?>("CommentsId");
 
-                    b.Property<long>("CustomerId");
+                    b.Property<long?>("CustomerId");
 
-                    b.Property<long>("ProductId");
+                    b.Property<long?>("ProductId");
 
-                    b.Property<int>("Rating");
+                    b.Property<int?>("Rating");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CommentsId");
 
                     b.HasIndex("ProductId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ProductId] IS NOT NULL");
 
                     b.ToTable("Reviews");
                 });
@@ -480,6 +511,17 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .HasForeignKey("ParentId");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.Item", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Order")
+                        .WithMany("ProductList")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("Ecommerce.Models.Product", "product")
+                        .WithMany()
+                        .HasForeignKey("productId");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Order", b =>
                 {
                     b.HasOne("Ecommerce.Models.Customer", "Customer")
@@ -495,10 +537,6 @@ namespace Ecommerce.DatabaseContext.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Ecommerce.Models.Order")
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("Ecommerce.Models.Product", "Parent")
                         .WithMany("Childs")
                         .HasForeignKey("ParentId");
@@ -512,17 +550,18 @@ namespace Ecommerce.DatabaseContext.Migrations
                 {
                     b.HasOne("Ecommerce.Models.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Ecommerce.Models.Order", "Order")
-                        .WithMany("ProductOrders")
+                        .WithMany("Products")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Ecommerce.Models.Product", "Product")
                         .WithMany("Orders")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariants", b =>
@@ -536,8 +575,7 @@ namespace Ecommerce.DatabaseContext.Migrations
                 {
                     b.HasOne("Ecommerce.Models.Comment")
                         .WithOne("Reply")
-                        .HasForeignKey("Ecommerce.Models.Reply", "CommentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Ecommerce.Models.Reply", "CommentId");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Review", b =>
@@ -548,8 +586,7 @@ namespace Ecommerce.DatabaseContext.Migrations
 
                     b.HasOne("Ecommerce.Models.Product")
                         .WithOne("Review")
-                        .HasForeignKey("Ecommerce.Models.Review", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Ecommerce.Models.Review", "ProductId");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Stock", b =>
@@ -609,7 +646,7 @@ namespace Ecommerce.DatabaseContext.Migrations
                     b.HasOne("Ecommerce.DatabaseContext.ApplicationUser")
                         .WithMany("UserRoles")
                         .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Ecommerce.DatabaseContext.ApplicationUserRole")
                         .WithMany("UserRoles")

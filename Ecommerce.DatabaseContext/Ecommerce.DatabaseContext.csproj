@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191206114139_Migration december 2019.cs" />
+    <Compile Remove="Migrations\20191206114139_Migration december 2019.Designer.cs" />
+    <Compile Remove="Migrations\20191206114631_december.cs" />
+    <Compile Remove="Migrations\20191206114631_december.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.6" />
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.2.6" />
