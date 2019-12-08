@@ -317,7 +317,13 @@ namespace Ecommerce.WebApp.Controllers
 
                 return View(products);
             }
-            public IActionResult Details(long Id)
+        public IActionResult cardTest()
+        {
+            var products = _productManager.GetAll();
+
+            return View(products);
+        }
+        public IActionResult Details(long Id)
             {
                            var Product = _productManager.Find(Id);
                            Ecommerce.Abstractions.Helper.Item Item = new Ecommerce.Abstractions.Helper.Item
