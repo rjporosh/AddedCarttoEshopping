@@ -50,7 +50,7 @@ namespace Ecommerce.WebApp.Controllers
             var titles = new List<String>();
             var id = (long?)catId;
             titles.Add(titleMap[catId]);
-            while (idMap[(long)id] != 0)
+            while (idMap[(long)id] != 0 && idMap[(long)id] != null)
             {
                 id = idMap[(long)id];
                 //  Console.WriteLine("id = " + id);

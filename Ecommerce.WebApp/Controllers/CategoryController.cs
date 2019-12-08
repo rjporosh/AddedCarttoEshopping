@@ -71,7 +71,10 @@ namespace Ecommerce.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                  if(model.ParentId == 0)
+                {
+                    model.ParentId = null;
+                }
                 var Category = _mapper.Map<Category>(model);
                 bool isAdded = _categoryManager.Add(Category);
                 if (isAdded)

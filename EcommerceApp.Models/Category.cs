@@ -15,7 +15,7 @@ namespace Ecommerce.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public long? ParentId { get; set; }
-        public virtual Category Parent { get; set; }
+        public Category Parent { get; set; }
 
         [InverseProperty("Parent")]
         public List<Category> Childs { get; set; }

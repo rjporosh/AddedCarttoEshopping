@@ -2,52 +2,94 @@
 
 @section Styles
     {
-        <style type="text/css">
-            .zoom-effect-container {
-                float: right;
-                position: relative;
-                margin: 0 auto;
-                overflow: hidden;
-            }
-
-            .card img {
-                -webkit-transition: 0.4s ease;
-                transition: 0.4s ease;
-            }
-
-            .zoom-effect-container:hover .card img {
-                -webkit-transform: scale(1.20);
-                transform: scale(1.20);
-            }
-
-            .container {
-                width: 150px;
-                height: 100px;
-                background-image: url("http://i.stack.imgur.com/2OrtT.jpg");
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: 50% 50%;
-            }
-
-           .main{
-               border : 0px solid black;
-               height : 250px;
-               width : 250px;
-           }
-           h3{
-                  color: #0094ff;
-                   }
-           .inner {
-        overflow: hidden;
-    }
-
-        .inner img {
-            transition: all 1.5s ease;
+    <style type="text/css">
+        .zoom-effect-container {
+            float: right;
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
         }
 
-        .inner:hover img{
-            transform: scale(1.5);
+        .card img {
+            -webkit-transition: 0.4s ease;
+            transition: 0.4s ease;
         }
+
+        .zoom-effect-container:hover .card img {
+            -webkit-transform: scale(1.20);
+            transform: scale(1.20);
+        }
+
+        /*.container {
+            width: 150px;
+            height: 100px;
+          /*background-image: url("http://i.stack.imgur.com/2OrtT.jpg");*/
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: 50% 50%;
+        }*/
+
+        .main {
+            /*border: 0px solid black;*/
+            height: 250px;
+            width: 250px;
+        }
+
+        h3 {
+            color: #0094ff;
+        }
+
+        .inner {
+            overflow: hidden;
+        }
+
+            .inner img {
+                transition: all 1.5s ease;
+            }
+
+            .inner:hover img {
+                transform: scale(1.5);
+            }
+
+        .container {
+            position: relative;
+            width: 100%;
+        }
+
+        .image {
+            opacity: 1;
+            display: block;
+            width: 100%;
+            height: auto;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+
+        .middle {
+            transition: .5s ease;
+            opacity: 0;
+            position: absolute;
+            top: 96%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%)
+        }
+
+        .container:hover .image {
+            opacity: 0.3;
+        }
+
+        .container:hover .middle {
+            opacity: 1;
+        }
+
+        .text {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            padding: 16px 32px;
+        }
+
         </style>
         
     }
@@ -55,66 +97,75 @@
 
     @foreach (var product in Model)
     {
-        <div class="col-md-3">
-            <div class="card">
+    <div class="col-md-3">
+        
+        <div class="card">
+            <div class="container">
                 @if (product.ImagePath == null)
                 {
                     product.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
                 }
                 <div class="zoom-effect-container">
                     <div class="card shadow">
-                        <img class="card-img-top" src="~/@product.ImagePath">
+                        <img class=" card-img-top" src="~/@product.ImagePath">
                     </div>
                 </div>
+
                 @*<div class="card-body">
+            @if (product.Stocks.Quantity > 0)
+            {
+                <p class="card-title">Available : Yes</p>
+            }
+            else
+            {
+                <p class="card-title">Available : No</p>
+            }
+            <p class="card-text">Actual Price: ৳ @product.Price</p>
+            @if (product.DiscountPercent == null)
+            {
+                <p class="card-text">Discount Percent: 0      %</p>
+            }
+            else
+            {
+                <p class="card-text">Discount Percent:@product.DiscountPercent %</p>
+            }
+        </div>*@
+                <div class="card-body">
+                    <h5 class="card-subtitle">Name : @product.Name</h5>
+                    <p class="card-subtitle">Product Code:  @product.ProductCode</p>
+                    <p class="card-subtitle">Category:  @product.Category.Name</p>
+                    <p class="card-subtitle">Price: ৳ @product.DiscountPrice</p>
                     @if (product.Stocks.Quantity > 0)
                     {
-                        <p class="card-title">Available : Yes</p>
+                        <p class="card-subtitle">Available : Yes</p>
                     }
                     else
                     {
-                        <p class="card-title">Available : No</p>
+                        <p class="card-subtitle">Available : No</p>
                     }
-                    <p class="card-text">Actual Price: ৳ @product.Price</p>
+                    <p class="card-subtitle">Actual Price: ৳ @product.Price</p>
                     @if (product.DiscountPercent == null)
                     {
-                        <p class="card-text">Discount Percent: 0      %</p>
+                        <p class="card-subtitle">Discount: 0%</p>
                     }
                     else
                     {
-                        <p class="card-text">Discount Percent:@product.DiscountPercent %</p>
+                        <p class="card-subtitle">Discount:@product.DiscountPercent%</p>
                     }
-                </div>*@
-            <div class="card-body">
-                <h5 class="card-title">Name : @product.Name</h5>
-                <p class="card-subtitle">Product Code:  @product.ProductCode</p>
-                <p class="card-subtitle">Category:  @product.Category.Name</p>
-                <p class="card-text">Price: ৳ @product.DiscountPrice</p>
-                @if (product.Stocks.Quantity > 0)
-                {
-                    <p class="card-title">Available : Yes</p>
-                }
-                else
-                {
-                    <p class="card-title">Available : No</p>
-                }
-                <p class="card-text">Actual Price: ৳ @product.Price</p>
-                @if (product.DiscountPercent == null)
-                {
-                    <p class="card-text">Discount Percent: 0      %</p>
-                }
-                else
-                {
-                    <p class="card-text">Discount Percent:@product.DiscountPercent %</p>
-                }
-                <a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>
-                @if (product.Stocks.Quantity > 0)
-                {
-                    <a asp-controller="cart" asp-action="buy" asp-route-id="@product.Id" class="btn btn-primary">Add To Cart</a>
-                }
-            </div>
+
+                    @*<a asp-controller="product" asp-action="details" asp-route-id="@product.Id" class="btn btn-primary">Details</a>*@
+                    @if (product.Stocks.Quantity > 0)
+                    {
+
+                        <div class="middle">
+                                <a asp-controller="cart" asp-action="buy" asp-route-id="@product.Id" class="btn btn-primary">Add To Cart</a>
+                          
+                        </div>
+                    }
+                </div>
             </div>
         </div>
+        </div>
 
-    }
-</div>
+        }
+    </div>

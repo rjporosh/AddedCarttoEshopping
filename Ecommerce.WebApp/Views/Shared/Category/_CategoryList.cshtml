@@ -7,8 +7,9 @@
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th> ParentId </th>
+            <th> Parent </th>
             @*<th> Parent Category </th>*@
+            @*<th>Childs</th>*@
             <th>Action</th>
         </tr>
 
@@ -22,7 +23,39 @@
                    @category.Id
                 </td>
                 <td>@category.Name</td>
-                <td>@category.ParentId</td>
+                <td>
+                    @if (category.ParentId != null || category.ParentId != 0)
+                    {
+                        if (category.Parent == null)
+                        {
+                          
+                        }
+
+                        else
+                        {
+                            @category.Parent.Name
+                        }
+
+                    }
+                    else
+                    {
+                    }
+                            </td>
+
+                @*<td>
+                    @foreach (var c in category.Childs)
+                    {
+                        if (c == null || c.Childs == null)
+                        {
+                        }
+                        else
+                        {
+                            @c.Name
+                            <br />
+                        }
+
+                    }
+                </td>*@
                 @*<td>@category.Parent</td>*@
                
 
