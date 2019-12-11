@@ -9,9 +9,11 @@ using Ecommerce.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private ICategoryManager _categoryManager;
@@ -56,6 +58,7 @@ namespace Ecommerce.WebApp.Controllers
             return View();
         }
 
+        [Authorize]
         // GET: Category/Create
         public ActionResult Create()
         {
@@ -65,6 +68,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // POST: Category/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CategoryVM model)
@@ -93,6 +97,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Edit/5
+        [Authorize]
         public ActionResult Edit(long id)
         {
             if (id == null)
@@ -117,6 +122,7 @@ namespace Ecommerce.WebApp.Controllers
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(long id, CategoryVM model)
         {
             if (ModelState.IsValid)
@@ -147,6 +153,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Delete/5
+        [Authorize]
         public ActionResult Delete(long id)
         {
             var Product = _categoryManager.GetById(id);

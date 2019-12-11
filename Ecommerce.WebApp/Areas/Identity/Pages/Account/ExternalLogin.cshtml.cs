@@ -16,13 +16,13 @@ namespace Ecommerce.WebApp.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class ExternalLoginModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
             ILogger<ExternalLoginModel> logger)
         {
             _signInManager = signInManager;
@@ -124,7 +124,7 @@ namespace Ecommerce.WebApp.Areas.Identity.Pages.Account
                 {
                     Input.ImagePath = "uploads\\user\\img\\NoImageAvailable.jfif";
                 }
-                var user = new DatabaseContext.ApplicationUser { UserName = Input.Email, Email = Input.Email, ImagePath = Input.ImagePath, Address = Input.Address, PhoneNumber = Input.Phone};
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email,  PhoneNumber = Input.Phone};
                 var result = await _userManager.CreateAsync(user).ConfigureAwait(true);
                 if (result.Succeeded)
                 {

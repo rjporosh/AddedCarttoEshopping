@@ -22,14 +22,15 @@ namespace Ecommerce.WebApp.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
+        public  void OnGet()
         {
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            await _signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync().ConfigureAwait(true);
             _logger.LogInformation("User logged out.");
+            returnUrl = "~/UserView/Index";
             if (returnUrl != null)
             {
                 return LocalRedirect(returnUrl);

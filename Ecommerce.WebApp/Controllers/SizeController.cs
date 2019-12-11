@@ -6,11 +6,13 @@ using AutoMapper;
 using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.Size;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     public class SizeController : Controller
     {
         private ISizeManager _sizeManager;

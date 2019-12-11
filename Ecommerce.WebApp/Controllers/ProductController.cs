@@ -13,9 +13,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Ecommerce.Models.APIViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private IProductManager _productManager;
@@ -165,6 +167,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             ViewBag.SizeSelectList = new SelectList(size, "Id", "Name", selectList);
         }
+        [Authorize]
         public IActionResult Index(string searchBy, string search ) //Search Facilities
         {
             if (searchBy == "Price")
@@ -193,6 +196,7 @@ namespace Ecommerce.WebApp.Controllers
         {
             return View();
         }
+        [Authorize]
         public IActionResult Create()
         {
             var products = _productManager.GetAll();
@@ -212,7 +216,8 @@ namespace Ecommerce.WebApp.Controllers
             model.IsActive = true;
             return View(model);
         }
-
+        [Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,ExpireDate,Description,BuyCost,ProductCode,CategoryId,CategoryList,CategoryName,IsActive,Orders,DiscountPrice,Image,ImagePath,ProductVariantsId,StocksId,ParentId,ProductVariants,Parent,StocksQuantity,ProductVariantsSizeId,Size,ProductVariantsSize,StocksQuantity,StocksUnit,Stocks,DiscountPercent")]ProductVM model, IFormFile Image)
         {
@@ -323,6 +328,7 @@ namespace Ecommerce.WebApp.Controllers
 
             return View(products);
         }
+        [Authorize]
         public IActionResult Details(long Id)
             {
                            var Product = _productManager.Find(Id);
@@ -334,8 +340,8 @@ namespace Ecommerce.WebApp.Controllers
                                        };
                            return View(Item);
             }
-        
 
+        [Authorize]
         public IActionResult Edit(int? Id)
            {
                 if (Id == null)
@@ -421,6 +427,7 @@ namespace Ecommerce.WebApp.Controllers
 
       [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(long Id, [Bind("Id,ImagePath,Image,Name,Description,BuyCost,DiscountPrice,ProductCode,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Parent,Stocks,StocksQuantity,StocksUnit,ProductVariants,ProductVariantsId,ProductVariantsSize,Parent,Category,ProductVariantsSizeId,StocksQuantity,DiscountPercent")]ProductVM aProduct, IFormFile Image)
         {
           //  var Product = _mapper.Map<Product>(aProduct);
@@ -515,6 +522,7 @@ namespace Ecommerce.WebApp.Controllers
             return View(aProduct);
 
         }
+        [Authorize]
         public IActionResult Delete(long id)
         {
             var Product = _productManager.GetById(id);

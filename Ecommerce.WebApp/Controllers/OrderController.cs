@@ -6,12 +6,14 @@ using AutoMapper;
 using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.Order;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private IOrderManager _orderManager;
@@ -57,6 +59,7 @@ namespace Ecommerce.WebApp.Controllers
             ViewBag.PaymentMethodSelectList = new SelectList(option, selectList);
 
         }
+        [Authorize]
         public IActionResult Index() //Search Facilities
         {
           
@@ -64,7 +67,7 @@ namespace Ecommerce.WebApp.Controllers
             var model = _orderManager.GetAll().ToList();
             return View(model);
         }
-
+        [Authorize]
         public IActionResult Create()
         {
             var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
@@ -79,7 +82,7 @@ namespace Ecommerce.WebApp.Controllers
             model.OrderList = orders.ToList();
             return View(model);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone")]OrderVM model)
         {
@@ -153,7 +156,7 @@ namespace Ecommerce.WebApp.Controllers
             var orders = _orderManager.GetAll();
             return PartialView("Order/_OrderList", orders);
         }
-
+        [Authorize]
         public IActionResult Edit(int? Id)
         {
             if (Id == null)
@@ -173,6 +176,7 @@ namespace Ecommerce.WebApp.Controllers
             aOrder.OrderList = _orderManager.GetAll().ToList();
             return View(aOrder);
         }
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,Phone,Products")]OrderVM order)
@@ -205,7 +209,7 @@ namespace Ecommerce.WebApp.Controllers
 
         }
 
-
+        [Authorize]
         public IActionResult Delete(long id)
         {
             var customer = _orderManager.GetById(id);

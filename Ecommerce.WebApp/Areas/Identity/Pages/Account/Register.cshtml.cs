@@ -16,14 +16,14 @@ namespace Ecommerce.WebApp.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -56,9 +56,9 @@ namespace Ecommerce.WebApp.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             public string Name { get; set; }
-            public long Phone { get; set; }
-            public string Address { get; set; }
-            public string ImagePath { get; set; }
+            //public long Phone { get; set; }
+            //public string Address { get; set; }
+            //public string ImagePath { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -71,7 +71,7 @@ namespace Ecommerce.WebApp.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Name, Email = Input.Email,Phone = Input.Phone.ToString(),Address = Input.Address,ImagePath=Input.ImagePath };
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email/*, Phone = Input.Phone.ToString(), Address = Input.Address, ImagePath = Input.ImagePath*/ };
                 var result = await _userManager.CreateAsync(user, Input.Password).ConfigureAwait(true);
                 if (result.Succeeded)
                 {

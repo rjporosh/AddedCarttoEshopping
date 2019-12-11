@@ -9,11 +9,13 @@ using Ecommerce.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.Customer;
 using Ecommerce.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     public class CustomerController:Controller
     {
         private ICustomerManager _customerManager;
@@ -24,6 +26,7 @@ namespace Ecommerce.WebApp.Controllers
             _customerManager = customerManager;
             _mapper = mapper;
         }
+        [Authorize]
         public IActionResult Index(string searchBy, string search) //Search Facilities
         {
             if (searchBy == "Address")
@@ -127,7 +130,7 @@ namespace Ecommerce.WebApp.Controllers
             var customers = _customerManager.GetAll();
             return PartialView("Customer/_CustomerList", customers);
         }
-
+        [Authorize]
         public IActionResult Edit(int? Id)
         {
             if (Id == null)
@@ -145,6 +148,7 @@ namespace Ecommerce.WebApp.Controllers
             aCustomer.CustomerList = _customerManager.GetAll().ToList();
             return View(aCustomer);
         }
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int Id, [Bind("Id,Name,Address,LoyaltyPoint,Image,ImagePath,Phone,Email")]CustomerCreateViewModel customer, IFormFile Image)
@@ -227,7 +231,7 @@ namespace Ecommerce.WebApp.Controllers
 
         }
 
-
+        [Authorize]
         public IActionResult Delete(long id)
         {
             var customer = _customerManager.GetById(id);

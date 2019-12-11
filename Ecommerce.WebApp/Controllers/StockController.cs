@@ -6,11 +6,13 @@ using AutoMapper;
 using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.Stock;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     public class StockController : Controller
     {
         private IStockManager _stockManager;
@@ -44,6 +46,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             ViewBag.SelectList = new SelectList(product, "Id", "Name", selectList);
         }
+        [Authorize]
         // GET: Stock
         public ActionResult Index()
         {
@@ -55,7 +58,7 @@ namespace Ecommerce.WebApp.Controllers
 
         }
 
-      
+        [Authorize]
         // GET: Category/Create
         public ActionResult Create()
         {
@@ -67,6 +70,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // POST: Category/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Id,ProductId,Product,Quantity,Unit")]StockVM model)
@@ -103,6 +107,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Edit/5
+        [Authorize]
         public ActionResult Edit(long id)
         {
          
@@ -128,6 +133,7 @@ namespace Ecommerce.WebApp.Controllers
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit(long id, [Bind("Id,ProductId,Product,Quantity,Unit")]StockVM model)
         {
             if (ModelState.IsValid)
@@ -162,6 +168,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Delete/5
+        [Authorize]
         public ActionResult Delete(long id)
         {
             var stock = _stockManager.GetById(id);

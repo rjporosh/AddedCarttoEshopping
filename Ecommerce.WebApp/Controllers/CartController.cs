@@ -8,9 +8,11 @@ using Ecommerce.Abstractions.BLL;
 using Ecommerce.DatabaseContext;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     [Route("cart")]
     public class CartController : Controller
     {
@@ -52,7 +54,7 @@ namespace Ecommerce.WebApp.Controllers
           
             return View();
         }
-
+        [Authorize]
         [Route("buy/{Id}")]
         public IActionResult buy(long Id,[Bind("product,Quantity")]Item item)
         {

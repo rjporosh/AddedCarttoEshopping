@@ -23,25 +23,42 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Ecommerce.Abstractions.Helper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Facebook;
+using Castle.Core.Logging;
 
 //using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Ecommerce.WebApp
 {
-    public class Startup
+    public  class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EcommerceDbContext>();
 
 
-          
-
-            services.AddDefaultIdentity<ApplicationUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddDefaultUI()
-                .AddEntityFrameworkStores<EcommerceDbContext>();
+                  .AddEntityFrameworkStores<EcommerceDbContext>()
+                   .AddDefaultTokenProviders()
+                ;
+        
+            services.AddAuthentication()
+        .AddCookie(options => {
+            options.LoginPath = "/Account/Unauthorized/";
+            options.AccessDeniedPath = "/Account/Forbidden/";
+        })
+        .AddJwtBearer(options => {
+            options.Audience = "http://localhost:5001/";
+            options.Authority = "http://localhost:5000/";
+        });
+         //   services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/LogIn");
+           
+            //services.AddDefaultIdentity<ApplicationUser>()
+            //    .AddDefaultUI()
+            //    .AddEntityFrameworkStores<EcommerceDbContext>();
             services.ConfigureServicesForEcommerce();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<IdentityOptions>(options =>
@@ -75,6 +92,12 @@ namespace Ecommerce.WebApp
                 options.AccessDeniedPath ="/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
+            //services.AddAuthentication()
+            //       .AddFacebook(options =>
+            //       {
+            //           options.AppId = Configuration["auth:facebook:appid"];
+            //           options.AppSecret = Configuration["auth:facebook:appsecret"];
+            //       });
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -119,8 +142,18 @@ namespace Ecommerce.WebApp
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
+        //public void Configure(IApplicationBuilder app, ILoggerFactory loggerfactory)
+        //{
+        //    app.UseIdentity();
+        //    app.UseAuthentication();
+        //    app.UseFacebookAuthentication(new FacebookOptions
+        //    {
+        //        AppId = Configuration["auth:facebook:appid"],
+        //        AppSecret = Configuration["auth:facebook:appsecret"]
+        //    });
+        //}
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public static void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
           
             if (env.IsDevelopment())
@@ -130,15 +163,22 @@ namespace Ecommerce.WebApp
             app.UseSession();
            
             app.UseStaticFiles();
-          
+            app.UseIdentity();
+            //app.UseApplicationUser();
+            //app.UseFacebookAuthentication(new FacebookOptions
+            //{
+            //    AppId = Configuration["auth:facebook:appid"],
+            //    AppSecret = Configuration["auth:facebook:appsecret"]
+            //});
             app.UseAuthentication();
+           
             app.UseMvcWithDefaultRoute();
             app.UseCors("AllowAll");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Product}/{action=_cardView}"
+                    template: "{controller=UserView}/{action=Index}"
                     );
                 routes.MapRoute("areas", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });

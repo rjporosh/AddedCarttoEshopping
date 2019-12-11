@@ -6,10 +6,12 @@ using AutoMapper;
 using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.ProductOrder;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.WebApp.Controllers
 {
+    [Authorize]
     public class ProductOrderController : Controller
     {
         private IProductOrderManager _productOrderManager;
@@ -24,11 +26,13 @@ namespace Ecommerce.WebApp.Controllers
             _orderManager = orderManager;
             _mapper = mapper;
         }
+        [Authorize]
         public IActionResult Index()
         {
             var po = _productOrderManager.GetAll();
             return View(po);
         }
+        [Authorize]
         public IActionResult Create()
         {
             var orders = _productOrderManager.GetAll();
@@ -37,7 +41,7 @@ namespace Ecommerce.WebApp.Controllers
            
             return View(model);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Create([Bind("OrderId,ProductId,Status,Quantity,Unit,Product,Order")]ProductOrderVM model)
         {
