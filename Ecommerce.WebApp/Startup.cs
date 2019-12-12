@@ -25,6 +25,8 @@ using Ecommerce.Abstractions.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.Facebook;
 using Castle.Core.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 //using Microsoft.AspNetCore.Mvc.Formatters;
 
@@ -108,7 +110,14 @@ namespace Ecommerce.WebApp
                     builder.AllowAnyOrigin();
                 });
             });
-            services.AddMvc()
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                             .RequireAuthenticatedUser()
+                             .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }
+                )
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.Configure<MvcJsonOptions>(config =>
             {

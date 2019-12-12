@@ -330,7 +330,7 @@ namespace Ecommerce.WebApp.Controllers
 
             return View(products);
         }
-        [Authorize]
+        [AllowAnonymous]
         public IActionResult Details(long Id)
             {
                            var Product = _productManager.Find(Id);
