@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Models.RazorViewModels.Login;
 using Ecommerce.Models.RazorViewModels.Register;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +45,20 @@ namespace Ecommerce.WebApp.Controllers
                 }
             }
             return View(model);
+        }
+        [AcceptVerbs("Get","Post")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsEmailInUse(string Email)
+        {
+            var user = await userManager.FindByEmailAsync(Email).ConfigureAwait(true);
+            if(user==null)
+            {
+                return Json(true); 
+            }
+            else
+            {
+                return Json($"Email{Email} is already taken.Plz try another one.");
+            }
         }
         public async Task<IActionResult> Logout()
         {

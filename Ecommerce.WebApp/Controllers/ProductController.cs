@@ -217,7 +217,6 @@ namespace Ecommerce.WebApp.Controllers
             return View(model);
         }
         [Authorize]
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,ExpireDate,Description,BuyCost,ProductCode,CategoryId,CategoryList,CategoryName,IsActive,Orders,DiscountPrice,Image,ImagePath,ProductVariantsId,StocksId,ParentId,ProductVariants,Parent,StocksQuantity,ProductVariantsSizeId,Size,ProductVariantsSize,StocksQuantity,StocksUnit,Stocks,DiscountPercent")]ProductVM model, IFormFile Image)
         {
@@ -310,18 +309,21 @@ namespace Ecommerce.WebApp.Controllers
                 var products = _productManager.GetAll();
                 return PartialView("Product/_ProductList", products);
             }
+          [AllowAnonymous]
             public IActionResult CardView()
             {
                 var products = _productManager.GetAll();
                 //VwBg();
                 return View("Product/_cardView", products);
             }
-            public IActionResult _CardView()
+        [AllowAnonymous]
+        public IActionResult _CardView()
             {
                 var products = _productManager.GetAll();
 
                 return View(products);
             }
+        [AllowAnonymous]
         public IActionResult cardTest()
         {
             var products = _productManager.GetAll();
