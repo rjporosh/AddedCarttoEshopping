@@ -1,6 +1,7 @@
 ﻿@*@inject Ecommerce.WebApp.Helper.SessionHelper*@
 @using Microsoft.Extensions.Configuration
 @inject Ecommerce.Abstractions.Helper.TotalItemService total
+@inject SignInManager<IdentityUser> signInManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,18 +76,19 @@
                 </ul>
                  // search form end 
             </div>*@
+           
 
             <div class="top-nav notification-row">
                 <!-- notificatoin dropdown start-->
                 <ul class="nav pull-right top-menu">
 
                     <!-- task notificatoin start -->
-                    <li id="Shopping-Cart" >
-                        <a  href="/cart/Index">
+                    <li id="Shopping-Cart">
+                        <a href="/cart/Index">
                             <span class="badge bg-important">
-                              
+
                                 @total.TotalProductPurchased
-                               
+
                             </span>
                             <i class="icon_cart"></i>
 
@@ -94,22 +96,53 @@
 
                     </li>
 
-
-                  
-                    <!-- alert notification end-->
-                    <!-- user login dropdown start-->
                     <li>
-                        <a  href="#">
-                            <span class="profile-ava">
-                                <img alt="" src="~/img/avatar1_small.jpg">
-                            </span>
-                            <span class="username">Jenifer Smith</span>
-                            <b class="caret"></b>
-                        </a>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+
+                            <form method="post" asp-action="Logout" asp-controller="Account">
+                                <button type="submit" class="btn btn-danger">
+                                    Logout
+                                </button>
+
+                                <a> @User.Identity.Name</a>
+
+                            </form>
+                  
+                           
                        
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-action="Register" asp-controller="Account" class="">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a asp-action="Login" asp-controller="Account" class="">Login</a>
+                        </li>
+                    }
+
+                        @*<div class="collapse navbar-collapse" id="collapsibleNavBar">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a asp-action="Register" asp-controller="Account" class="nav-link">Register</a>
                     </li>
-                    <!-- user login dropdown end -->
                 </ul>
+            </div>*@
+                        <!-- alert notification end-->
+                        <!-- user login dropdown start-->
+                        @*<li>
+                            <a href="#">
+                                <span class="profile-ava">
+                                    <img alt="" src="~/img/avatar1_small.jpg">
+                                </span>
+                                <span class="username">Jenifer Smith</span>
+                                <b class="caret"></b>
+                            </a>
+
+                        </li>*@
+                        <!-- user login dropdown end -->
+                    </ul>
                 <!-- notificatoin dropdown end-->
             </div>
         </header>
