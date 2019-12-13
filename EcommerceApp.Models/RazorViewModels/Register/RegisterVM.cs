@@ -20,5 +20,9 @@ namespace Ecommerce.Models.RazorViewModels.Register
         [Compare("Password",ErrorMessage="Password and Confirmation Password Do Not Match")]
         public string ConfirmPassword { get; set; }
         public string Phone { get; set; }
+        public string Address { get; set; }
+        public string ShippingAddress { get; set; }
+        public byte[] Image { get; set; }
+        public string ImagePath { get; set; }
     }
 }

@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authentication.Facebook;
 using Castle.Core.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Ecommerce.Models;
 
 //using Microsoft.AspNetCore.Mvc.Formatters;
 
@@ -41,7 +42,7 @@ namespace Ecommerce.WebApp
             services.AddDbContext<EcommerceDbContext>();
 
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddDefaultUI()
                   .AddEntityFrameworkStores<EcommerceDbContext>()
                    .AddDefaultTokenProviders()

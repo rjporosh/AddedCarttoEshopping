@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.DatabaseContext
 {
-    public class EcommerceDbContext : IdentityDbContext<IdentityUser>
+    public class EcommerceDbContext : IdentityDbContext<ApplicationUser>
     {
         public long CurrentUserId { get; set; }
         public EcommerceDbContext(DbContextOptions options) : base(options)

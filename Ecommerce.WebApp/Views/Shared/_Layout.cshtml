@@ -1,7 +1,8 @@
 ﻿@*@inject Ecommerce.WebApp.Helper.SessionHelper*@
 @using Microsoft.Extensions.Configuration
+@using Ecommerce.Models
 @inject Ecommerce.Abstractions.Helper.TotalItemService total
-@inject SignInManager<IdentityUser> signInManager
+@inject SignInManager<ApplicationUser> signInManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
