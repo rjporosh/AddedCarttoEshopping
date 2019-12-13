@@ -21,12 +21,13 @@ namespace Ecommerce.WebApp.Controllers
             this.signInManager = signInManager;
         }
 
-   
+        [AllowAnonymous]
          [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM model)
         {
