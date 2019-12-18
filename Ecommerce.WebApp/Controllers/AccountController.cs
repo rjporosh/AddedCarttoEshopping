@@ -81,7 +81,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.Phone , Address = model.Address , ShippingAddress = model.ShippingAddress,ImagePath=model.ImagePath,Image = model.Image,Phone =model.Phone };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, PhoneNumber = model.Phone , Address = model.Address , ShippingAddress = model.ShippingAddress,ImagePath=model.ImagePath,Image = model.Image,Phone =model.Phone,City=model.City,Gender=model.Gender,Country=model.Country };
                 var result = await userManager.CreateAsync(user, model.Password).ConfigureAwait(true);
                 if(result.Succeeded)
                 {
@@ -114,11 +114,13 @@ namespace Ecommerce.WebApp.Controllers
             await signInManager.SignOutAsync().ConfigureAwait(true);
             return RedirectToAction("_cardView", "Product");
         }
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM model)
         {
@@ -131,6 +133,11 @@ namespace Ecommerce.WebApp.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Invalid User Name Or Password");
             }
+            return View(model);
+        }
+        public IActionResult Index()
+        {
+            var model = userManager.Users;
             return View(model);
         }
        

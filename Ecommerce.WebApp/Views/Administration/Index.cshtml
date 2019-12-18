@@ -1,0 +1,73 @@
+﻿@model IEnumerable<IdentityRole>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+
+@if (Model.Any())
+{
+    @*<p>
+            <a asp-action="Create">Create New Role</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+    <a class="btn btn-primary mb-3" style="width:auto" asp-controller="Administration" asp-action="Create">Add New Role</a>
+    foreach (var role in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header"> Role Id : @role.Id</div>
+            <div class="card-body"><h5 class="card-title">Role Name : @role.Name</h5></div>
+            <div class="card-footer">
+                <a asp-action="Edit" asp-controller="Administration" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No Roles Created Yet
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Use the button below to create a role
+            </h5>
+            <a class="btn btn-primary" style="width:auto" asp-controller="Administration" asp-action="Create">Create Role</a>
+        </div>
+    </div>
+}
+

@@ -71,7 +71,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\assets\jquery-file-upload\server\php\files\thumbnail\" />
     <Folder Include="wwwroot\uploads\user\" />
-    <Folder Include="wwwroot\user\img\" />
   </ItemGroup>
 
   <ItemGroup>

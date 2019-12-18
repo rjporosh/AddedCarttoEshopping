@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class StockController : Controller
     {
         private IStockManager _stockManager;
@@ -58,7 +58,7 @@ namespace Ecommerce.WebApp.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         // GET: Category/Create
         public ActionResult Create()
         {
@@ -70,7 +70,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // POST: Category/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Id,ProductId,Product,Quantity,Unit")]StockVM model)
@@ -107,7 +107,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(long id)
         {
          
@@ -133,7 +133,7 @@ namespace Ecommerce.WebApp.Controllers
         // POST: Category/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(long id, [Bind("Id,ProductId,Product,Quantity,Unit")]StockVM model)
         {
             if (ModelState.IsValid)
@@ -168,7 +168,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(long id)
         {
             var stock = _stockManager.GetById(id);

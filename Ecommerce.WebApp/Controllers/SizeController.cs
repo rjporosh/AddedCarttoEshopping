@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class SizeController : Controller
     {
         private ISizeManager _sizeManager;
@@ -42,7 +42,7 @@ namespace Ecommerce.WebApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "Admin")]
         // GET: Category/Create
         public ActionResult Create()
         {
@@ -55,6 +55,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // POST: Category/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(SizeVM model)
@@ -82,6 +83,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(long id)
         {
             if (id == null)
@@ -105,6 +107,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // POST: Category/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(long id, SizeVM model)
@@ -137,6 +140,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(long id)
         {
             var stock = _sizeManager.GetById(id);

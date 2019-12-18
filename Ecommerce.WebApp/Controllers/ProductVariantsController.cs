@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.WebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ProductVariantsController : Controller
     {
         private ISizeManager _sizeManager;
@@ -60,7 +60,7 @@ namespace Ecommerce.WebApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "Admin")]
         // GET: Category/Create
         public ActionResult Create()
         {
@@ -74,6 +74,7 @@ namespace Ecommerce.WebApp.Controllers
 
         // POST: Category/Create
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Create(ProductVariantsVM model)
         {
@@ -100,6 +101,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(long id)
         {
             if (id == null)
@@ -124,6 +126,7 @@ namespace Ecommerce.WebApp.Controllers
 
         // POST: Category/Edit/5
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(long id, ProductVariantsVM model)
         {
@@ -157,6 +160,7 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(long id)
         {
            

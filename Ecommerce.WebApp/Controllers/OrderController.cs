@@ -156,7 +156,7 @@ namespace Ecommerce.WebApp.Controllers
             var orders = _orderManager.GetAll();
             return PartialView("Order/_OrderList", orders);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int? Id)
         {
             if (Id == null)
@@ -176,7 +176,7 @@ namespace Ecommerce.WebApp.Controllers
             aOrder.OrderList = _orderManager.GetAll().ToList();
             return View(aOrder);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,Phone,Products")]OrderVM order)
@@ -209,7 +209,7 @@ namespace Ecommerce.WebApp.Controllers
 
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(long id)
         {
             var customer = _orderManager.GetById(id);
