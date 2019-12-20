@@ -107,8 +107,8 @@
                                 </button>
 
                                 <a> @User.Identity.Name</a>
-                               @*@( user = userManager.FindByNameAsync(User.Identity.Name))*@ 
-                               <img src="~\@userManager.Users.Where(c=>c.Email == User.Identity.Name).FirstOrDefault().ImagePath" />
+                            
+                               <img src="~\user\img\default.jpg" />
 
 
 
@@ -233,6 +233,22 @@
                             <a href="/ProductOrder/Index" class="">
                                 <i class="icon_table"></i>
                                 <span>Product Orders</span>
+
+                            </a>
+
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/Account/Index" class="">
+                                <i class="icon_table"></i>
+                                <span>Accounts</span>
+
+                            </a>
+
+                        </li>
+                        <li class="sub-menu">
+                            <a href="/Administration/Index" class="">
+                                <i class="icon_table"></i>
+                                <span>Administration</span>
 
                             </a>
 

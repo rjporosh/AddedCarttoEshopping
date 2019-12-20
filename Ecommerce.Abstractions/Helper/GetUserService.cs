@@ -23,17 +23,20 @@ namespace Ecommerce.Abstractions.Helper
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
-        //public  Task<ApplicationUser> User
+        //public Task<ApplicationUser> UserCurrent
         //{
         //    get
         //    {
-        //       ApplicationUser user =  userManager.GetUserAsync(claimsPrincipal);
-        //        string firstName = user.ImagePath;
-        //        // // // var uid = signInManager.IsSignedIn(User);
-        //        var userid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //        ////  //var user =  userManager.GetUserAsync(HttpContext.User);
-        //        var user = userManager.FindByIdAsync(userid);
-        //        return user;
+        //        System.Security.Claims.ClaimsPrincipal currentUser = User;
+
+        //        return User;
+        //        //ApplicationUser user = userManager.GetUserAsync(claimsPrincipal);
+        //        //string firstName = user.ImagePath;
+        //        //// // // var uid = signInManager.IsSignedIn(User);
+        //        //var userid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //        //////  //var user =  userManager.GetUserAsync(HttpContext.User);
+        //        //var user = userManager.FindByIdAsync(userid);
+        //        //return user;
         //        //var ImagePath = user.ImagePath;
         //        //if(ImagePath==null)
         //        //{
@@ -45,6 +48,6 @@ namespace Ecommerce.Abstractions.Helper
         //        //}
         //    }
         //}
-        ////
+        //
     }
 }

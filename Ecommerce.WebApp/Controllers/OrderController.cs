@@ -8,6 +8,7 @@ using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.Order;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -19,16 +20,19 @@ namespace Ecommerce.WebApp.Controllers
         private IOrderManager _orderManager;
         private IProductOrderManager _productOrderManager;
         private IProductManager _productManager;
-
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private IStockManager _stockManager;
         private IMapper _mapper;
 
-        public OrderController(IOrderManager orderManager, IMapper mapper, IProductOrderManager productOrderManager, IStockManager stockManager, IProductManager productManager)
+        public OrderController(IOrderManager orderManager, IMapper mapper, IProductOrderManager productOrderManager, IStockManager stockManager, IProductManager productManager, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _orderManager = orderManager;
             _productOrderManager = productOrderManager;
             _stockManager = stockManager;
             _productManager = productManager;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
             _mapper = mapper;
         }
         private void PopulateDropdownList(object selectList = null) /*Dropdown List Binding*/
@@ -38,6 +42,7 @@ namespace Ecommerce.WebApp.Controllers
             List<string> option = new List<string>();
             option.Add("Pending");
             option.Add("Rejected");
+            option.Add("Placed");
             option.Add("Cancelled");
             option.Add("Accepted");
             option.Add("Packed");
@@ -68,23 +73,30 @@ namespace Ecommerce.WebApp.Controllers
             return View(model);
         }
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             var orders = _orderManager.GetAll();
             PopulateDropdownList();
             PaymentMethodPopulateDropdownList();
+           
             var model = new OrderVM();
             model.OrderDate = DateTime.Now;
-            model.CustomerId = 1;
-            model.OrderNo = DateTime.Now.ToBinary().ToString()+model.CustomerId;
+          //  model.CustomerId = 1;
+            // var user = userManager.FindByNameAsync(User.Identity.Name);
+            // model.AspNetUsersId = user.Id.ToString();
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            model.AspNetUserId = userManager.GetUserId(User); // Get user id:
+           // model.AspNetUsersId = User.Identity.Name;
+            model.OrderNo = DateTime.Now.ToBinary().ToString()+model.AspNetUserId;
+           // model.AspNetUser = await userManager.FindByIdAsync(model.AspNetUserId).ConfigureAwait(true);
             model.ProductList = cart;
             model.OrderList = orders.ToList();
             return View(model);
         }
         [Authorize]
         [HttpPost]
-        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone")]OrderVM model)
+        public async Task<IActionResult> Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone,AspNetUserId,AspNetUser")]OrderVM model)
         {
             //var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             //if(model.ProductList == null)
@@ -92,11 +104,15 @@ namespace Ecommerce.WebApp.Controllers
             //    model.ProductList = cart;
 
             //}
-            if (model.OrderNo == null || model.CustomerId==0 || model.OrderDate == null)
+            if (model.OrderNo == null || model.OrderDate == null || model.AspNetUserId == null)
             {
                 model.OrderDate = DateTime.Now;
-                model.CustomerId = 1;
-                model.OrderNo = DateTime.Now.ToString() + model.CustomerId;
+               // model.CustomerId = 1;
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+                model.AspNetUserId = userManager.GetUserId(User);
+                //var id = userManager.GetUserId(User);
+                //model.AspNetUser = await userManager.FindByIdAsync(id).ConfigureAwait(true);
+                model.OrderNo = DateTime.Now.ToString() + model.AspNetUserId;
             }
            // model.OrderNo = 
             if (ModelState.IsValid)
@@ -126,8 +142,11 @@ namespace Ecommerce.WebApp.Controllers
                             po.Quantity = item.Quantity;
                             int qty = item.Quantity;
                             po.OrderId = id;
-                            po.Customer = o.Customer;
-                            po.CustomerId = o.CustomerId;
+                            //System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+                            po.AspNetUserId = userManager.GetUserId(User);
+                            //po.AspNetUser = await userManager.FindByIdAsync(po.AspNetUserId).ConfigureAwait(true);
+                            //po.Customer = o.Customer;
+                            //po.CustomerId = o.CustomerId;
                             po.Status = "Pending";
                             _productOrderManager.Add(po);
                             var stock = _stockManager.check(pid);
@@ -188,7 +207,27 @@ namespace Ecommerce.WebApp.Controllers
             
             if (ModelState.IsValid)
             {
-              
+                ProductOrder po = new ProductOrder();
+                Order o = _orderManager.GetById(Id);
+                var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+
+                foreach (var item in cart)
+                {
+                    po.ProductId = item.product.Id;
+                    long pid = item.product.Id;
+                    po.Quantity = item.Quantity;
+                    int qty = item.Quantity;
+                    po.OrderId = Id;
+                    //po.AspNetUserId =
+                    //po.Customer = o.Customer;
+                    //po.CustomerId = o.CustomerId;
+                    po.Status = "Pending";
+                    _productOrderManager.Add(po);
+                    var stock = _stockManager.check(pid);
+                    stock.Quantity = stock.Quantity - qty;
+                    _stockManager.Update(stock);
+                }
+                Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 var aOrder = _mapper.Map<Order>(order);
                 bool isUpdated = _orderManager.Update(aOrder);
                 if (isUpdated)
@@ -216,6 +255,25 @@ namespace Ecommerce.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 bool isDeleted = _orderManager.Remove(customer);
+                ProductOrder po = new ProductOrder();
+                Order o = _orderManager.GetById(id);
+                var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+
+                foreach (var item in cart)
+                {
+                    po.ProductId = item.product.Id;
+                    long pid = item.product.Id;
+                    po.Quantity = item.Quantity;
+                    int qty = item.Quantity;
+                    po.OrderId = id;
+                    //po.Customer = o.Customer;
+                    //po.CustomerId = o.CustomerId;
+                    _productOrderManager.Remove(po);
+                    var stock = _stockManager.check(pid);
+                    stock.Quantity = stock.Quantity + qty;
+                    _stockManager.Update(stock);
+                }
+                Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 if (isDeleted)
                 {
                     var orders = _orderManager.GetAll();

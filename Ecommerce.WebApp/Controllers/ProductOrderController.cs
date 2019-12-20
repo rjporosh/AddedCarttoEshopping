@@ -7,6 +7,7 @@ using Ecommerce.Abstractions.BLL;
 using Ecommerce.Models;
 using Ecommerce.Models.RazorViewModels.ProductOrder;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.WebApp.Controllers
@@ -17,12 +18,17 @@ namespace Ecommerce.WebApp.Controllers
         private IProductOrderManager _productOrderManager;
         private IOrderManager _orderManager;
         private IProductManager _productManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private IMapper _mapper;
 
-        public ProductOrderController(IProductOrderManager productorderManager, IMapper mapper, IOrderManager orderManager, IProductManager productManager)
+        public UserManager<ApplicationUser> UserManager { get; }
+
+        public ProductOrderController(IProductOrderManager productorderManager, IMapper mapper, IOrderManager orderManager, IProductManager productManager, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _productOrderManager = productorderManager;
             _productManager = productManager;
+            UserManager = userManager;
+            this.signInManager = signInManager;
             _orderManager = orderManager;
             _mapper = mapper;
         }
@@ -33,17 +39,21 @@ namespace Ecommerce.WebApp.Controllers
             return View(po);
         }
         [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var orders = _productOrderManager.GetAll();
+         
 
             var model = new ProductOrderVM();
-           
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            model.AspNetUserId = UserManager.GetUserId(User); // Get user id:
+            var id = UserManager.GetUserId(User);
+            model.AspNetUser = await UserManager.FindByIdAsync(id).ConfigureAwait(true);
             return View(model);
         }
         [Authorize]
         [HttpPost]
-        public IActionResult Create([Bind("OrderId,ProductId,Status,Quantity,Unit,Product,Order")]ProductOrderVM model)
+        public IActionResult Create([Bind("OrderId,ProductId,Status,Quantity,Unit,Product,Order,AspNetUsersId")]ProductOrderVM model)
         {
 
             // model.OrderNo = 
