@@ -10,33 +10,38 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ecommerce.Abstractions.Helper
+namespace Ecommerce.WebApp.Controllers
 {
-    public class GetUserService : Controller /*PageModel*/
+    public class GetUserService : Controller
     {
-        private readonly IHttpContextAccessor _ctxAccessor;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private ApplicationUser user;
+        private readonly IHttpContextAccessor ctxAccessor;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private ApplicationUser nowuser;
         private string imagePath;
 
         public GetUserService(IHttpContextAccessor ctxAccessor, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            _ctxAccessor = ctxAccessor;
-            _userManager = userManager;
-            _signInManager = signInManager;
+            this.ctxAccessor = ctxAccessor;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         
         }
-
-        public async Task<ApplicationUser> getUser()
+        public GetUserService(ApplicationUser user, string imgPath)
         {
-            var AspNetUserId = _userManager.GetUserId(User);
-            var uid = User.Identity.Name;
-            //  System.Security.Claims.ClaimsPrincipal currentUser = User;
-            var AspNetUser = await _userManager.FindByNameAsync(uid).ConfigureAwait(true);
-            user = AspNetUser;
-            imagePath = user.ImagePath;
-            return AspNetUser;
+            nowuser = user;
+            imagePath = imgPath;
+        }
+
+        public ApplicationUser getUser()
+        {
+            //var AspNetUserId = userManager.GetUserId(User);
+            //var uid = User.Identity.Name;
+            ////  System.Security.Claims.ClaimsPrincipal currentUser = User;
+            //var AspNetUser = await userManager.FindByNameAsync(uid).ConfigureAwait(true);
+            //user = user;
+            //imagePath = imgPath;
+            return nowuser;
         }
         public  string ImagePath()
 

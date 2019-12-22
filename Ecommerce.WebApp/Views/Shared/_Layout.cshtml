@@ -92,7 +92,7 @@
 
                             </span>
                             <i class="icon_cart"></i>
-
+                                                                    +
                         </a>
 
                     </li>
@@ -101,18 +101,21 @@
                         @if (signInManager.IsSignedIn(User))
                         {
 
-                            <form method="post" asp-action="Logout" asp-controller="Account">
-                                <button type="submit" class="btn btn-danger">
-                                    Logout
-                                </button>
+                        <form method="post" asp-action="Logout" asp-controller="Account">
+                            <button type="submit" class="btn btn-danger">
+                                Logout
+                            </button>
 
-                                <a> @User.Identity.Name</a>
-                            
-                               <img src="~\user\img\default.jpg" />
+                            <a> @User.Identity.Name</a>
+
+                            @*<img src="~/user/img/default.jpg" style="width:25px; height:20px" class="img-circle" />*@
+
+                        
+
+                            <img src="~/user/img/default.jpg" style="width:25px; height:20px" class="img-circle" />
 
 
-
-                            </form>
+                        </form>
 
 
 
