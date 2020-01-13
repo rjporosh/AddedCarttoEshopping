@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ecommerce.Models
+namespace Ecommerce.Models.RazorViewModels.Comment
 {
-    public class Comment
+    public class CommentVM
     {
         public long? Id { get; set; }
         public long? ProductId { get; set; }
