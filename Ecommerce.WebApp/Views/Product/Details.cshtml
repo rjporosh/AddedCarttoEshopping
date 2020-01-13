@@ -103,17 +103,17 @@
                 <div class="form-group">
                     <label>Write Your Comment</label>
                     <span class="text-warning float-right">
-                        <i class="ratingStar far fa-star"></i>
-                        <i class="ratingStar far fa-star"></i>
-                        <i class="ratingStar far fa-star"></i>
-                        <i class="ratingStar far fa-star"></i>
-                        <i class="ratingStar far fa-star"></i>
+                        <i class="ratingStar far fa-star" data-value="1"></i>
+                        <i class="ratingStar far fa-star" data-value="2"></i>
+                        <i class="ratingStar far fa-star" data-value="3"></i>
+                        <i class="ratingStar far fa-star" data-value="4"></i>
+                        <i class="ratingStar far fa-star" data-value="5"></i>
                     </span>
-                    
+                         <input type="hidden" name="Rating" id="ratingsValue" />
                     <textarea class="form-control" rows="3" name="Comments" placeholder="Write Your Comment Here"></textarea>
 
                 </div>
-                <button class="btn btn-success" id="btnComment" type="button">Leave Your Comment</button>
+                <button class="btn btn-success" id="btnComment" type="submit">Leave Your Comment</button>
             </form>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
@@ -128,7 +128,8 @@
     </div>
 
     <script>
-            $(".ratingStar").hover(function() {
+        $(".ratingStar").hover(function () {
+            
                 $(".ratingStar").addClass("far").removeClass("fas");
                 $(this).addClass("fas").removeClass("far");
                 $(this).prevAll(".ratingStar").addClass("fas").removeClass("far");
@@ -136,7 +137,15 @@
          
     </script>
     <script>
-         $("#btnComment").click(function () {
+        $(".ratingStar").click(function () {
+            debugger;
+            var starValue = $(this).attr("data-value");
+            $("#ratingsValue").val(starValue);
+        });
+    </script>
+    <script>
+        $("#btnComment").click(function () {
+            debugger;
                 $.ajax({
                     url: "@Url.Action("LeaveComment","Comments")",
                     type: "post",
