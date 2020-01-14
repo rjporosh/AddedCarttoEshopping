@@ -56,7 +56,7 @@ namespace Ecommerce.WebApp.Controllers
         }
         [Authorize]
         [Route("buy/{Id}")]
-        public IActionResult buy(long Id,[Bind("product,Quantity")]Item item)
+        public IActionResult buy(long Id,Item item)
         {
             if(item==null)
             {
@@ -83,7 +83,11 @@ namespace Ecommerce.WebApp.Controllers
                 var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 if (item.Quantity == 0)
                 {
-                    item.Quantity = 1;
+                    item.Quantity = item.Quantity;
+                }
+                else
+                {
+                    item.Quantity = item.Quantity;
                 }
                 int index = Exists(cart,Id);
                 if(index== -1)
@@ -95,7 +99,7 @@ namespace Ecommerce.WebApp.Controllers
                 }
                 else
                 {
-                    cart[index].Quantity++;
+                    cart[index].Quantity+=item.Quantity;
                   //  cart.Count();
                 }
                 // cart.Count();
