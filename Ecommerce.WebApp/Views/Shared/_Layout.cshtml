@@ -2,6 +2,7 @@
 @using Microsoft.Extensions.Configuration
 @using Ecommerce.Models
 @inject Ecommerce.Abstractions.Helper.TotalItemService total
+@inject Ecommerce.Abstractions.Helper.GetUserService user
 @inject SignInManager<ApplicationUser> signInManager
 @inject UserManager<ApplicationUser> userManager
 <!DOCTYPE html>
@@ -89,6 +90,7 @@
                             <span class="badge bg-important">
 
                                 @total.TotalProductPurchased
+                               
 
                             </span>
                             <i class="icon_cart"></i>
@@ -109,10 +111,24 @@
                             <a> @User.Identity.Name</a>
 
                             @*<img src="~/user/img/default.jpg" style="width:25px; height:20px" class="img-circle" />*@
+                            @try
+                            {
+                                if (user.imgPath(User.Identity.Name) == null || user.imgPath(User.Identity.Name) == "")
+                                {
+                                    <img src="~/user/img/default.jpg" style="width:25px; height:20px" class="img-circle" />
+                                }
+                                else
+                                {
+                                    <img src="~/@user.imgPath(User.Identity.Name)" style="width:25px; height:20px" class="img-circle" />
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                               <img src="~/user/img/default.jpg" style="width:25px; height:20px" class="img-circle" />
+                            }
 
-                        
 
-                            <img src="~/user/img/default.jpg" style="width:25px; height:20px" class="img-circle" />
+
 
 
                         </form>

@@ -105,7 +105,8 @@
         <div id="Review" class="tab-pane fade">
             <h3>Review</h3>
             <form method="post" id="commentForm">
-                <input type="hidden" asp-for="@Model.product.Id" />
+                <input type="hidden" name="ProductId" asp-for="@Model.product.Id" />
+                <input type="hidden" name="AspNetUserId"  />
                 <div class="form-group">
                     <label>Write Your Comment</label>
                     <span class="text-warning float-right">
@@ -119,7 +120,7 @@
                     <textarea class="form-control" rows="3" name="Comments" placeholder="Write Your Comment Here"></textarea>
 
                 </div>
-                <button class="btn btn-success" id="btnComment" type="submit">Leave Your Comment</button>
+                <button class="btn btn-success" id="btnComment" asp-action="LeaveComment" asp-controller="Comments" type="submit">Leave Your Comment</button>
             </form>
             <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </div>
@@ -155,7 +156,8 @@
                 $.ajax({
                     url: "@Url.Action("LeaveComment","Comments")",
                     type: "post",
-                    data: $("#commentForm").serialize
+                    data: $("#commentForm").serialize ,
+                    value: $("#commentForm").serialize
                 }).done(function (response) {
                     if (response.Success) {
                         window.location.reload();

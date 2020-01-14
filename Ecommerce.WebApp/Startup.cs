@@ -137,6 +137,7 @@ namespace Ecommerce.WebApp
             //    );
             //services.AddSingleton<ITotalQuantity,TotalItemService >();
             services.AddTransient<TotalItemService>();
+            services.AddTransient<GetUserService>();
             services.AddMvc(options =>
                    {
                        options.FormatterMappings.SetMediaTypeMappingForFormat

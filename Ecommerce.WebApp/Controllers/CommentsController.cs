@@ -26,22 +26,29 @@ namespace Ecommerce.WebApp.Controllers
         }
         public IActionResult Index()
         {
+            var userId = _userManager.GetUserId(HttpContext.User);
+            ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
             return View();
         }
         [HttpPost]
-        public JsonResult LeaveComment(CommentVM model)
+        public  JsonResult LeaveComment(CommentVM model)
         {
             JsonResult result = new JsonResult(model);
             try
             {
-
                 var comment = new Comment();
                 comment.Comments = model.Comments;
                 comment.ProductId = model.ProductId;
+                comment.Rating = model.Rating;
                 comment.Date = DateTime.Now;
+                
 
                 System.Security.Claims.ClaimsPrincipal currentUser = this.User;
                 comment.AspNetUserId = _userManager.GetUserId(User);
+                var userId = _userManager.GetUserId(HttpContext.User);
+                ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
+
+                comment.User = _userManager.FindByIdAsync(userId).Result;
                 var res = _commentManager.Add(comment);
                 result.Value = new { Success = res };
                 return result;

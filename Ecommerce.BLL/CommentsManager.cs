@@ -12,13 +12,13 @@ namespace Ecommerce.BLL
     {
         private ICommentsRepository _commentsRepository;
         private IProductRepository _productRepository;
-        private ICommentsManager _commentManager;
+       
 
-        public CommentsManager(ICommentsRepository commentsRepository, IProductRepository productRepository, ICommentsManager commentManager) : base(commentsRepository)
+        public CommentsManager(ICommentsRepository commentsRepository, IProductRepository productRepository) : base(commentsRepository)
         {
             _commentsRepository = commentsRepository;
             _productRepository = productRepository;
-            _commentManager = commentManager;
+       
         }
     }
 }

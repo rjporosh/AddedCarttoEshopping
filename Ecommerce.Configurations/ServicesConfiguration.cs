@@ -26,14 +26,16 @@ namespace Ecommerce.Configurations
             services.AddTransient<ISizeManager, SizeManager>();
             services.AddTransient<ISizeRepository, SizeRepository>();
 
+            services.AddTransient<IReviewManager, ReviewManager>();
+            services.AddTransient<IReviewRepository, ReviewRepository>();
+
             services.AddTransient<ICommentsManager, CommentsManager>();
             services.AddTransient<ICommentsRepository, CommentsRepository>();
 
             services.AddTransient<IReplyManager, ReplyManager>();
             services.AddTransient<IReplyRepository, ReplyRepository>();
 
-            services.AddTransient<IReviewManager, ReviewManager>();
-            services.AddTransient<IReviewRepository, ReviewRepository>();
+           
 
             // services.AddScoped<IOrderManager, OrderManager>();
             services.AddTransient<IOrderManager, OrderManager>();
