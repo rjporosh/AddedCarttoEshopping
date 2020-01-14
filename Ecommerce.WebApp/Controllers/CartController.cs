@@ -71,8 +71,11 @@ namespace Ecommerce.WebApp.Controllers
                 }
                 item.user =  _userManager.FindByNameAsync(User.Identity.Name).Result;
                 var cart = new List<Item>();
+                item.product.Stocks.Quantity -= item.Quantity;
+                
                 cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity ,user=item.user });
-               // po.ProductList.Add(item.product);
+                _manager.Update(item.product);
+                // po.ProductList.Add(item.product);
                 po.Quantity = item.Quantity;
                 po.Product = item.product;
 
@@ -91,8 +94,10 @@ namespace Ecommerce.WebApp.Controllers
                 if(index== -1)
                 {
                     item.user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+                    item.product.Stocks.Quantity -= item.Quantity;
                     cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity ,user=item.user});
-                   // po.ProductList.Add(item.product);
+                    _manager.Update(item.product);
+                    // po.ProductList.Add(item.product);
                     po.Quantity = item.Quantity;
                     po.Product = item.product;
                 }
@@ -113,7 +118,13 @@ namespace Ecommerce.WebApp.Controllers
         {
                 var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                 int index = Exists(cart, Id);
-                cart.RemoveAt(index);
+            var product = _manager.GetById(Id);
+             var i = cart[index];
+            product.Stocks.Quantity +=  i.Quantity ;
+            _manager.Update(product);
+            cart.RemoveAt(index);
+            
+            
             Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index",cart);
         }
@@ -152,6 +163,27 @@ namespace Ecommerce.WebApp.Controllers
             {
                 return RedirectToAction("Index");
             }
+           
+                //foreach (var item in cart)
+                //{
+
+                //    var product = item.product;
+
+                //    product.Stocks.Quantity += item.Quantity;
+                //    _manager.Update(product);
+
+                //}
+                //cart.Clear();
+                for(int i =0;i<cart.Count;i++)
+                {
+                    var itm = cart[i];
+                    var product =_manager.GetById(itm.product.Id);
+                    product.Stocks.Quantity += itm.Quantity;
+                    _manager.Update(product);
+                   // cart.RemoveAt(i);
+                }
+               
+            
             cart.Clear();
             Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             return RedirectToAction("Index", cart);
