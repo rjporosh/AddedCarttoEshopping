@@ -27,7 +27,7 @@ namespace Ecommerce.Abstractions.Helper
         
         private readonly UserManager<ApplicationUser> _userManager;
        
-        //private ApplicationUser user;
+        private ApplicationUser user = new ApplicationUser();
         private IHttpContextAccessor contextAccessor;
         private readonly SignInManager<ApplicationUser> signinManager;
 
@@ -43,60 +43,20 @@ namespace Ecommerce.Abstractions.Helper
         }
 
 
-        public ApplicationUser getUser
+        public ApplicationUser getUser(string uName)
         {
-            get
-            {
-                var userId = _userManager.GetUserId(HttpContext.User);
-               ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
-
+                //var userId = _userManager.GetUserId(HttpContext.User);
+                //user = _userManager.FindByIdAsync(userId).Result;
+                user = _userManager.FindByNameAsync(uName).Result;
                 return user;
-            }
         }
        
-        public  string ImagePath
-        {
-            get
-            {
-                
-                ApplicationUser user = _userManager.FindByNameAsync(User.Identity.Name).Result;
-                var path = user.ImagePath;
-                return path;
-            }
-        }
+        
         public string imgPath(string userName)
         {
-            ApplicationUser user = _userManager.FindByNameAsync(userName).Result;
+           user = _userManager.FindByNameAsync(userName).Result;
             return _userManager.FindByNameAsync(userName).Result.ImagePath;
         }
 
-       
-
-        //public Task<ApplicationUser> UserCurrent
-        //{
-        //    get
-        //    {
-        //        System.Security.Claims.ClaimsPrincipal currentUser = User;
-
-        //        return User;
-        //        //ApplicationUser user = userManager.GetUserAsync(claimsPrincipal);
-        //        //string firstName = user.ImagePath;
-        //        //// // // var uid = signInManager.IsSignedIn(User);
-        //        //var userid = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        //        //////  //var user =  userManager.GetUserAsync(HttpContext.User);
-        //        //var user = userManager.FindByIdAsync(userid);
-        //        //return user;
-        //        //var ImagePath = user.ImagePath;
-        //        //if(ImagePath==null)
-        //        //{
-        //        //    return "\\user\\img\\default.jpg";
-        //        //}
-        //        //else
-        //        //{
-        //        //    return ImagePath;
-        //        //}
-        //    }
-        //}
-        //
     }
 }

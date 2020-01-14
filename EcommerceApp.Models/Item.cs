@@ -11,6 +11,7 @@ namespace Ecommerce.Models
         public int Id { get; set; }
         public Product product { get; set; }
         public String ProductCategoryName { get; set; }
+        public string user { get; set; }
         public int Quantity { get; set; }
     }
 }

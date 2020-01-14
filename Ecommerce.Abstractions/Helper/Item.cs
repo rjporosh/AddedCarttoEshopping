@@ -9,6 +9,7 @@ namespace Ecommerce.Abstractions.Helper
     public class Item
     {
         public Product product { get; set; }
+        public ApplicationUser user { get; set; }
         public String ProductCategoryName { get; set; }
         public int Quantity { get; set; }
     }

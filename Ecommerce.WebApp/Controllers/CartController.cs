@@ -9,6 +9,7 @@ using Ecommerce.DatabaseContext;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Ecommerce.WebApp.Controllers
 {
@@ -19,16 +20,16 @@ namespace Ecommerce.WebApp.Controllers
         private IProductManager _manager;
         private IOrderManager _orderManager;
         private IProductOrderManager _productOrderManager;
-        private ICustomerManager _customerManager;
+        private UserManager<Models.ApplicationUser> _userManager;
         private IMapper _mapper;
         private Models.ProductOrder po = new Models.ProductOrder();
         private EcommerceDbContext _db;
-        public CartController(IProductManager productManager, IMapper mapper,IProductOrderManager productOrderManager , IOrderManager orderManager, ICustomerManager customerManager)
+        public CartController(IProductManager productManager, IMapper mapper,IProductOrderManager productOrderManager , IOrderManager orderManager, UserManager<Models.ApplicationUser> userManager)
         {
             _manager = productManager;
             _productOrderManager = productOrderManager;
             _orderManager = orderManager;
-            _customerManager = customerManager;
+            _userManager = userManager;
             _mapper = mapper;
         }
         [Route("Index")]
@@ -68,9 +69,9 @@ namespace Ecommerce.WebApp.Controllers
                 {
                     item.Quantity = 1;
                 }
-              
+                item.user =  _userManager.FindByNameAsync(User.Identity.Name).Result;
                 var cart = new List<Item>();
-                cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity });
+                cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity ,user=item.user });
                // po.ProductList.Add(item.product);
                 po.Quantity = item.Quantity;
                 po.Product = item.product;
@@ -89,7 +90,8 @@ namespace Ecommerce.WebApp.Controllers
                 int index = Exists(cart,Id);
                 if(index== -1)
                 {
-                    cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity });
+                    item.user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+                    cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity ,user=item.user});
                    // po.ProductList.Add(item.product);
                     po.Quantity = item.Quantity;
                     po.Product = item.product;

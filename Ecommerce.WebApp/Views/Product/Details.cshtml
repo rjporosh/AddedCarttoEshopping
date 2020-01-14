@@ -1,4 +1,5 @@
 ﻿@model Ecommerce.Abstractions.Helper.Item
+@inject Ecommerce.Abstractions.Helper.GetUserService user
 <title>Product Detail</title>
 @section Styles
     {
@@ -59,8 +60,10 @@
                     <form method="post">
                         <div class="flex-w flex-r-m p-b-10">
 
-                            <input type="hidden" name="product" id="product" value=@Model.product />
+                            <input type="hidden" asp-for="product" name="product" id="Product" value=@Model.product />
                             <input type="hidden" name="productId" id="productId" value=@Model.product.Id />
+                            <input type="hidden" asp-for="user" name="user" id="user" value=@User.Identity.Name />
+                            <input type="hidden" asp-for="ProductCategoryName" name="ProductCategoryName" id="ProductCategoryName" value="@Model.ProductCategoryName"/>
 
                             <div class="wrap-num-product flex-w m-r-20 m-tb-10">
                                 <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -106,7 +109,7 @@
             <h3>Review</h3>
             <form method="post" id="commentForm">
                 <input type="hidden" name="ProductId" asp-for="@Model.product.Id" />
-                <input type="hidden" name="AspNetUserId"  />
+                <input type="hidden" name="AspNetUserId" />
                 <div class="form-group">
                     <label>Write Your Comment</label>
                     <span class="text-warning float-right">
@@ -116,7 +119,7 @@
                         <i class="ratingStar far fa-star" data-value="4"></i>
                         <i class="ratingStar far fa-star" data-value="5"></i>
                     </span>
-                         <input type="hidden" name="Rating" id="ratingsValue" />
+                    <input type="hidden" name="Rating" id="ratingsValue" />
                     <textarea class="form-control" rows="3" name="Comments" placeholder="Write Your Comment Here"></textarea>
 
                 </div>
@@ -136,12 +139,12 @@
 
     <script>
         $(".ratingStar").hover(function () {
-            
-                $(".ratingStar").addClass("far").removeClass("fas");
-                $(this).addClass("fas").removeClass("far");
-                $(this).prevAll(".ratingStar").addClass("fas").removeClass("far");
-            });
-         
+
+            $(".ratingStar").addClass("far").removeClass("fas");
+            $(this).addClass("fas").removeClass("far");
+            $(this).prevAll(".ratingStar").addClass("fas").removeClass("far");
+        });
+
     </script>
     <script>
         $(".ratingStar").click(function () {

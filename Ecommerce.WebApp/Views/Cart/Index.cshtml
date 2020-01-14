@@ -11,7 +11,11 @@
             <th>Category Name </th>
             <th>Quantity</th>
             <th>Sub-Total</th>
+            <th>User Id</th>
+            <th>Image</th>
+            <th>User Name</th>
             <th>Action</th>
+
         </tr>
 
 
@@ -22,14 +26,17 @@
         <tr>
 
             <td>
-                <img class="img-responsive" width="50" height="50" @*src="data:image/jpeg;base64,@Convert.ToBase64String(customer.product.Image)"*@ src="~/@customer.product.ImagePath"  />
+                <img class="img-responsive" width="50" height="50" @*src="data:image/jpeg;base64,@Convert.ToBase64String(customer.product.Image)"*@ src="~/@customer.product.ImagePath" />
             </td>
             <td>@customer.product.Name</td>
             <td>@customer.product.Price ৳</td>
             <td>@customer.product.Category.Name</td>
             <td>@customer.Quantity</td>
+
             <td>@(customer.product.Price * customer.Quantity) ৳</td>
-           
+            <td> @customer.user.Id</td>
+            <td><img src="~/@customer.user.ImagePath" style="width:25px; height:25px;" /></td>
+              <td>@customer.user.UserName</td>
             <td>
                 <a class="btn btn-danger" asp-controller="cart" asp-action="Remove" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Remove Item</strong></i></span></a>
                 @*<a class="btn btn-danger" asp-controller="cart" asp-action="Edit" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Edit Item</strong></i></span></a>*@
