@@ -26,9 +26,10 @@ namespace Ecommerce.WebApp.Controllers
         }
         public IActionResult Index()
         {
-            var userId = _userManager.GetUserId(HttpContext.User);
-            ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
-            return View();
+            //var userId = _userManager.GetUserId(HttpContext.User);
+            //ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
+            var model = _commentManager.GetAll();
+            return View(model);
         }
         [HttpPost]
         public  JsonResult LeaveComment(CommentVM model)
@@ -48,7 +49,7 @@ namespace Ecommerce.WebApp.Controllers
                 var userId = _userManager.GetUserId(HttpContext.User);
                 ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
 
-                comment.User = _userManager.FindByIdAsync(userId).Result;
+               // comment.User = _userManager.FindByIdAsync(userId).Result;
                 var res = _commentManager.Add(comment);
                 result.Value = new { Success = res };
                 return result;
@@ -58,6 +59,117 @@ namespace Ecommerce.WebApp.Controllers
                 result.Value = new { Success = false, Message = ex.Message };
                 return result;
             }
+        }
+        [Authorize]
+        //[Route("Add/{Id}")]
+        [HttpGet]
+        public IActionResult Add()
+        {
+           var comment = new Comment();
+           // comment.ProductId = Id;
+            return View();
+        }
+        //[Route("Add/{Id}")]
+        [Authorize]
+        [HttpPost]
+        public IActionResult Add( CommentVM model)
+        {
+            var comment = new Comment();
+            comment.Comments = model.Comments;
+            comment.ProductId = model.ProductId;
+            comment.Rating = model.Rating;
+            comment.Date = DateTime.Now;
+
+
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            comment.AspNetUserId = _userManager.GetUserId(User);
+            var userId = _userManager.GetUserId(HttpContext.User);
+            ApplicationUser user = _userManager.FindByIdAsync(userId).Result;
+
+           comment.AspNetUser = user;
+            var res = _commentManager.Add(comment);
+           if(res== true)
+            {
+                return View("_cardView", "Product");
+            }
+           else
+            {
+                return View("Add","Comments");
+            }
+            
+        }
+        [HttpGet]
+        public IActionResult Edit (long Id)
+        {
+            var model = _commentManager.GetById(Id);
+            var comment = new CommentVM();
+            comment.Id = model.Id;
+            comment.AspNetUserId = model.AspNetUserId;
+            comment.AspNetUser = model.AspNetUser;
+            comment.Comments = model.Comments;
+            comment.Reply = model.Reply;
+            comment.Rating = model.Rating;
+            // ViewBag.model = model;
+            //var pid = model.ProductId;
+            //return View("Details?id=${pid}#Review", "Product");
+            return View(comment);
+        }
+        [HttpPut]
+        public IActionResult Edit(CommentVM model)
+        {
+            var comment = new Comment();
+            comment.Id = model.Id;
+            comment.AspNetUserId = model.AspNetUserId;
+            comment.AspNetUser = model.AspNetUser;
+            comment.Comments = model.Comments;
+            comment.Reply = model.Reply;
+            comment.Rating = model.Rating;
+            bool updated =_commentManager.Update(comment);
+            if(updated)
+            {
+                ViewBag.message = "Successfully Updated";
+                return RedirectToAction("_cardView","Product");
+            }
+            else
+            {
+                ViewBag.message = "Failed";
+            }
+            return View();
+        }
+        [HttpPut]
+        public IActionResult Update(CommentVM model)
+        {
+            var comment = new Comment();
+            comment.Id = model.Id;
+            comment.ProductId = model.ProductId;
+            comment.Product = model.Product;
+            comment.AspNetUserId = model.AspNetUserId;
+            comment.AspNetUser = model.AspNetUser;
+            comment.Comments = model.Comments;
+            comment.Reply = model.Reply;
+            comment.Rating = model.Rating;
+            bool updated = _commentManager.Update(comment);
+            if (updated)
+            {
+                ViewBag.message = "Successfully Updated";
+                return RedirectToAction("Details/{model.ProductId}#Comments","Product");
+            }
+            else
+            {
+                ViewBag.message = "Failed";
+            }
+            return RedirectToAction("Index", "Product");
+        }
+        [HttpDelete]
+        public IActionResult Remove(long id)
+        {
+            var comment = _commentManager.GetById(id);
+            _commentManager.Remove(comment);
+            return RedirectToAction("_cardView", "Product");
+        }
+        public IActionResult Create()
+        {
+            return View();
         }
     }
 }

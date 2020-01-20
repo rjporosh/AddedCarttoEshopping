@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Ecommerce.WebApp.Controllers
 {
@@ -23,6 +25,33 @@ namespace Ecommerce.WebApp.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+
+
+        //public JsonResult KendoserverSideDemo(int pageSize, int skip = 10)
+        //{
+        //    using (var s = new KendoEntities())
+        //    {
+        //        var total = s.Students.Count();
+
+        //        if (total != null)
+        //        {
+        //            var data = s.Students.OrderBy(x => x.StudentID).Skip(skip)
+        //                                 .Take(pageSize).ToList();
+
+        //            return Json(new
+        //            {
+        //                total = total,
+        //                data = data
+                        
+        //            }, JsonRequestBehavior.AllowGet);
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+        //    }
+        //}
+
 
         [AllowAnonymous]
          [HttpGet]
@@ -116,9 +145,15 @@ namespace Ecommerce.WebApp.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Login()
+
+        public async Task<IActionResult> Login(string returnUrl)
         {
-            return View();
+            LoginVM model = new LoginVM
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogin = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+            return View(model);
         }
         [AllowAnonymous]
         [HttpPost]
@@ -134,6 +169,63 @@ namespace Ecommerce.WebApp.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid User Name Or Password");
             }
             return View(model);
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirevtUrl = Url.Action("ExternalLoginCallback", "Account",new { ReturnUrl = returnUrl});
+            var properties = signInManager.ConfigureExternalAuthenticationProperties(provider,redirevtUrl);
+            return new ChallengeResult(provider,properties);
+        }
+        [AllowAnonymous]
+        public async Task<IActionResult>ExternalLoginCallback(string returnUrl=null ,string remoteError=null ) 
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+            LoginVM loginVm = new LoginVM
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogin = (await signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(true)).ToList()
+            };
+            if(remoteError!=null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error from external provider : {remoteError}");
+                return View("Login", loginVm);
+            }
+            var info = await signInManager.GetExternalLoginInfoAsync().ConfigureAwait(true);
+            if(info==null)
+            {
+                ModelState.AddModelError(string.Empty, $"Error loading info from external provider.");
+                return View("Login", loginVm);
+            }
+            var signInResult = await signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true).ConfigureAwait(true);
+              if(signInResult.Succeeded)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                if(email!=null)
+                {
+                    var user = await userManager.FindByEmailAsync(email).ConfigureAwait(true);
+                    if(user==null)
+                    {
+                        user = new ApplicationUser
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        };
+                        await userManager.CreateAsync(user);
+                    }
+                    await userManager.AddLoginAsync(user, info).ConfigureAwait(true);
+                    await signInManager.SignInAsync(user, isPersistent: false).ConfigureAwait(true);
+                    return LocalRedirect(returnUrl);
+                }
+                ViewBag.ErrorTitle = $"Email claim not recieved from : {info.LoginProvider}";
+                ViewBag.ErrorMessage ="Plz Contact Support on porosh19940423@gmail.com" ;
+                return View("Error");
+            }
         }
         public IActionResult Index()
         {

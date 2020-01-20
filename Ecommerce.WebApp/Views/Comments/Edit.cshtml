@@ -1,0 +1,73 @@
+﻿@model Ecommerce.Models.RazorViewModels.Comment.CommentVM
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous" />
+<script src="https://kit.fontawesome.com/b6227ed7cf.js" crossorigin="anonymous"></script>
+<body>
+    <form method="post" id="commentForm">
+        @*<input type="hidden" name="ProductId" asp-for="@Model.ProductId" />*@
+        <input type="hidden" name="AspNetUserId" value="@Model.AspNetUserId" />
+        <input type="hidden" name="AspNetUser" value="@Model.AspNetUser" />
+        <input type="hidden" name="Product" value="@Model.Product" />
+        <input asp-for="ProductId" name="ProductId" value="@Model.ProductId" />
+        <div class="form-group">
+            <label>Write Your Comment</label>
+            <span class="text-warning float-right">
+                <i class="ratingStar far fa-star" data-value="1"></i>
+                <i class="ratingStar far fa-star" data-value="2"></i>
+                <i class="ratingStar far fa-star" data-value="3"></i>
+                <i class="ratingStar far fa-star" data-value="4"></i>
+                <i class="ratingStar far fa-star" data-value="5"></i>
+            </span>
+            <input type="hidden" name="Rating" id="ratingsValue" value="@Model.Rating" />
+            <textarea class="form-control" rows="3" name="Comments" placeholder="Write Your Comment Here"></textarea>
+
+        </div>
+        <button class="btn btn-success" id="btnComment" asp-action="Edit" asp-controller="Comments" type="submit">Leave Your Comment</button>
+    </form>
+</body>
+<script>
+    $(".ratingStar").hover(function () {
+
+        $(".ratingStar").addClass("far").removeClass("fas");
+        $(this).addClass("fas").removeClass("far");
+        $(this).prevAll(".ratingStar").addClass("fas").removeClass("far");
+    });
+
+</script>
+<script>
+    $(".ratingStar").click(function () {
+        debugger;
+        var starValue = $(this).attr("data-value");
+        $("#ratingsValue").val(starValue);
+    });
+</script>
+<script>
+     $("#btnComment").click(function () {
+            debugger;
+                $.ajax({
+                    url: '@Url.Action("LeaveComment","Comments",true)',
+                    type: "post",
+                    data: $("#commentForm").serialize ,
+                    value: $("#commentForm").serialize
+                }).done(function (response) {
+                    if (response.Success) {
+                        window.location.reload();
+                    }
+
+                else {
+                        swal("Error!",response.Message,"error");
+                     }
+
+                }).fail(function () {
+                    swal("Error!", "Error Occured Plz Try Again Later.", "error");
+            });
+</script>
+
+

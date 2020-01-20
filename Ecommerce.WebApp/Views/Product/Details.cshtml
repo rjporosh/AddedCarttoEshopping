@@ -57,6 +57,7 @@
                     <p class="stext-102 cl3 p-t-23">
                         @Model.product.Description
                     </p>
+                    
                     <form method="post">
                         <div class="flex-w flex-r-m p-b-10">
 
@@ -157,7 +158,7 @@
         $("#btnComment").click(function () {
             debugger;
                 $.ajax({
-                    url: "@Url.Action("LeaveComment","Comments")",
+                    url: '@Url.Action("LeaveComment","Comments",true)',
                     type: "post",
                     data: $("#commentForm").serialize ,
                     value: $("#commentForm").serialize

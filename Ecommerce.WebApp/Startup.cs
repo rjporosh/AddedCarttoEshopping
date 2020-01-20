@@ -95,12 +95,18 @@ namespace Ecommerce.WebApp
                 options.AccessDeniedPath ="/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-            //services.AddAuthentication()
-            //       .AddFacebook(options =>
-            //       {
-            //           options.AppId = Configuration["auth:facebook:appid"];
-            //           options.AppSecret = Configuration["auth:facebook:appsecret"];
-            //       });
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "884097505482-j0tufq4fveclaqjalqhnfhj3hecl974o.apps.googleusercontent.com";
+                    options.ClientSecret = "rvCRqaEYDZjDDlm9IhgWRpq0";
+                })
+                   //.AddFacebook(options =>
+                   //{
+                   //    options.AppId = "";
+                   //    options.AppSecret = "";
+                   //})
+                   ;
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",

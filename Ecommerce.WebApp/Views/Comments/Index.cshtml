@@ -1,0 +1,50 @@
+﻿@model ICollection<Ecommerce.Models.Comment>
+
+@{
+    ViewData["Title"] = "All Comments";
+}
+
+<h2>All Comments</h2>
+<table class="table table-striped table-responsive table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Product Id</th>
+            <th> User Name </th>
+            <th>Product Image </th>
+            <th>Comments</th>
+            <th>Rating</th>
+            
+            <th>Action</th>
+
+        </tr>
+
+
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+        <tr>
+            <td>@comment.Id</td>
+            <td>@comment.ProductId</td>
+            <td>@comment.AspNetUser.UserName</td>
+            <td>
+                <img class="img-responsive" width="50" height="50" @*src="data:image/jpeg;base64,@Convert.ToBase64String(customer.product.Image)"*@ src="~/@comment.Product.ImagePath" />
+            </td>
+            <td>@comment.Comments</td>
+            <td>@comment.Rating</td>
+            
+
+
+            <td>
+                <a class="btn btn-danger" asp-controller="Comments" asp-action="Remove" asp-route-id="@comment.Id"><span><i class="fa fa-trash-o"><strong>Remove</strong></i></span></a>
+                <a class="btn btn-danger" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id"><span><i class="fa fa-trash-o"><strong> Edit</strong></i></span></a>
+            </td>
+        </tr>
+        }
+        
+    </tbody>
+</table>
+<br />
+
+

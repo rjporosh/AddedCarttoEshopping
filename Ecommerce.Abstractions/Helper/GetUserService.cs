@@ -47,7 +47,7 @@ namespace Ecommerce.Abstractions.Helper
         {
                 //var userId = _userManager.GetUserId(HttpContext.User);
                 //user = _userManager.FindByIdAsync(userId).Result;
-                user = _userManager.FindByNameAsync(uName).Result;
+                var user = _userManager.FindByNameAsync(uName).Result;
                 return user;
         }
        

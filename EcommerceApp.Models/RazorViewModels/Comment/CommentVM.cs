@@ -15,6 +15,7 @@ namespace Ecommerce.Models.RazorViewModels.Comment
         public DateTime? Date { get; set; }
         public string? Comments { get; set; }
         public Reply? Reply { get; set; }
-        public ApplicationUser User { get; set; }
+        public Models.Product Product { get; set; }
+        public ApplicationUser AspNetUser { get; set; }
     }
 }
