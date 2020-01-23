@@ -89,32 +89,32 @@ namespace Ecommerce.WebApp.Controllers
             model.AspNetUserId = userManager.GetUserId(User); // Get user id:
            // model.AspNetUsersId = User.Identity.Name;
             model.OrderNo = DateTime.Now.ToBinary().ToString()+model.AspNetUserId;
-           // model.AspNetUser = await userManager.FindByIdAsync(model.AspNetUserId).ConfigureAwait(true);
+           model.AspNetUser = await userManager.FindByIdAsync(model.AspNetUserId).ConfigureAwait(true);
             model.ProductList = cart;
             model.OrderList = orders.ToList();
             return View(model);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone,AspNetUserId,AspNetUser")]OrderVM model)
+        public async Task<IActionResult> Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone,AspNetUserId")]OrderVM model)
         {
             //var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             //if(model.ProductList == null)
             //{
             //    model.ProductList = cart;
 
-            //}
-            if (model.OrderNo == null || model.OrderDate == null || model.AspNetUserId == null)
-            {
-                model.OrderDate = DateTime.Now;
-               // model.CustomerId = 1;
-                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
-                model.AspNetUserId = userManager.GetUserId(User);
-                //var id = userManager.GetUserId(User);
-                //model.AspNetUser = await userManager.FindByIdAsync(id).ConfigureAwait(true);
-                model.OrderNo = DateTime.Now.ToString() + model.AspNetUserId;
-            }
-           // model.OrderNo = 
+           // //}
+           // if (model.OrderNo == null || model.OrderDate == null || model.AspNetUserId == null)
+           // {
+           //     model.OrderDate = DateTime.Now;
+           //    // model.CustomerId = 1;
+           //     System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+           //     model.AspNetUserId = userManager.GetUserId(User);
+           //     var id = userManager.GetUserId(User);
+           //    // model.AspNetUser = await userManager.FindByIdAsync(id).ConfigureAwait(true);
+           //     model.OrderNo = DateTime.Now.ToString() + model.AspNetUserId;
+           // }
+           //// model.OrderNo = 
             if (ModelState.IsValid)
             {
                 var order = _mapper.Map<Order>(model);
@@ -144,7 +144,7 @@ namespace Ecommerce.WebApp.Controllers
                             po.OrderId = id;
                             //System.Security.Claims.ClaimsPrincipal currentUser = this.User;
                             po.AspNetUserId = userManager.GetUserId(User);
-                            //po.AspNetUser = await userManager.FindByIdAsync(po.AspNetUserId).ConfigureAwait(true);
+                           // po.AspNetUser = await userManager.FindByIdAsync(po.AspNetUserId).ConfigureAwait(true);
                             //po.Customer = o.Customer;
                             //po.CustomerId = o.CustomerId;
                             po.Status = "Pending";

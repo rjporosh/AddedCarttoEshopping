@@ -69,15 +69,13 @@ namespace Ecommerce.WebApp.Controllers
                 {
                     item.Quantity = 1;
                 }
-                item.user =  _userManager.FindByNameAsync(User.Identity.Name).Result;
+               // item.user =  _userManager.FindByNameAsync(User.Identity.Name).Result;
                 var cart = new List<Item>();
-                item.product.Stocks.Quantity -= item.Quantity;
+               // item.product.Stocks.Quantity -= item.Quantity;
                 
                 cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity ,user=item.user });
                 _manager.Update(item.product);
-                // po.ProductList.Add(item.product);
-                po.Quantity = item.Quantity;
-                po.Product = item.product;
+              
 
                 Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                
@@ -120,8 +118,8 @@ namespace Ecommerce.WebApp.Controllers
                 int index = Exists(cart, Id);
             var product = _manager.GetById(Id);
              var i = cart[index];
-            product.Stocks.Quantity +=  i.Quantity ;
-            _manager.Update(product);
+          //  product.Stocks.Quantity +=  i.Quantity ;
+           // _manager.Update(product);
             cart.RemoveAt(index);
             
             
@@ -164,23 +162,23 @@ namespace Ecommerce.WebApp.Controllers
                 return RedirectToAction("Index");
             }
            
-                //foreach (var item in cart)
-                //{
+             //   //foreach (var item in cart)
+               // //{
 
-                //    var product = item.product;
+              //  //    var product = item.product;
 
-                //    product.Stocks.Quantity += item.Quantity;
-                //    _manager.Update(product);
+              //  //    product.Stocks.Quantity += item.Quantity;
+                ////    _manager.Update(product);
 
-                //}
-                //cart.Clear();
+                ////}
+               // //cart.Clear();
                 for(int i =0;i<cart.Count;i++)
                 {
                     var itm = cart[i];
                     var product =_manager.GetById(itm.product.Id);
-                    product.Stocks.Quantity += itm.Quantity;
-                    _manager.Update(product);
-                   // cart.RemoveAt(i);
+                   // product.Stocks.Quantity += itm.Quantity;
+                   // _manager.Update(product);
+                   //// cart.RemoveAt(i);
                 }
                
             
