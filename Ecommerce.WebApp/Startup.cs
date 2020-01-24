@@ -101,11 +101,11 @@ namespace Ecommerce.WebApp
                     options.ClientId = "884097505482-j0tufq4fveclaqjalqhnfhj3hecl974o.apps.googleusercontent.com";
                     options.ClientSecret = "rvCRqaEYDZjDDlm9IhgWRpq0";
                 })
-                   //.AddFacebook(options =>
-                   //{
-                   //    options.AppId = "";
-                   //    options.AppSecret = "";
-                   //})
+                   .AddFacebook(options =>
+                   {
+                       options.AppId = "492985484738653";
+                       options.AppSecret = "5db592e96a8b9e439ec0b8883d1321c6";
+                   })
                    ;
             services.AddCors(options =>
             {
