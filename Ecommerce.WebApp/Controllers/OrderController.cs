@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Ecommerce.Abstractions.BLL;
@@ -73,7 +74,7 @@ namespace Ecommerce.WebApp.Controllers
             return View(model);
         }
         [Authorize]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             var orders = _orderManager.GetAll();
@@ -89,32 +90,32 @@ namespace Ecommerce.WebApp.Controllers
             model.AspNetUserId = userManager.GetUserId(User); // Get user id:
            // model.AspNetUsersId = User.Identity.Name;
             model.OrderNo = DateTime.Now.ToBinary().ToString()+model.AspNetUserId;
-           model.AspNetUser = await userManager.FindByIdAsync(model.AspNetUserId).ConfigureAwait(true);
+          // model.AspNetUser = await userManager.FindByIdAsync(model.AspNetUserId).ConfigureAwait(true);
             model.ProductList = cart;
             model.OrderList = orders.ToList();
             return View(model);
         }
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone,AspNetUserId")]OrderVM model)
+        public IActionResult Create([Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,ProductList,Phone,AspNetUserId")]OrderVM model)
         {
             //var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
             //if(model.ProductList == null)
             //{
             //    model.ProductList = cart;
 
-           // //}
-           // if (model.OrderNo == null || model.OrderDate == null || model.AspNetUserId == null)
-           // {
-           //     model.OrderDate = DateTime.Now;
-           //    // model.CustomerId = 1;
-           //     System.Security.Claims.ClaimsPrincipal currentUser = this.User;
-           //     model.AspNetUserId = userManager.GetUserId(User);
-           //     var id = userManager.GetUserId(User);
-           //    // model.AspNetUser = await userManager.FindByIdAsync(id).ConfigureAwait(true);
-           //     model.OrderNo = DateTime.Now.ToString() + model.AspNetUserId;
-           // }
-           //// model.OrderNo = 
+            // //}
+            if (model.OrderNo == null || model.OrderDate == null || model.AspNetUserId == null)
+            {
+                model.OrderDate = DateTime.Now;
+                // model.CustomerId = 1;
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+                model.AspNetUserId = userManager.GetUserId(User);
+                var id = userManager.GetUserId(User);
+                // model.AspNetUser = await userManager.FindByIdAsync(id).ConfigureAwait(true);
+                model.OrderNo = DateTime.Now.ToString() + model.AspNetUserId;
+            }
+            //// model.OrderNo = 
             if (ModelState.IsValid)
             {
                 var order = _mapper.Map<Order>(model);
@@ -133,6 +134,7 @@ namespace Ecommerce.WebApp.Controllers
                     {
                         ProductOrder po = new ProductOrder();
                         Order o = _orderManager.GetById(id);
+                      
                         var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
                     
                         foreach(var item in cart)
@@ -142,16 +144,18 @@ namespace Ecommerce.WebApp.Controllers
                             po.Quantity = item.Quantity;
                             int qty = item.Quantity;
                             po.OrderId = id;
-                            //System.Security.Claims.ClaimsPrincipal currentUser = this.User;
-                            po.AspNetUserId = userManager.GetUserId(User);
+                            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+                            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                            var userId1 = userManager.GetUserId(User);
+                            po.AspNetUserId = userId;
                            // po.AspNetUser = await userManager.FindByIdAsync(po.AspNetUserId).ConfigureAwait(true);
                             //po.Customer = o.Customer;
                             //po.CustomerId = o.CustomerId;
                             po.Status = "Pending";
                             _productOrderManager.Add(po);
-                            var stock = _stockManager.check(pid);
-                            stock.Quantity = stock.Quantity- qty;
-                            _stockManager.Update(stock);
+                            //var stock = _stockManager.check(pid);
+                            //stock.Quantity = stock.Quantity- qty;
+                            //_stockManager.Update(stock);
                         }
                         cart.Clear();
                         Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
@@ -166,7 +170,7 @@ namespace Ecommerce.WebApp.Controllers
             }
 
             model.OrderList = _orderManager.GetAll().ToList(); ;
-            return View(model);
+            return RedirectToAction("_cardView","Product");
         }
 
 
@@ -187,6 +191,7 @@ namespace Ecommerce.WebApp.Controllers
             PopulateDropdownList();
             PaymentMethodPopulateDropdownList();
             OrderVM aOrder = _mapper.Map<OrderVM>(order);
+            aOrder.AspNetUserId = order.AspNetUserId;
             if (order == null)
             {
                 return NotFound();
@@ -198,40 +203,41 @@ namespace Ecommerce.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int Id, [Bind("Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,Phone,Products")]OrderVM order)
+        public IActionResult Edit(int Id, [Bind("AspNetUserId,AspNetUser,Id,CustomerId,OrderNo,OrderDate,Products,Customer,Status,ShippingAddress,PaymentMethod,Phone,Products")]OrderVM order)
         {
             if (Id != order.Id)
             {
                 return NotFound();
             }
-            
+          //  var ord = _orderManager.GetById((Int64)Id);
             if (ModelState.IsValid)
             {
-                ProductOrder po = new ProductOrder();
-                Order o = _orderManager.GetById(Id);
-                var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
-
-                foreach (var item in cart)
-                {
-                    po.ProductId = item.product.Id;
-                    long pid = item.product.Id;
-                    po.Quantity = item.Quantity;
-                    int qty = item.Quantity;
-                    po.OrderId = Id;
-                    //po.AspNetUserId =
-                    //po.Customer = o.Customer;
-                    //po.CustomerId = o.CustomerId;
-                    po.Status = "Pending";
-                    _productOrderManager.Add(po);
-                    var stock = _stockManager.check(pid);
-                    stock.Quantity = stock.Quantity - qty;
-                    _stockManager.Update(stock);
-                }
-                Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                //ProductOrder po = new ProductOrder();
+                //Order o = _orderManager.GetById(Id);
+                //var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+               // order.AspNetUserId = ord.AspNetUserId;
+                //foreach (var item in cart)
+                //{
+                //    po.ProductId = item.product.Id;
+                //    long pid = item.product.Id;
+                //    po.Quantity = item.Quantity;
+                //    int qty = item.Quantity;
+                //    po.OrderId = Id;
+                //    //po.AspNetUserId =
+                //    //po.Customer = o.Customer;
+                //    //po.CustomerId = o.CustomerId;
+                //   // po.Status = "Pending";
+                //    _productOrderManager.Add(po);
+                //    var stock = _stockManager.check(pid);
+                //    stock.Quantity = stock.Quantity - qty;
+                //    _stockManager.Update(stock);
+                //}
+                //Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 var aOrder = _mapper.Map<Order>(order);
                 bool isUpdated = _orderManager.Update(aOrder);
                 if (isUpdated)
                 {
+                     
                     var orders = _orderManager.GetAll();
                     ViewBag.SuccessMessage = "Order Updated Successfully!";
                     return View("Index", orders);
@@ -255,25 +261,25 @@ namespace Ecommerce.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 bool isDeleted = _orderManager.Remove(customer);
-                ProductOrder po = new ProductOrder();
-                Order o = _orderManager.GetById(id);
-                var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
+                //ProductOrder po = new ProductOrder();
+                //Order o = _orderManager.GetById(id);
+                //var cart = Ecommerce.Abstractions.Helper.SessionHelper.GetObjectFromJson<List<Item>>(HttpContext.Session, "cart");
 
-                foreach (var item in cart)
-                {
-                    po.ProductId = item.product.Id;
-                    long pid = item.product.Id;
-                    po.Quantity = item.Quantity;
-                    int qty = item.Quantity;
-                    po.OrderId = id;
-                    //po.Customer = o.Customer;
-                    //po.CustomerId = o.CustomerId;
-                    _productOrderManager.Remove(po);
-                    var stock = _stockManager.check(pid);
-                    stock.Quantity = stock.Quantity + qty;
-                    _stockManager.Update(stock);
-                }
-                Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                //foreach (var item in cart)
+                //{
+                //    po.ProductId = item.product.Id;
+                //    long pid = item.product.Id;
+                //    po.Quantity = item.Quantity;
+                //    int qty = item.Quantity;
+                //    po.OrderId = id;
+                //    //po.Customer = o.Customer;
+                //    //po.CustomerId = o.CustomerId;
+                //    _productOrderManager.Remove(po);
+                //    var stock = _stockManager.check(pid);
+                //    stock.Quantity = stock.Quantity + qty;
+                //    _stockManager.Update(stock);
+                //}
+                //Ecommerce.Abstractions.Helper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
                 if (isDeleted)
                 {
                     var orders = _orderManager.GetAll();

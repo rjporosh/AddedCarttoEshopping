@@ -6,8 +6,8 @@
 <h1>Order Create</h1>
 <form method="post">
 
-    @*<div class="form-horizontal">
-        <div class="form-group">
+    <div class="form-horizontal">
+        @*<div class="form-group">
             <label asp-for="CustomerId" class="col-md-2">CustomerId</label>
             <div class="col-md-10">
                 <input type="text" asp-for="CustomerId" class="form-control" />
@@ -15,16 +15,16 @@
             </div>
         </div>*@
         <div class="form-group">
-            <label asp-for="OrderNo" class="col-md-2">OrderNo</label>
+            <label asp-for="OrderNo" class="col-md-2" >OrderNo</label>
             <div class="col-md-10">
-                <input type="text" asp-for="OrderNo" class="form-control" />
+                <input type="text" asp-for="OrderNo" readonly="readonly"class="form-control" />
                 <span asp-validation-for="OrderNo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="OrderDate" class="col-md-2">OrderDate</label>
             <div class="col-md-10">
-                <input type="text" asp-for="OrderDate" class="form-control" />
+                <input type="text" asp-for="OrderDate"  readonly="readonly"class="form-control" />
                 <span asp-validation-for="OrderDate" class="text-danger"></span>
             </div>
         </div>
@@ -50,9 +50,9 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Status" class="col-md-2">Status</label>@*Dropdown List Binding*@
+            <label asp-for="Status" class="col-md-2">Status</label>
             <div class="col-md-10">
-                <select asp-for="Status" asp-items="@ViewBag.SelectList" class="form-control"> </select>
+                <select asp-for="Status" disabled="disabled" readonly="readonly" asp-items="@ViewBag.SelectList" class="form-control"> </select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
         </div>
@@ -66,11 +66,7 @@
 
 </form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-<h1>Order List</h1>
-<partial name="~/Views/Shared/Order/_OrderList.cshtml" model="Model.OrderList" />
+
 
 
 @section Scripts

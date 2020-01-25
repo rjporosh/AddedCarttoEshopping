@@ -79,9 +79,15 @@
 
                             </div>
                             <div class="col-12">
-                                <div class="row">
-                                    <input type="submit" asp-controller="cart" asp-action="buy" asp-route-id="@Model.product.Id" value="Add To Cart" class="btn btn-primary" />
-                                </div>
+                                @if (Model.product.Stocks.Quantity > 0)
+                                {
+
+                                    <br />
+                                    <div class="middle">
+                                        <a asp-controller="cart" asp-action="buy" asp-route-id="@Model.product.Id" class="btn" style="width:270px; background-color:#ff6600; color: #fff;">Add To Cart</a>
+
+                                    </div>
+                                }
 
                             </div>
 

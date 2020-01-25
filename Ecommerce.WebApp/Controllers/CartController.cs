@@ -71,7 +71,7 @@ namespace Ecommerce.WebApp.Controllers
                 }
                // item.user =  _userManager.FindByNameAsync(User.Identity.Name).Result;
                 var cart = new List<Item>();
-               // item.product.Stocks.Quantity -= item.Quantity;
+               item.product.Stocks.Quantity -= item.Quantity;
                 
                 cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity ,user=item.user });
                 _manager.Update(item.product);
@@ -91,7 +91,7 @@ namespace Ecommerce.WebApp.Controllers
                 int index = Exists(cart,Id);
                 if(index== -1)
                 {
-                    item.user = _userManager.FindByNameAsync(User.Identity.Name).Result;
+                   // item.user = _userManager.FindByNameAsync(User.Identity.Name).Result;
                     item.product.Stocks.Quantity -= item.Quantity;
                     cart.Add(new Item() { product = _manager.Find(Id), Quantity = item.Quantity ,user=item.user});
                     _manager.Update(item.product);
@@ -118,8 +118,8 @@ namespace Ecommerce.WebApp.Controllers
                 int index = Exists(cart, Id);
             var product = _manager.GetById(Id);
              var i = cart[index];
-          //  product.Stocks.Quantity +=  i.Quantity ;
-           // _manager.Update(product);
+            product.Stocks.Quantity +=  i.Quantity ;
+            _manager.Update(product);
             cart.RemoveAt(index);
             
             
@@ -176,8 +176,8 @@ namespace Ecommerce.WebApp.Controllers
                 {
                     var itm = cart[i];
                     var product =_manager.GetById(itm.product.Id);
-                   // product.Stocks.Quantity += itm.Quantity;
-                   // _manager.Update(product);
+                    product.Stocks.Quantity += itm.Quantity;
+                    _manager.Update(product);
                    //// cart.RemoveAt(i);
                 }
                

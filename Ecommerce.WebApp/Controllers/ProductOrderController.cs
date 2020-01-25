@@ -51,32 +51,32 @@ namespace Ecommerce.WebApp.Controllers
             model.AspNetUser = await UserManager.FindByIdAsync(id).ConfigureAwait(true);
             return View(model);
         }
-        [Authorize]
-        [HttpPost]
-        public IActionResult Create([Bind("OrderId,ProductId,Status,Quantity,Unit,Product,Order,AspNetUsersId")]ProductOrderVM model)
-        {
+        //[Authorize]
+        //[HttpPost]
+        //public IActionResult Create([Bind("OrderId,ProductId,Status,Quantity,Unit,Product,Order,AspNetUsersId")]ProductOrderVM model)
+        //{
 
-            // model.OrderNo = 
-            if (ModelState.IsValid)
-            {
-                var productOrder = _mapper.Map<ProductOrder>(model);
+        //    // model.OrderNo = 
+        //    if (ModelState.IsValid)
+        //    {
+        //        var productOrder = _mapper.Map<ProductOrder>(model);
              
 
-                    bool isAdded = _productOrderManager.Add(productOrder);
-                    if (isAdded)
-                    {
-                        ViewBag.SuccessMessage = "ProductOrder Saved Successfully!";
-                    }
+        //            bool isAdded = _productOrderManager.Add(productOrder);
+        //            if (isAdded)
+        //            {
+        //                ViewBag.SuccessMessage = "ProductOrder Saved Successfully!";
+        //            }
                 
-            }
-            else
-            {
-                ViewBag.ErrorMessage = "Operation Failed!";
-            }
+        //    }
+        //    else
+        //    {
+        //        ViewBag.ErrorMessage = "Operation Failed!";
+        //    }
 
-           var productorders = _productOrderManager.GetAll();
-            return View("Index",productorders);
-        }
+        //   var productorders = _productOrderManager.GetAll();
+        //    return View("Index",productorders);
+        //}
 
         //public ActionResult Edit(long id)
         //{
@@ -89,7 +89,7 @@ namespace Ecommerce.WebApp.Controllers
         //    return View(model);
         //}
 
-        //// POST: Category/Edit/5
+        ////// POST: Category/Edit/5
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Edit([Bind("Id,ProductId,OrdertId,Quantity,Unit,Product,Order")]ProductOrderVM model)
@@ -99,7 +99,7 @@ namespace Ecommerce.WebApp.Controllers
         //        var aStock = _mapper.Map<ProductOrder>(model);
         //        var product = _productManager.GetById(model.ProductId);
         //        var order = _orderManager.GetById(model.OrderId);
-        //       // _productOrderManager.Update(aStock);
+        //        // _productOrderManager.Update(aStock);
         //        bool isUpdated = _productOrderManager.Update(aStock);
         //        if (isUpdated)
         //        {
@@ -116,13 +116,13 @@ namespace Ecommerce.WebApp.Controllers
         //    {
         //        ViewBag.ErrorMessage = "Update Failed!";
         //    }
-        //   var gs = _productOrderManager.GetAll();
+        //    var gs = _productOrderManager.GetAll();
         //    //VwBg();
         //    //  return View(Product);
         //    return View(gs);
         //}
 
-        //// GET: Category/Delete/5
+        ////// GET: Category/Delete/5
         //public ActionResult Delete(long id)
         //{
         //    var stock = _productOrderManager.GetById(id);
