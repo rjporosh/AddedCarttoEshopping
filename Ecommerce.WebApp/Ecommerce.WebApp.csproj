@@ -67,6 +67,7 @@
     <PackageReference Include="PayPal.SDK.NETCore" Version="1.9.1.2" />
     <PackageReference Include="PayPalCheckoutSdk" Version="1.0.3" />
     <PackageReference Include="SweetAlert" Version="1.0.0" />
+    <PackageReference Include="Twilio" Version="5.37.3" />
   </ItemGroup>
 
   <ItemGroup>
