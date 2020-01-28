@@ -42,7 +42,7 @@ namespace Ecommerce.WebApp
             services.AddDbContext<EcommerceDbContext>();
 
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<Ecommerce.Models.ApplicationUser, IdentityRole>()
                 .AddDefaultUI()
                   .AddEntityFrameworkStores<EcommerceDbContext>()
                    .AddDefaultTokenProviders()
