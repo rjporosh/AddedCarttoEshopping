@@ -13,7 +13,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Twilio" Version="5.35.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -139,12 +139,12 @@ namespace Ecommerce.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 var aStock = _mapper.Map<Stock>(model);
-                var product = _stockManager.GetByPId(aStock.ProductId);
-                //product.StocksId = aStock.Id;
-                _productManager.Update(product);
-                //aCategory.Name = model.Name;
-                //aCategory.ParentId = model.ParentId;
-               // PopulateDropdownList();
+               //// var product = _stockManager.GetByPId(aStock.ProductId);
+               //// //product.StocksId = aStock.Id;
+               //// _productManager.Update(product);
+               //// //aCategory.Name = model.Name;
+               //// //aCategory.ParentId = model.ParentId;
+               ////// PopulateDropdownList();
                 bool isUpdated = _stockManager.Update(aStock);
                 if (isUpdated)
                 {
@@ -168,24 +168,25 @@ namespace Ecommerce.WebApp.Controllers
         }
 
         // GET: Category/Delete/5
+       
         [Authorize(Roles = "Admin")]
         public ActionResult Delete(long id)
         {
             var stock = _stockManager.GetById(id);
-            if (ModelState.IsValid)
-            {
-                var product = _productManager.GetById((long)stock.ProductId);
+            //if (ModelState.IsValid)
+            //{
+                //var product = _productManager.GetById((long)stock.ProductId);
                 bool isDeleted = _stockManager.Remove(stock);
-                bool isDeletedWithProduct = _productManager.Remove(product);
-                if (isDeletedWithProduct)
+              //  bool isDeletedWithProduct = _productManager.Remove(product);
+                if (isDeleted)
                 {
                     var stocks = _stockManager.GetAll();
                     ViewBag.SuccessMessage = "Deleted Successfully.!";
                     //VwBg();
-                    return View("Index", stocks);
+                    return View("Index", stock);
                 }
 
-            }
+            //}
 
             return RedirectToAction(nameof(Index));
         }
