@@ -3,7 +3,20 @@
 @{
     ViewData["Title"] = "All Comments";
 }
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li class="active"><a href="~/Comments/Index">Comments</a></li>
+</ol>
 <h2>All Comments</h2>
 <table class="table table-striped table-responsive table-hover">
     <thead>
@@ -14,7 +27,7 @@
             <th>Product Image </th>
             <th>Comments</th>
             <th>Rating</th>
-            
+
             <th>Action</th>
 
         </tr>
@@ -24,25 +37,25 @@
     <tbody>
         @foreach (var comment in Model)
         {
-        <tr>
-            <td>@comment.Id</td>
-            <td>@comment.ProductId</td>
-            <td>@comment.AspNetUser.UserName</td>
-            <td>
-                <img class="img-responsive" width="50" height="50" @*src="data:image/jpeg;base64,@Convert.ToBase64String(customer.product.Image)"*@ src="~/@comment.Product.ImagePath" />
-            </td>
-            <td>@comment.Comments</td>
-            <td>@comment.Rating</td>
-            
+            <tr>
+                <td>@comment.Id</td>
+                <td>@comment.ProductId</td>
+                <td>@comment.AspNetUser.UserName</td>
+                <td>
+                    <img class="img-responsive" width="50" height="50" @*src="data:image/jpeg;base64,@Convert.ToBase64String(customer.product.Image)"*@ src="~/@comment.Product.ImagePath" />
+                </td>
+                <td>@comment.Comments</td>
+                <td>@comment.Rating</td>
 
 
-            <td>
-                <a class="btn btn-danger" asp-controller="Comments" asp-action="Remove" asp-route-id="@comment.Id"><span><i class="fa fa-trash-o"><strong>Remove</strong></i></span></a>
-                <a class="btn btn-danger" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id"><span><i class="fa fa-trash-o"><strong> Edit</strong></i></span></a>
-            </td>
-        </tr>
+
+                <td>
+                    <a class="btn btn-danger" asp-controller="Comments" asp-action="Remove" asp-route-id="@comment.Id"><span><i class="fa fa-trash-o"><strong>Remove</strong></i></span></a>
+                    <a class="btn btn-danger" asp-controller="Comments" asp-action="Edit" asp-route-id="@comment.Id"><span><i class="fa fa-trash-o"><strong> Edit</strong></i></span></a>
+                </td>
+            </tr>
         }
-        
+
     </tbody>
 </table>
 <br />

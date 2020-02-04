@@ -2,8 +2,24 @@
 @{
     ViewData["Title"] = "Create";
 }
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
-    <h2>Create Stock</h2>
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li><a href="~/ProductVariants/Index">ProductVariants</a></li>
+    <li><a href="~/Size/Index">Size</a></li>
+    <li class="active"><a href="~/Stock/Index">Stock</a></li>
+
+</ol>
+<h2>Create Stock</h2>
 
 <div class="row">
     <div class="col-md-4">
@@ -34,8 +50,8 @@
 
 
 
-    <h1>Stock List</h1>
-    <partial name="~/Views/Shared/Stock/_StockList.cshtml" model="Model.StockList" />
+<h1>Stock List</h1>
+<partial name="~/Views/Shared/Stock/_StockList.cshtml" model="Model.StockList" />
 
 
 

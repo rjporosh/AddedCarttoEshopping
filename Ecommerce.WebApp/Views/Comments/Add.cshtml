@@ -8,7 +8,20 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous" />
 <script src="https://kit.fontawesome.com/b6227ed7cf.js" crossorigin="anonymous"></script>
 <body>
+    <style>
+        .breadcrumb > li + li:before {
+            content: ">";
+        }
 
+        .breadcrumb > .active {
+            color: #000000;
+        }
+    </style>
+    <ol class="breadcrumb">
+        <li><a href="~/Product/_cardView">Home</a></li>
+        <li><a href="~/Product/Index">Product</a></li>
+        <li class="active"><a href="~/Comments/Index">Comments</a></li>
+    </ol>
     <h2>Add</h2>
     <form method="post" id="commentForm">
         @*<input type="hidden" name="ProductId" asp-for="@Model.ProductId" />*@

@@ -1,5 +1,22 @@
 ﻿@model ICollection<Ecommerce.Models.Stock>
 
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
+
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li><a href="~/ProductVariants/Index">ProductVariants</a></li>
+    <li><a href="~/Size/Index">Size</a></li>
+    <li class="active"><a href="~/Stock/Index">Stock</a></li>
+
+</ol>
 <div class="row ">
     <a id="Add" href="/Stock/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Stock</a>
 </div>

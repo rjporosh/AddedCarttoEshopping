@@ -2,7 +2,18 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+  <style>
+      .breadcrumb > li + li:before{
+          content:">";
+      }
+      .breadcrumb > .active{
+          color:#000000  ;
+      }
+  </style>
+    <ol class="breadcrumb">
+        <li><a href="~/Product/_cardView">Home</a></li>
+        <li class="active">Account</li>
+    </ol>
 <h2>All Users</h2>
 @if (Model.Any())
 {

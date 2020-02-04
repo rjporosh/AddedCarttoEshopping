@@ -3,6 +3,22 @@
     ViewData["Title"] = "Create";
 }
 
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
+
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li><a href="~/ProductVariants/Index">ProductVariants</a></li>
+    <li class="active"><a href="~/Size/Index">Size</a></li>
+
+</ol>
 <h2>Create</h2>
 
 <h4>Size</h4>

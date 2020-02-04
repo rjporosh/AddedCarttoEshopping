@@ -2,6 +2,21 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
+
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li class="active"><a href="~/ProductVariants/Index">ProductVariants</a></li>
+
+</ol>
 <h2>Edit ProductVariants</h2>
 
 

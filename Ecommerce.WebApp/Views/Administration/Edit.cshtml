@@ -2,11 +2,23 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li class="active">Administration</li>
+</ol>
 <h2>Edit Role</h2>
 @*<div class="row">
 
-</div>*@
+    </div>*@
 <form method="post" class="mt-3">
     <div class="form-group row">
         <label asp-for="Id" class="form-sm-2 col-form-label"></label>
@@ -15,9 +27,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label  class="form-sm-2 col-form-label" asp-for="RoleName"></label>
+        <label class="form-sm-2 col-form-label" asp-for="RoleName"></label>
         <div class="col-sm-10">
-            <input asp-for="RoleName"  class="form-control" />
+            <input asp-for="RoleName" class="form-control" />
             <span asp-validation-for="RoleName" class="text-danger"></span>
         </div>
     </div>
@@ -30,7 +42,7 @@
     </div>
     <div class="card">
         <div class="card-header">
-             <h3>Users in This Role</h3>
+            <h3>Users in This Role</h3>
         </div>
         <div class="card-body">
             @if (Model.Users.Any())

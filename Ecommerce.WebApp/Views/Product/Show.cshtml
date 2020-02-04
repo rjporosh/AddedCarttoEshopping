@@ -1,4 +1,17 @@
-﻿
+﻿<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
+
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li class="active"><a href="~/Comments/Index">Comments</a></li>
+</ol>
 <div class="form-horizontal">
     <div class="form-group">
         <label for="categoryDropDown" class="col-md-2">Category</label>
@@ -36,7 +49,7 @@
 
                         categoryDD.append('<option>Select...</option>');
 
-                        $.each(categories, (index,category)=> {
+                        $.each(categories, (index, category) => {
                             var option = "<option value='" + category.id + "'>" + category.name + "</option>";
                             categoryDD.append(option);
                         });
@@ -48,7 +61,7 @@
                     }
 
 
-        });
+                });
 
         });
 
@@ -61,7 +74,7 @@
 
             $.ajax({
                 //url: "/api/products/?categoryId=" + categoryId,
-                 url: "/api/categories/" + categoryId,
+                url: "/api/categories/" + categoryId,
                 type: "GET",
                 success: (categories) => {
 

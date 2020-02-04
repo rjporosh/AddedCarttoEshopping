@@ -1,5 +1,17 @@
-﻿@model ICollection< Ecommerce.Abstractions.Helper.Item>
+﻿@model ICollection<Ecommerce.Abstractions.Helper.Item>
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li class="active">Cart</li>
+</ol>
 <h2>Your Shopping Cart</h2>
 
 <table class="table table-striped table-responsive table-hover">
@@ -12,8 +24,8 @@
             <th>Quantity</th>
             <th>Sub-Total</th>
             @*<th>User Id</th>
-            <th>Image</th>
-            <th>User Name</th>*@
+                <th>Image</th>
+                <th>User Name</th>*@
             <th>Action</th>
 
         </tr>
@@ -23,38 +35,39 @@
     <tbody>
         @foreach (var customer in ViewBag.cart)
         {
-        <tr>
+            <tr>
 
-            <td>
-                <img class="img-responsive" width="50" height="50" @*src="data:image/jpeg;base64,@Convert.ToBase64String(customer.product.Image)"*@ src="~/@customer.product.ImagePath" />
-            </td>
-            <td>@customer.product.Name</td>
-            <td>@customer.product.Price ৳</td>
-            <td>@customer.product.Category.Name</td>
-            <td>@customer.Quantity</td>
+                <td>
+                    <img class="img-responsive" width="50" height="50" @*src="data:image/jpeg;base64,@Convert.ToBase64String(customer.product.Image)"*@ src="~/@customer.product.ImagePath" />
+                </td>
+                <td>@customer.product.Name</td>
+                <td>@customer.product.Price ৳</td>
+                <td>@customer.product.Category.Name</td>
+                <td>@customer.Quantity</td>
 
-            <td>@(customer.product.Price * customer.Quantity) ৳</td>
-            @*<td> @customer.user.Id</td>
-            <td><img src="~/@customer.user.ImagePath" style="width:25px; height:25px;" /></td>
-              <td>@customer.user.UserName</td>*@
-            <td>
-                <a class="btn btn-danger" asp-controller="cart" asp-action="Remove" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Remove Item</strong></i></span></a>
-                @*<a class="btn btn-danger" asp-controller="cart" asp-action="Edit" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Edit Item</strong></i></span></a>*@
-            </td>
-        </tr>
+                <td>@(customer.product.Price * customer.Quantity) ৳</td>
+                @*<td> @customer.user.Id</td>
+                    <td><img src="~/@customer.user.ImagePath" style="width:25px; height:25px;" /></td>
+                      <td>@customer.user.UserName</td>*@
+                <td>
+                    <a class="btn btn-danger" asp-controller="cart" asp-action="Remove" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Remove Item</strong></i></span></a>
+                    @*<a class="btn btn-danger" asp-controller="cart" asp-action="Edit" asp-route-id="@customer.product.Id"><span><i class="fa fa-trash-o"><strong> Edit Item</strong></i></span></a>*@
+                </td>
+            </tr>
         }
-    <tr>
-        <td colspan="4" align="right">Total Item :     </td>
-        <td>@ViewBag.Count </td>
-        <td>Total:     </td>
-        <td>@ViewBag.Total ৳</td>
-        @*<td>@ViewBag.Total ৳</td>*@
+        <tr>
+            <td colspan="4" align="right">Total Item :     </td>
+            <td>@ViewBag.Count </td>
+            <td>Total:     </td>
+            <td>@ViewBag.Total ৳</td>
+            @*<td>@ViewBag.Total ৳</td>*@
 
-    </tr>
+        </tr>
     </tbody>
 </table>
 <br />
 <a class="btn btn-danger" asp-action="Clear"><span><i class="fa fa-trash-o"><strong> Clear Cart</strong></i></span></a>
-<br /> <br />
-<a class="btn btn-primary" asp-controller="Product" asp-action="_cardview" >Continue Shopping</a>
+<br />
+<br />
+<a class="btn btn-primary" asp-controller="Product" asp-action="_cardview">Continue Shopping</a>
 <a class="btn btn-success" asp-controller="Order" asp-action="Create">Place Order</a>

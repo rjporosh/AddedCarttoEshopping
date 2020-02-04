@@ -3,7 +3,20 @@
 @{
     ViewData["Title"] = "Create";
 }
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li class="active"><a href="~/ProductOrder/Index">ProductOrder</a></li>
+
+</ol>
 <h2>Create ProductOrder</h2>
 <form asp-action="Create">
     <div class="row">
@@ -30,10 +43,10 @@
         </div>
 
         @*<div class="form-group col-md-12">
-            <label asp-for="CustomerId" class="control-label"></label>
-            <input asp-for="CustomerId" class="form-control" />
-            <span asp-validation-for="CustomerId" class="text-danger"></span>
-        </div>*@
+                <label asp-for="CustomerId" class="control-label"></label>
+                <input asp-for="CustomerId" class="form-control" />
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>*@
 
     </div>
     <div class="form-group">

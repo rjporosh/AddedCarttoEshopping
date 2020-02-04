@@ -3,12 +3,25 @@
 @model ICollection<Ecommerce.Models.Product>
 
 
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
-    <h1>Product List</h1>
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li class="active"><a href="~/Product/Index">Product</a></li>
+    
+</ol>
+<h1>Product List</h1>
 
-    <div class="row ">
-        <a id="Add" href="/Product/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Product</a>
-    </div>
-    <partial name="~/Views/Shared/Product/_ProductList.cshtml" model="Model" />
-   
+<div class="row ">
+    <a id="Add" href="/Product/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Product</a>
+</div>
+<partial name="~/Views/Shared/Product/_ProductList.cshtml" model="Model" />
+
 

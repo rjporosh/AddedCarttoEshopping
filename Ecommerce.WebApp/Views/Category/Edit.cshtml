@@ -3,7 +3,20 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li class="active"><a href="~/Category/Index">Category</a></li>
+</ol>
 <h2>Edit Category</h2>
 <hr />
 <div class="row">
@@ -21,10 +34,10 @@
                 <select asp-for="ParentId" class="form-control" asp-items="ViewBag.SelectList"></select>
             </div>
             @*<div class="form-group">
-                <label asp-for="ParentCategoryName" class="control-label"></label>
-                <input asp-for="Parent.Name" class="form-control" />
-                <span asp-validation-for="ParentCategoryName" class="text-danger"></span>
-            </div>*@
+                    <label asp-for="ParentCategoryName" class="control-label"></label>
+                    <input asp-for="Parent.Name" class="form-control" />
+                    <span asp-validation-for="ParentCategoryName" class="text-danger"></span>
+                </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

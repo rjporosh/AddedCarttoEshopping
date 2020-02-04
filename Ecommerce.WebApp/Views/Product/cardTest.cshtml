@@ -6,7 +6,20 @@
     Layout = "_PartialLayout";
 }
 
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li class="active"><a href="~/Product/Index">Product</a></li>
+
+</ol>
 <div class="row" style="margin-top:40px; margin-left:70px;">
     <div class="col-lg-2">
         <h3>OnlineShop</h3>
@@ -197,20 +210,20 @@
                                 else
                                 {
                                     <p class="card-subtitle" style="color:yellow">No</p>
-                                }  
+                                }
                                     </p>
                                     @if (product.Stocks.Quantity > 0)
                                     {
                                         <a asp-controller="cart" asp-action="buy" asp-route-id="@product.Id" id="divbutton" class="btn" style="width:240px; background-color:#ff6600; color: #fff;">Add To Cart</a>
                                     }
-                            </div>
+                                </div>
 
+                            </div>
                         </div>
+
                     </div>
 
-                </div>
-
-            }
+                }
         </div>
 
 

@@ -2,29 +2,42 @@
 @model Ecommerce.Models.RazorViewModels.Order.OrderVM
 
 
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li class="active"><a href="~/Comments/Index">Comments</a></li>
+</ol>
 <h1>Order Create</h1>
 <form method="post">
 
     <div class="form-horizontal">
         @*<div class="form-group">
-            <label asp-for="CustomerId" class="col-md-2">CustomerId</label>
-            <div class="col-md-10">
-                <input type="text" asp-for="CustomerId" class="form-control" />
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
-            </div>
-        </div>*@
+                <label asp-for="CustomerId" class="col-md-2">CustomerId</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="CustomerId" class="form-control" />
+                    <span asp-validation-for="CustomerId" class="text-danger"></span>
+                </div>
+            </div>*@
         <div class="form-group">
-            <label asp-for="OrderNo" class="col-md-2" >OrderNo</label>
+            <label asp-for="OrderNo" class="col-md-2">OrderNo</label>
             <div class="col-md-10">
-                <input type="text" asp-for="OrderNo" readonly="readonly"class="form-control" />
+                <input type="text" asp-for="OrderNo" readonly="readonly" class="form-control" />
                 <span asp-validation-for="OrderNo" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="OrderDate" class="col-md-2">OrderDate</label>
             <div class="col-md-10">
-                <input type="text" asp-for="OrderDate"  readonly="readonly"class="form-control" />
+                <input type="text" asp-for="OrderDate" readonly="readonly" class="form-control" />
                 <span asp-validation-for="OrderDate" class="text-danger"></span>
             </div>
         </div>

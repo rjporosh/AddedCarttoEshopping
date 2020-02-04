@@ -1,5 +1,21 @@
 ﻿@model ICollection<Ecommerce.Models.Size>
 
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
+
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li><a href="~/Product/Index">Product</a></li>
+    <li ><a href="~/ProductVariants/Index">ProductVariants</a></li>
+    <li class="active"><a href="~/Size/Index">Size</a></li>
+
+</ol>
 <div class="row ">
     <a id="Add" href="/Size/create" class="btn btn-primary btn-row"><i class=" fa fa-plus-square"></i>  Create Size</a>
 </div>
@@ -20,7 +36,7 @@
                 <th>Id</th>
                 <th>Code</th>
                 <th>Name</th>
-               
+
                 <th>Action</th>
 
             </tr>
@@ -28,18 +44,18 @@
         <tbody>
             @foreach (var stock in Model)
             {
-            <tr class="text-center">
-                <td>@stock.Id</td>
-                <td>@stock.Code</td>
-                <td>@stock.Name</td>
-               
+                <tr class="text-center">
+                    <td>@stock.Id</td>
+                    <td>@stock.Code</td>
+                    <td>@stock.Name</td>
 
-                <td>
-                    <a asp-action="Edit" asp-route-id="@stock.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
-                    <a asp-action="Delete" asp-route-id="@stock.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Size : @stock.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
 
-                </td>
-            </tr>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@stock.Id" class="btn btn-success"><span><strong><i class="fa fa-edit"> Edit</i></strong></span></a>
+                        <a asp-action="Delete" asp-route-id="@stock.Id" class="btn btn-danger" onclick="return confirm('Are you sure ,You want to delete ? Size : @stock.Name')" id="Delete"><span><i class="fa fa-trash-o"><strong> Delete</strong></i></span></a>
+
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

@@ -2,7 +2,20 @@
 
 
 
+<style>
+    .breadcrumb > li + li:before {
+        content: ">";
+    }
 
+    .breadcrumb > .active {
+        color: #000000;
+    }
+</style>
+<ol class="breadcrumb">
+    <li><a href="~/Product/_cardView">Home</a></li>
+    <li class="active"><a href="~/ProductOrder/Index">ProductOrder</a></li>
+
+</ol>
 
 <h1>Product Order List</h1>
 
