@@ -266,7 +266,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             else
             {
-                model.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                model.ImagePath = "uploads\\img\\NoProductImageAvailable.jpg";
             }
             if (model.ParentId == null || model.ParentId < 0)
             {
@@ -274,7 +274,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             if (model.Image == null || model.ImagePath == null)
             {
-                model.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                model.ImagePath = "uploads\\img\\NoProductImageAvailable.jpg";
             }
             if (ModelState.IsValid)
             {
@@ -474,7 +474,7 @@ namespace Ecommerce.WebApp.Controllers
               
                 if (aProduct.Image == null && aProduct.ImagePath == null)
                 {
-                    aProduct.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                    aProduct.ImagePath = "uploads\\img\\NoProductImageAvailable.jpg";
                 }
             }
             if (aProduct.ParentId == null || aProduct.ParentId < 0)
@@ -483,7 +483,7 @@ namespace Ecommerce.WebApp.Controllers
             }
             if (aProduct.ImagePath == null)
             {
-                aProduct.ImagePath = "uploads\\img\\NoImageAvailable.jfif";
+                aProduct.ImagePath = "uploads\\img\\NoProductImageAvailable.jpg";
             }
            
             if (ModelState.IsValid)

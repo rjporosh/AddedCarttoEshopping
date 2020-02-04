@@ -151,7 +151,7 @@ namespace Ecommerce.WebApp.Controllers
             LoginVM model = new LoginVM
             {
                 ReturnUrl = returnUrl,
-                ExternalLogin = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+                ExternalLogin = (await signInManager.GetExternalAuthenticationSchemesAsync().ConfigureAwait(true)).ToList()
             };
             return View(model);
         }
