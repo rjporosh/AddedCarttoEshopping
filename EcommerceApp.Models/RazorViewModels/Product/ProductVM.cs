@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -7,6 +8,7 @@ namespace Ecommerce.Models.RazorViewModels.Product
 {
     public class ProductVM
     {
+        [BindProperty]
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -19,7 +21,9 @@ namespace Ecommerce.Models.RazorViewModels.Product
         public DateTime? ExpireDate { get; set; }
         public string? CategoryName { get; set; }
         public Review  Review { get; set; }
+        [BindProperty]
         public byte[]? Image { get; set; }
+        [BindProperty]
         public string? ImagePath { get; set; }
 
         public bool IsActive { get; set; }

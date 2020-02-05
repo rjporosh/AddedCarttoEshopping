@@ -90,6 +90,7 @@ namespace Ecommerce.Repositories
         public Product Find(long id)
         {
             var products = _db.Products
+                 .AsNoTracking()
                 .Include(c => c.Category)
               //  .Include(c=>c.Image)
                // .Include (c=>c.ImagePath)

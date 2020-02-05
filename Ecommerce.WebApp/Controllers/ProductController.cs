@@ -427,13 +427,13 @@ namespace Ecommerce.WebApp.Controllers
             }
         
 
-      [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(long Id, [Bind("Id,ImagePath,Image,Name,Description,BuyCost,DiscountPrice,ProductCode,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Parent,Stocks,StocksQuantity,StocksUnit,ProductVariants,ProductVariantsId,ProductVariantsSize,Parent,Category,ProductVariantsSizeId,StocksQuantity,DiscountPercent")]ProductVM aProduct, IFormFile Image)
+        public async Task<IActionResult> Edit(long Id,[Bind("Id,ImagePath,Image,Name,Description,BuyCost,DiscountPrice,ProductCode,Price,ExpireDate,CategoryId,ParentId,CategoryList,CategoryName,IsActive,Orders,Parent,Stocks,StocksQuantity,StocksUnit,ProductVariants,ProductVariantsId,ProductVariantsSize,Parent,Category,ProductVariantsSizeId,StocksQuantity,DiscountPercent")]ProductVM aProduct, IFormFile Image)
         {
-          //  var Product = _mapper.Map<Product>(aProduct);
-            if (Id != aProduct.Id)
+            //  var Product = _mapper.Map<Product>(aProduct);
+            var pro = _productManager.Find(Id);
+           if (Id != aProduct.Id)
             {
                 return NotFound();
             }
@@ -471,8 +471,12 @@ namespace Ecommerce.WebApp.Controllers
             }
             else
             {
-              
-                if (aProduct.Image == null && aProduct.ImagePath == null)
+              if(pro.Image !=null || pro.ImagePath !=null && Image == null)
+                {
+                    aProduct.Image = pro.Image;
+                    aProduct.ImagePath = pro.ImagePath;
+                }
+                else if (aProduct.Image == null && aProduct.ImagePath == null)
                 {
                     aProduct.ImagePath = "uploads\\img\\NoProductImageAvailable.jpg";
                 }
