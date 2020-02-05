@@ -103,10 +103,12 @@
     }
 </style>
 <form asp-controller="Product" asp-action="Card" method="get">
-    <p>
-       <input type="text" name="categoryname">
-        <input type="submit" value="Search" />
-    </p>
+    <div class="row col-md-offset-5">
+        <p>
+            <input type="text" name="categoryname">
+            <input type="submit" value="Search" />
+        </p>
+    </div>
 </form>
 <ol class="breadcrumb">
     <li><a href="~/Product/_cardView">Home</a></li>
