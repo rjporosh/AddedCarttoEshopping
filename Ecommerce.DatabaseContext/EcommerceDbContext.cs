@@ -32,7 +32,7 @@ namespace Ecommerce.DatabaseContext
         {
             optionsBuilder
                 .UseLazyLoadingProxies(false)
-                .UseSqlServer("Server=(local);Database=Ecommerce; Integrated Security=true")
+                .UseSqlServer("Server=(local)\\sqlexpress;Database=Ecommerce; Integrated Security=true")
                 .EnableSensitiveDataLogging() ;
         }
 

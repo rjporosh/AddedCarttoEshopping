@@ -102,11 +102,18 @@
         color: #000000;
     }
 </style>
+<form asp-controller="Product" asp-action="Card" method="get">
+    <p>
+       <input type="text" name="categoryname">
+        <input type="submit" value="Search" />
+    </p>
+</form>
 <ol class="breadcrumb">
     <li><a href="~/Product/_cardView">Home</a></li>
    
 
 </ol>
+
 <div class="row">
     <br />
     @foreach (var product in Model)
@@ -188,4 +195,14 @@
         </div>
         <br />
     }
+
+</div>
+<div class="row col-md-offset-5">
+    <ul class="pagination">
+        <li class="disabled"><a href="#">&larr;</a></li>
+        <li> <a href="#">1</a></li>
+        <li> <a href="#">2</a></li>
+        <li> <a href="#">3</a></li>
+        <li> <a href="#">&rarr;</a></li>
+    </ul>
 </div>

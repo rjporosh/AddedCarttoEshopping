@@ -324,6 +324,22 @@ namespace Ecommerce.WebApp.Controllers
                 return View(products);
             }
         [AllowAnonymous]
+        public IActionResult Card(string categoryname )
+        {
+            var products = _productManager.GetAll();
+            if (products.Any(s => s.Name.Contains(categoryname)))
+            {
+                products = _productManager.GetByName(categoryname);
+            }
+            else if(products.Any(c => c.Category.Name.Contains(categoryname)))
+            {
+                products = _productManager.GetByCategory(categoryname);
+            }
+
+            return View("_CardView",products);
+        }
+    
+        [AllowAnonymous]
         public IActionResult cardTest()
         {
             var products = _productManager.GetAll();
@@ -338,7 +354,7 @@ namespace Ecommerce.WebApp.Controllers
                                       {
                                          product = Product,
                                          ProductCategoryName = Product.Category.Name,
-                                         Quantity = 2
+                                         Quantity = 1
                                        };
                            return View(Item);
             }
